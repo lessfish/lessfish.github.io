@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title> 是男人就忍30秒 </title>
+    <style type="text/css">
+      body {margin:0; padding:0; wdith:100%; height: 100%}
+      canvas {display:block}
+    </style>
+  </head>
+  <body>
+    <canvas id='canvas' style='background-color:#000'>
+      This browser does not support html5.
+    </canvas>
+    <script src='Vector.js'></script>
+    <script>
+        window.onload = function() {
+          var canvas = document.getElementById('canvas');  
+          canvas.height = window.innerHeight;
+          canvas.width = window.innerWidth;
+          var ctx = canvas.getContext('2d');
+          window.ctx = ctx;
+          window.canvas = canvas;
+        
+          var game = {
+            shootCount: 1,
+            shooters: [],
+            balls: [],
+            index: undefined, // 时间戳
+            startTime: undefined,
+            playerPosition: new Vector2(),
+            playerR: 30,
+            speed: 10,
+            timer: null,
+            isStart: false,
+
+            init: function() {
+              this.index = +new Date;
+
+              // 四个炮台
+              for(var i = 0; i <= 1; i++)
+                for(var j = 0; j <= 1; j++) {
+                  var l = 30;
+                  var v1 = new Vector2(i * canvas.width, j * canvas.height);
+                  var v2 = v1.clone();
+                  v2.x === 0? v2.x += l: v2.x -= l;
+                  v2.y === 0? v2.y += l: v2.y -= l;
+                  var shooter = new Shooter(v1, v2);
+                  this.shooters.push(shooter);
+                }
+            },
+
+            update: function() {
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+              // 炮台
+              for(var i = 0; i < 4; i++)
+                this.shooters[i].draw();
+
+              if(!this.isStart) return;
+              this.ishit();
+             
+              var now = +new Date;
+              if(now - this.index > 1000) {
+                for(var i = 0; i < this.shootCount; i++) {
+                  setTimeout(function() {
+                    game.createBullet();
+                  }, i * 100);
+                }
+                 
+                this.index = now;
+              }
+
+              this.addText();
+              // 遍历子弹，改变方向
+              for(var i = 0; i < this.balls.length; i++) {
+                this.balls[i].v = this.playerPosition.minusNew(this.balls[i].pos2);
+                var angle = this.balls[i].v.getAngle();
+                var add = new Vector2(this.speed * Math.cos(angle), this.speed * Math.sin(angle));
+                this.balls[i].pos2.add(add);
+                this.balls[i].draw();
+              } 
+
+              // 玩家
+              ctx.beginPath();
+              ctx.fillStyle = 'yellow';
+              ctx.arc(this.playerPosition.x, this.playerPosition.y, this.playerR, 0, Math.PI * 2, true);
+              ctx.fill();
+            },
+
+            createBullet: function() {
+              var a = (Math.random() * 4) >> 0;
+              var pos2 = this.shooters[a].v2.clone();
+              var v = new Vector2();
+              var ball = new Ball(pos2, v);
+              this.balls.push(ball);
+            },
+
+            // 碰撞检测
+            ishit: function() {
+              for(var i = 0; i < this.balls.length; i++) {
+                var ans = this.playerPosition.getDistance(this.balls[i].pos2);
+                if(ans > this.balls[i].r + this.playerR) continue;
+                clearInterval(this.timer);
+              }
+            },
+
+            addText: function() {
+              ctx.font = "bold 50px serif"
+              ctx.textAlign = "center";
+              ctx.textBaseline = "middle";
+              ctx.fillStyle = 'red';
+              var t = +new Date - this.startTime;
+              t = (t / 1000);
+              var f = t > 30? true: false;
+              if(t > 10 && this.shootCount === 1)
+                this.shootCount++;
+              if(t > 20 && this.shootCount === 2)
+                this.shootCount++;
+              if(t > 25 && this.shootCount === 3)
+                this.shootCount++;
+              t = t.toString();
+              if(t.indexOf('.')) {
+                var l = t.length - t.indexOf('.');
+                if(l === 2)
+                  t = t.concat('00');
+                else if(l === 3)
+                  t = t.concat('0')
+              } else {
+                t = t.concat('.000')
+              }
+
+              ctx.fillText(t + '秒', canvas.width/2, canvas.height/2);
+              if(f) 
+                ctx.fillText('真男人！！！', canvas.width/2, canvas.height/2 + 50);
+
+            },
+
+            addListener: function() {
+              var that = this;
+              document.addEventListener('mousemove', function(event){
+                var obj = canvas.getBoundingClientRect();
+                // 鼠标点击的地方在canvas上的(x,y)坐标
+                var x = event.clientX - obj.left;
+                var y = event.clientY - obj.top;
+                that.playerPosition.x = x;
+                that.playerPosition.y = y;
+                if(!that.isStart) {
+                  that.isStart = true;
+                  that.startTime = +new Date;
+                }
+              });
+            }
+          };
+
+          game.addListener();
+          game.init();
+          game.timer = setInterval(function() {
+            game.update();
+          }, 1000/60); 
+        };
+
+        function Ball(pos2, v) {
+          this.pos2 = pos2;
+          this.v = v;
+          this.r = 5;
+          this.color = 'red';
+        }
+
+        Ball.prototype.draw = function() {
+          ctx.beginPath();
+          ctx.fillStyle = this.color;
+          ctx.arc(this.pos2.x, this.pos2.y, this.r, 0, Math.PI * 2, true);
+          ctx.fill();
+        };
+
+        function Shooter(v1, v2) {
+          this.v1 = v1;
+          this.v2 = v2;
+          this.color = 'blue';
+        }
+
+        Shooter.prototype.draw = function() {
+          ctx.beginPath();
+          ctx.moveTo(this.v1.x, this.v1.y);
+          ctx.lineTo(this.v2.x, this.v2.y);
+          ctx.lineWidth = 10;
+          ctx.strokeStyle = this.color;
+          ctx.stroke();
+        };
+    </script>
+  </body>
+</html>
