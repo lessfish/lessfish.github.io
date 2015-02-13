@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>  love for Feb.14 2015 </title>
+    <style type="text/css">
+      body {margin:0; padding:0; wdith:100%; height: 100%}
+      canvas {display:block; background-color:#000}
+    </style>
+  </head>
+  <body bgcolor='#000'>
+    <script src='http://sandbox.runjs.cn/js/sandbox/jquery/jquery-1.8.3.min.js'></script>
+    <script src='http://hanzichi.github.io/game/Vector.js'></script>
+    <script>
+        window.onload = function() {
+          function Ball(v, current, r, g, b, a) {
+            this.pos2 = v;  // 目标位置
+            this.now = current;
+            this.r = r;
+            this.g = g;
+            this.b = b;
+            this.a = a;
+            this.state = 1;
+          }
+
+          Ball.prototype.draw = function() {
+            ctx.beginPath();
+            ctx.fillStyle = 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + this.a +')';
+            ctx.arc(this.now.x, this.now.y, 1, 0, Math.PI * 2, true);
+            ctx.fill();
+          }
+
+          var stage = {
+            balls: [],  //
+            // balls[0] I
+            // balls[1] love
+            // balls[2] 慧
+            // balls[3] love.png
+            // balls[4] forever
+            // balls[5] 签名
+            index: +new Date,
+
+            init: function() {
+              // ctx.globalCompositeOperation = 'lighter'
+              for(var i = 0; i < 6; i++)
+                this.balls[i] = [];
+              window.canvas = document.createElement('canvas'); 
+              document.body.appendChild(window.canvas); 
+              canvas.height = window.height = window.innerHeight;
+              canvas.width = window.width = window.innerWidth;
+              window.ctx = canvas.getContext('2d');
+            },
+
+            putText: function() {
+              var ocanvas = document.createElement('canvas'); 
+              // document.body.appendChild(ocanvas); 
+              ocanvas.height = window.innerHeight;
+              ocanvas.width  = window.innerWidth;
+              var octx = ocanvas.getContext('2d');
+
+              octx.font = "100px 微软雅黑"
+              octx.textAlign = "center";
+              octx.textBaseline = "middle";
+              octx.fillStyle = 'rgba(117,74,14,1)';
+              octx.fillText('I', width/2+150, height/2);
+              this.getTextPoints(octx, 0);
+
+              octx.clearRect(0, 0, width, height)
+              octx.font = "100px 微软雅黑"
+              octx.textAlign = "center";
+              octx.textBaseline = "middle";
+              octx.fillStyle = 'rgba(166,74,79,1)';
+              octx.fillText('love', width/2, height/2);
+              this.getTextPoints(octx, 1);
+
+              octx.clearRect(0, 0, width, height)
+              octx.font = "120px 微软雅黑"
+              octx.textAlign = "center";
+              octx.textBaseline = "middle";
+              octx.fillStyle = 'rgba(142,101,2,1)';
+              octx.fillText('慧', width/2 - 180, height/2 );
+              this.getTextPoints(octx, 2);
+
+              octx.clearRect(0, 0, width, height)
+              octx.font = "120px 微软雅黑"
+              octx.textAlign = "center";
+              octx.textBaseline = "middle";
+              octx.fillStyle = 'rgba(152,52,13,1)';
+              octx.fillText('4ever', width/2+50, height/2+10);
+              this.getTextPoints(octx, 4);
+
+              octx.clearRect(0, 0, width, height)
+              octx.font = "20px 微软雅黑"
+              // octx.font = "bold 12px serif"
+              octx.textAlign = "center";
+              octx.textBaseline = "middle";
+              octx.fillStyle = 'rgba(166,74,79,1)';
+              octx.fillText('————— 2015.2.14 by Fish Yu', width/2+70, height/2+90);
+              this.getTextPoints(octx, 5);
+
+              octx.clearRect(0, 0, width, height)
+              var img = new Image();
+              img.src = "1.png";
+              // var img = document.getElementById('img');
+
+              var that = this;
+              img.onload = function () {
+                octx.drawImage(img, width/2 -150 - 185, height/2-40);
+                that.getTextPoints(octx, 3);
+              }
+              // this.balls.sort(function (a, b) {
+              //   return a.pos2.x > b.pos2.x ? 1 : 0;
+              // });
+            },
+
+            draw: function() {
+              ctx.clearRect(0, 0, width, height);
+              for(var  i = 0; i < 6; i++) {
+                if(i === 3 && +new Date - this.index < 6000) continue;
+                if(i === 4 && +new Date - this.index < 7000) continue;
+                if(i === 5 && +new Date - this.index < 10000) continue;
+                for(var j = 0, len = this.balls[i].length; j < len; j++) {
+                  this.balls[i][j].draw();
+                }
+
+                for(var j = 0; j < this.balls[i].length; j++) {
+                  if(i === 1 && this.balls[i][j].now.y > height) 
+                    this.balls[i].splice(j, 1);
+                }
+              }
+            },
+
+            update: function() {
+              for(var  i = 0; i < 6; i++) {
+                if(i === 3 && +new Date - this.index < 6000) continue;
+                if(i === 4 && +new Date - this.index < 7000) continue;
+                if(i === 5 && +new Date - this.index < 10000) continue;
+                for(var j = 0, len = this.balls[i].length; j < len; j++) {
+                  var b = this.balls[i][j];
+                  var addV = b.pos2.minusNew(b.now);
+                  addV.scale(0.1);
+                  b.now.add(addV);
+                }
+              }
+                
+              // love
+              if(+new Date - this.index > 3000) {
+                for(var i = 0, len = this.balls[1].length; i < len; i++) {
+                  var b = this.balls[1][i];
+                  if(b.state === 1) {
+                    b.state = 2;
+                    b.pos2 = new Vector2(Math.random() * width, height + 1)
+                  }
+                }
+              }
+
+              // I
+              if(+new Date - this.index > 4000) {
+                for(var i = 0, len = this.balls[0].length; i < len; i++) {
+                  var b = this.balls[0][i];
+                  if(b.state === 1) {
+                    b.state = 2;
+                    b.pos2 = new Vector2(b.pos2.x - 500, b.pos2.y)
+                  } 
+                }
+              }
+            },
+            
+            getTextPoints: function(c, id) {
+              var array = this.balls[id];
+              var num = 0;
+              var imgData = c.getImageData(0, 0, width, height);
+              for(var i = 0; i < imgData.width; i+=3)
+                for(var j = 0; j < imgData.height; j+=3) {
+                  var index = (i + j * imgData.width) * 4 + 3;
+                  if(imgData.data[index]) {
+                    var r = imgData.data[index - 3];
+                    var g = imgData.data[index - 2];
+                    var b = imgData.data[index - 1];
+                    var a = imgData.data[index];
+                    var current = new Vector2(width * Math.random(), height * Math.random());
+                    if(id !== 3 && id !== 4 && id !==5 )
+                      array.push(new Ball(new Vector2(i, j), current, r, g, b, a));
+                    else if(id === 3 || id === 4) {
+                      console.log(1)
+                      cc = new Vector2(Math.random() * width, height + 1);
+                      array.push(new Ball(new Vector2(i, j), cc, r, g, b, a));
+                    } else {
+                      array.push(new Ball(new Vector2(i, j), new Vector2(i + Math.random() * 20 - 10 , j + Math.random() * 20 - 10 ), r, g, b, a));
+                    }
+                    
+                  }
+                } 
+            }
+          };
+
+          stage.init();
+          stage.putText();
+          setInterval(function() {
+            stage.draw();
+            stage.update();
+          }, 1000/60)
+        }
+    </script>
+  </body>
+</html>
