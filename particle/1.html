@@ -70,7 +70,7 @@
           };
 
           Ball.prototype.update = function() {
-            if(+new Date - this.index < 5000) {
+            if(+new Date - this.index < 3000) {
               var a = this.now.getDistance(new Vector3(this.pos3.x, this.pos3.y, this.now.z));
               var b = this.now.z - this.pos3.z;
               var a1 = 10 / Math.sqrt(a * a + b * b) * b; // z

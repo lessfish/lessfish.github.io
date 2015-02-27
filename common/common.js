@@ -27,7 +27,7 @@ function Color(r, g, b, a) {
   this.r = r || Math.random() * 255;
   this.g = g || Math.random() * 255;
   this.b = b || Math.random() * 255;
-  this.a = a || Math.random() * 255;  // 0~1?
+  this.a = a || Math.random() * 1;  // 0~1
 }
 
 Color.prototype.setR = function(r) {
@@ -46,11 +46,15 @@ Color.prototype.setA = function(a) {
   this.a = a;
 };
 
-Color.prototype.setRGBA = function(r, g, b, a) {
+Color.prototype.reset = function(r, g, b, a) {
   this.r = r || this.r;
   this.g = g || this.g;
   this.b = b || this.b;
   this.a = a || this.a;
+};
+
+Color.prototype.showStyle = function() {
+  return 'rgba(' + this.r + ',' + this.g + ','+ this.b + ',' + this.a +')';
 };
 
 
