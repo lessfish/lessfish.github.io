@@ -1,5 +1,3 @@
-// words
-// window.array = ['abcdefghijklmnopqrstuvwxyz', 'world'];
 window.array = [
 'hello',
 'world',
@@ -56,5 +54,3 @@ window.array = [
 window.words = [];
 for(var i = 0; i < array.length; i++)
   words.push(new Word(array[i]));
-
-window.isLoaded = true;

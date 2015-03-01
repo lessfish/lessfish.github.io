@@ -15,63 +15,46 @@ var game = {
       // game.keys[e.keyCode] = true;
       // alert(e.keyCode)
       var s = String.fromCharCode(e.keyCode).toLowerCase();
-      // alert(s)
-
       // 还没有新的word需要消除，寻找
-      // alert(game.wordIndex)
       if(game.wordIndex === -1) {
         for(var i = 0; i < game.stage.words.length; i++) {
           if(game.hash[i]) continue;
           var l = game.stage.words[i].letters;
-
-          // console.log(l)
-          // for(var j = 0; j < l.length; j++) {
-          //   if(l[j].letter === s) {
-          //     l[j].color = 'white';
-          //     l[j].disappear();
-          //   }
-              
-          // }
           if(l[0].letter === s) {
-            l[0].color = 'white';
+            l[0].color = 'rgba(168,168,168,1)';
             game.wordIndex = i;
             game.letterIndex = 0;
+            if(game.letterIndex + 1 === game.stage.words[game.wordIndex].word.length) {
+              // disappear
+              game.score++;
+              game.stage.words[game.wordIndex].disappear(game.wordIndex);
+              game.hash[game.wordIndex] = true;
+              game.wordIndex = -1;
+            }
             break;
           }
-
         }
-      } else {
-        // alert('hello')
-        // alert(game.stage.words[game.wordIndex].letters[game.letterIndex + 1].letter)
+      } else {  // 正在消除中
         if(game.stage.words[game.wordIndex].letters[game.letterIndex + 1].letter === s) {
-          game.stage.words[game.wordIndex].letters[game.letterIndex + 1].color = 'white';
+          game.stage.words[game.wordIndex].letters[game.letterIndex + 1].color = 'rgba(168,168,168,1)';
           game.letterIndex += 1;
           if(game.letterIndex + 1 === game.stage.words[game.wordIndex].word.length) {
             // disappear
             game.score++;
-            // word的生命已经结束，但是并没有从数组中消去，影响了后续的操作
-            // 但是如果马上消去，又会影响抛物运动
             game.stage.words[game.wordIndex].disappear(game.wordIndex);
             game.hash[game.wordIndex] = true;
             game.wordIndex = -1;
-
           }
         }
-
       }
     }, false);
   },
 
   init: function() {
     this.stage = new Collection();
-    // this.stage.words.push(new Word('hello'));
     var index = ~~(words.length * Math.random());
-    // console.log(index)
     this.stage.words.push(words[index]);
-    // this.stage.words.push(new Word('hello'));
-
     words.splice(index, 1)
-
   },
 
   check: function() {
@@ -81,33 +64,59 @@ var game = {
   render: function() {
     this.stage.draw();
     this.stage.update();
-
-
     if(+new Date - this.timeIndex > this.timeInterval && words.length) {
-
       var index = ~~(words.length * Math.random());
-      // console.log(index)
-      // console.log(index)
       this.stage.words.push(words[index]);
       words.splice(index, 1)
       this.timeIndex = +new Date;
-
+      // control speed
       if(words.length % 10 === 0)
         this.timeInterval -= 100;
-      // 1600已经吃不消
     }
 
+    // show score
     ctx.font = " 30px Monospace"
-    // ctx.fontFamily = "Times New Roman"
     ctx.textAlign = "left";
     ctx.textBaseline = "top";
     ctx.fillStyle = 'red';
     ctx.fillText('score: ' + this.score, 0, 0);
+
+    if(this.score === 50) {
+      this.isOver = true;
+      ctx.font = '50px 微软雅黑 bold';
+      ctx.fillStyle = 'rgba(168,168,168,1)';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('you are the best!', width/2, height/2 - 50);
+      ctx.fillText('score: ' + game.score, width/2, height/2);
+    }
   }
 };
 
 game.init();
 game.addListener();
-window.handle = setInterval(function() {
+// window.handle = setInterval(function() {
+  // game.render();
+// }, 1000/60);
+
+//调用 相当于setTimeout里的callback
+function animationLoop(){   
+  // logic  
   game.render();
-}, 1000/60);
+  // 循环
+  if(!game.isOver)
+    requestAnimFrame(animationLoop);
+  else {
+    // game over
+    if(game.score === 50) return;
+    ctx.font = '50px 微软雅黑 bold';
+    ctx.fillStyle = 'rgba(168,168,168,1)';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('game over!', width/2, height/2 - 50);
+    ctx.fillText('score: ' + game.score, width/2, height/2);
+  }
+}  
+
+// 启动
+requestAnimFrame(animationLoop);
