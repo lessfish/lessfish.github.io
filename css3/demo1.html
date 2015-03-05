@@ -1,32 +1,31 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
   #stage {
-    position: absolute;
     width: 805px;
     height: 300px;
-    -webkit-perspective: 500px;
   }
 
   #container {
     width: 500px; 
     height: 281px;
     display: inline-block;
-    margin: 10px 0;
   }
   
   img {
-      position: absolute;
-      -webkit-transition: all 1s ease-in-out;
+    position: absolute;
+    -webkit-transition: all 1s ease-in-out;
   }
   
   .disappear {
     -webkit-transform: scale(0, 0);
     -webkit-transform-origin: bottom left;
+    opacity: 0;
   }
   
   .show {
      -webkit-transform: scale(1, 1);
     -webkit-transform-origin: top right;
+    opacity: 1;
   }
 
   .scale {
@@ -38,7 +37,7 @@
     display: inline-block;
     height: 281px;
     width: 60px;
-    margin:10px 20px; 
+    margin:0 20px; 
   }
   
   .btn-left-container:hover {
@@ -46,7 +45,6 @@
   }
 
   .img-left-btn {
-    position: relative;
     float: left;
     width: 40px;
     height: 72px;
@@ -64,7 +62,7 @@
     display: inline-block;
     height: 281px;
     width: 60px;
-    margin: 10px 20px;
+    margin: 0 20px;
   }
   
   .btn-right-container:hover {
@@ -109,25 +107,25 @@
 </div>
 
 <script type="text/javascript">
-  var index = 8;
+  var imgs = document.getElementsByTagName('img');
+  var index = imgs.length - 1;
   var btn = document.getElementsByClassName('img-right-btn')[0];
   btn.onclick = function() {
-    var img = document.getElementsByTagName('img')[eval(index)];
     if(index === 0) return;
+    var img = imgs[eval(index)];
     img.className = 'disappear';
     index--;
-    img = document.getElementsByTagName('img')[eval(index)];
+    img = imgs[eval(index)];
     img.className = 'show';
   };
 
   btn = document.getElementsByClassName('img-left-btn')[0];
   btn.onclick = function() {
     if(index === 8) return;
-
-    var img = document.getElementsByTagName('img')[eval(index)];
+    var img = imgs[eval(index)];
     img.className = 'scale';
     index++;
-    img = document.getElementsByTagName('img')[eval(index)];
+    img = imgs[eval(index)];
     img.className = 'show';
   };
 </script>
