@@ -1,0 +1,218 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/*  html, body {
+    margin: 0;
+    padding: 0;
+  }
+*/
+  #stage {
+    position: absolute;
+    left: 27%;
+    top: 30%;
+    /*border: 1px black solid;*/
+    width: 805px;
+    height: 300px;
+    -webkit-perspective: 500px;
+    /*clear: both;*/
+  }
+
+  #container {
+    width: 500px; 
+    height: 281px;
+    /*background-image: url(img1.png);*/
+    /*border: 1px black solid;*/
+    /*float: left;*/
+    display: inline-block;
+    margin: 10px 0;
+    /*float:;*/
+    /*margin-left: -10px;*/
+    /*overflow: hidden;*/
+
+    /*-webkit-transform: 
+      rotateY(0deg);*/
+    /*-webkit-transform-style: preserve-3d;*/
+    /*opacity:0.9;*/
+    -webkit-transition: all 1s;
+  }
+
+  #container:hover {
+    /*-webkit-transform: 
+      rotateZ(360deg)
+      scale(0.5, 0.5);
+    -webkit-transform-style: preserve-3d;
+    opacity:0.9;*/
+  }
+  
+  img {
+/*    width: 500px; 
+    height: 281px;*/
+    /*float: left;*/
+ /*   -webkit-transform: 
+      rotateX(0deg);*/
+      position: absolute;
+      -webkit-transition: all 1s ease-in-out;
+  }
+  
+  .disappear {
+    /*opacity: 0;*/
+    -webkit-transform: scale(0, 0);
+    -webkit-transform-origin: bottom left;
+  }
+  
+  .show {
+    /*opacity: 1;*/
+     -webkit-transform: scale(1, 1);
+    -webkit-transform-origin: top right;
+  }
+
+  .scale {
+    -webkit-transform: scale(0, 0);
+    /*-webkit-transform-origin: top right;*/
+    opacity: 0;
+  }
+
+  .btn-left-container {
+    /*display: inline;*/
+    /*position: left;*/
+    /*float: left;*/
+    display: inline-block;
+    height: 281px;
+    width: 60px;
+    margin:10px 20px; 
+    /*30*/
+  }
+  
+  .btn-left-container:hover {
+    background-color: #e6e6e6;
+  }
+
+  .img-left-btn {
+    position: relative;
+    /*position: absolute;*/
+    float: left;
+    width: 40px;
+    height: 72px;
+    margin-left: 10px;
+    margin-top: 110px;
+    /*clear: both;*/
+    background: url(../img/1.png) no-repeat 0 -87;
+  }
+
+  .img-left-btn:hover {
+    background-position: -46px -87px;
+    background-color: #e6e6e6;
+  }
+
+  .btn-right-container {
+    /*float: left;*/
+    display: inline-block;
+    height: 281px;
+    width: 60px;
+    margin: 10px 20px;
+    /*margin-top: 100px;*/
+  }
+  
+  .btn-right-container:hover {
+    background-color: #e6e6e6;
+  }
+
+  .img-right-btn {
+    float: right;
+    width: 40px;
+    height: 72px;
+    margin-right: 10px;
+    margin-top: 110px;
+    background: url(../img/1.png) no-repeat 0 0;
+  }
+
+  .img-right-btn:hover {
+    background-position: -46px 0;
+    background-color: #e6e6e6;
+  }
+</style>  
+
+
+
+<div id='stage'>
+  <div class='btn-left-container'>
+    <span class='img-left-btn'>
+    </span>
+  </div><!-- 
+  --><div id ='container'>
+    <!-- <div id='w'> -->
+      <img src='../img/img0.png' class='scale' />
+      <img src='../img/img1.png' class='scale' />
+      <img src='../img/img2.png' class='scale' />
+      <img src='../img/img3.png' class='scale' />
+      <img src='../img/img4.png' class='scale' />
+      <img src='../img/img5.png' class='scale' />
+      <img src='../img/img6.png' class='scale' />
+      <img src='../img/img7.png' class='scale' />
+      <img src='../img/img8.png' />
+      <!-- <img /> -->
+      <!-- <span> </span> -->
+    <!-- </div> -->
+  </div><!-- 
+  --><div class='btn-right-container'>
+    <span class='img-right-btn'>
+    </span>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+  // 如果要加载后就运行 直接用js改变css的class
+  // 300 281
+  // var ans = '-500px'.replace(/[px]/g, "");
+  // console.log(ans)
+  var index = 8;
+  var btn = document.getElementsByClassName('img-right-btn')[0];
+  btn.onclick = function() {
+    var img = document.getElementsByTagName('img')[eval(index)];
+    if(index === 0) return;
+    img.className = 'disappear';
+    index--;
+    img = document.getElementsByTagName('img')[eval(index)];
+    img.className = 'show';
+    // var index = Number(img.src.replace(/\D/g, ""));
+    // index++;
+    // index %= 4;
+    // img.src = 'file:///C:/Users/wwwy/Desktop/img' + index + '.png';
+    // console.log(index)
+    
+    // var marginLeft = Number(document.getElementById('w').style.marginLeft.replace(/[px]/g, ""));
+    // // console.log(marginLeft)
+    // if(marginLeft === -500 * 8) return;
+    // marginLeft -= 500;
+    // document.getElementById('w').style.marginLeft = marginLeft + 'px';
+    // console.log(document.getElementById('w').style.marginLeft)
+
+  };
+
+  var btn = document.getElementsByClassName('img-left-btn')[0];
+  btn.onclick = function() {
+    if(index === 8) return;
+    
+    var img = document.getElementsByTagName('img')[eval(index)];
+    img.className = 'scale';
+    
+    index++;
+    img = document.getElementsByTagName('img')[eval(index)];
+    img.className = 'show';
+
+    // var index = Number(img.src.replace(/\D/g, ""));
+    // index++;
+    // index %= 4;
+    // img.src = 'file:///C:/Users/wwwy/Desktop/img' + index + '.png';
+    // console.log(index)
+    
+    // var marginLeft = Number(document.getElementById('w').style.marginLeft.replace(/[px]/g, ""));
+    // // console.log(marginLeft)
+    // if(marginLeft === -500 * 8) return;
+    // marginLeft -= 500;
+    // document.getElementById('w').style.marginLeft = marginLeft + 'px';
+    // console.log(document.getElementById('w').style.marginLeft)
+
+  };
+</script>
