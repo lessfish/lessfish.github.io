@@ -1,0 +1,63 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title> 摩天轮式图片轮播 </title>
+<style type="text/css">
+  body{font: bold 15px '微软雅黑'; color: #6a6a6a;}
+  #stage {
+    width: 805px;
+    height: 600px;
+    /*border: 1px solid;*/
+    -webkit-perspective: 500px;
+    -webkit-perspective-origin: 17% 50%;
+  }
+
+  #container {
+    /*border: 1px solid;*/
+    position: absolute;
+    width: 500px; 
+    height: 500px;
+
+    -webkit-transform-style: preserve-3d;
+    -webkit-transition: all 2s ease-in-out;
+  }
+  
+  img {
+    position: absolute;
+    top: 110px;
+    /*-webkit-backface-visibility: hidden;*/
+  }
+</style>  
+
+<div id='stage'>
+  <div id ='container'>
+    <img src='../img/img0.png' />
+    <img src='../img/img1.png' />
+    <img src='../img/img2.png' />
+    <img src='../img/img3.png' />
+    <img src='../img/img4.png' />
+    <img src='../img/img5.png' />
+    <img src='../img/img6.png' />
+    <img src='../img/img7.png' />
+    <img src='../img/img8.png' />
+  </div>
+  <div>
+    请滚动鼠标滚轮
+  </div>
+</div>
+
+<script type="text/javascript">
+  var imgs = document.getElementsByTagName('img');
+  for(var i = 0; i <= 8; i++) {
+    var deg = 40 * i;
+    imgs[i].style.webkitTransform = ''
+    + 'rotateX(' + deg + 'deg)' 
+    + 'translateZ(' + 190 + 'px)'
+    + 'scale(0.25,0.25)';
+  }
+
+  var containerDeg = 0;
+  window.onmousewheel = document.onmousewheel = function(e) {
+    containerDeg += e.wheelDelta / 15 ;
+    document.getElementById('container').style.webkitTransform = 'rotateX(' + containerDeg + 'deg)' 
+  }
+  // 不能先scale 再rotate
+</script>
