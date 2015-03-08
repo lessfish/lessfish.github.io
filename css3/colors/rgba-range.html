@@ -29,7 +29,7 @@
   <span class='left font'> b </span><input type="range" id="rangeThird2" min="0" max="255" step="5" value="0" autocomplete="off"><span id='rangeThirdValue2' class='font'> 0 </span>
 </div>
 <div>
-  <span class='left font'> a </span><input type="range" id="rangeFourth2" min="0" max="1" step="0.1" value="1" autocomplete="off"><span id='rangeThirdValue2' class='font'> 1 </span>
+  <span class='left font'> a </span><input type="range" id="rangeFourth2" min="0" max="1" step="0.1" value="1" autocomplete="off"><span id='rangeFourthValue2' class='font'> 1 </span>
 </div>
 
 <script type="text/javascript">
@@ -59,6 +59,7 @@
     var value2 = document.getElementById('rangeSecond2').value;
     var value3 = document.getElementById('rangeThird2').value;
     var value4 = document.getElementById('rangeFourth2').value;
+    console.log(value4)
     document.getElementsByClassName('circle2')[0].style.backgroundColor ='rgba(' + value1 + ',' + value2  + ',' + value3 + ',' + value4 + ')';
 
     document.getElementById('rangeFirstValue2').innerHTML = ' ' + value1;
