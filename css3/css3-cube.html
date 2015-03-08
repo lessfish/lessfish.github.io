@@ -1,0 +1,77 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title> css3正方体 </title>
+<style type="text/css">
+  .font {font: bold 15px '微软雅黑'; color: red;}
+  #stage {
+    width: 805px;
+    height: 600px;
+    /*border: 1px solid;*/
+    
+    -webkit-perspective: 500px;
+    -webkit-perspective-origin: 50% 50%;
+  }
+
+  #container {
+    /*border: 1px solid;*/
+    position: absolute;
+    width: 500px; 
+    height: 500px;
+
+    -webkit-transform-style: preserve-3d;
+    /*-webkit-transition: all 2s ease-in-out;*/
+  }
+  
+  .face {
+    position: absolute;
+    top: 200px;
+    left: 200px;
+    width: 100px;
+    height: 100px;
+    /*background-color: red;*/
+    /*-webkit-backface-visibility: hidden;*/
+  }
+</style>  
+
+<div id='stage'>
+  <span class='font'> 请移动鼠标 </span>
+  <div id ='container'>
+  </div>
+</div>
+
+<script type="text/javascript">
+  // init
+  var initAngleX = [0, 180, 90, 270, 0, 0];
+  var initAngleY = [0, 0, 0, 0, 90, 270];
+  var angleX = 0;
+  var angleY = 0;
+  // container的旋转角度
+  var totalAngleX = 0;
+  var totalAngleY = 0;
+
+  for(var i = 0; i < 6; i++) {
+    var d = document.createElement('div');
+    d.style.backgroundColor = '#' + ('00000' + parseInt(Math.random() * 0xffffff).toString(16)).slice(-6);
+    d.className = 'face';
+    d.style.webkitTransform = ''
+      + 'rotateX(' + initAngleX[i] + 'deg)' 
+      + 'rotateY(' + initAngleY[i] + 'deg)' 
+      + 'translateZ(' + 50 + 'px)';
+    document.getElementById('container').appendChild(d);
+  }
+
+  // addListener
+  document.getElementById('container').addEventListener("mousemove" , function(event){
+    var x = event.clientX - 200;
+    var y = event.clientY - 200;
+    window.angleY =  x / 10 / 1000 * 60;
+    window.angleX = -y / 10 / 1000 * 60;
+  });
+  
+  setInterval(function() {
+    totalAngleX += angleX;
+    totalAngleY += angleY;
+    document.getElementById('container').style.webkitTransform = ''
+      + 'rotateX(' + totalAngleX + 'deg)' 
+      + 'rotateY(' + totalAngleY + 'deg)';
+  }, 1000 / 60);
+</script>

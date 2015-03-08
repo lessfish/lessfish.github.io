@@ -1,0 +1,114 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+  #stage {
+    width: 1000px;
+    height: 600px;
+    /*border: 1px solid;*/
+    -webkit-perspective: 500;
+    -webkit-perspective-origin: 30% 50%;
+  }
+
+  #container {
+    /*-webkit-transition: all 10s;*/
+    -webkit-transform-style: preserve-3d;
+    position: relative;
+    width: 500px;
+    height: 500px;
+    /*border: 1px solid;*/
+  }
+  
+  a {
+    position: absolute;
+    text-decoration: none;
+    left: 250px;
+    top: 250px;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div id='stage'>
+  <div id='container'>
+  </div>
+</div>
+
+<script src='http://hanzichi.github.io/common/vector.js'></script>
+<script type="text/javascript">
+  var array = [
+    'js',
+    'html',
+    'css',
+    'css3',
+    'python',
+    'java',
+    'php',
+    'c',
+    'c++',
+    'go',
+    'vbs',
+    'vb',
+    'c#',
+    'perl',
+    'sql',
+    'ruby',
+    'swift',
+    'pascal',
+    'lua',
+    'chrome',
+    'github',
+    'firefox',
+    'mysql',
+    'jquery',
+    'ie'
+  ];
+
+  window.tags = [];
+  window.angleX = 0;
+  window.angleY = 0; 
+  window.totalAngleX = 0;
+  window.totalAngleY = 0;
+
+  function Tag(v, index) {
+    this.a = document.createElement('a');;
+    this.a.href = 'http://www.cnblogs.com/zichi/';
+    this.a.target= '_blank';
+    this.a.innerHTML = array[index];
+    array.splice(index, 1);
+    this.a.style.color = '#' + ('00000' + parseInt(Math.random() * 0xffffff).toString(16)).slice(-6);
+    this.a.style.webkitTransform = ''
+      + 'rotateY(' + v.y  + 'deg)' 
+      + 'rotateX(' + v.x  + 'deg)'
+      + 'translateZ(' + '100' + 'px)'
+    document.getElementById('container').appendChild(this.a);
+  }
+
+  // setListener
+  document.getElementById('container').addEventListener("mousemove" , function(event){
+    var x = event.clientX - 200;
+    var y = event.clientY - 200;
+    window.angleY =  x / 10 / 1000 * 60;
+    window.angleX = -y / 10 / 1000 * 60;
+    
+  });
+
+  setInterval(function() {
+    totalAngleX += angleX;
+    totalAngleY += angleY;
+    document.getElementById('container').style.webkitTransform = ''
+    + 'rotateX(' + totalAngleX + 'deg)' 
+    + 'rotateY(' + totalAngleY + 'deg)';
+  }, 1000 / 60);
+
+  // init
+  for(var i = 0; i <= 4; i++)
+    for(var j = 0; j <= 4; j++) {
+      a1 = 360 / 5 * i;
+      a2 = 360 / 5 * j;
+      var v = new Vector2(a1, a2);
+      var index = ~~(Math.random() * array.length);
+      var tag = new Tag(v, index);
+      tags.push(tag);
+    }
+</script>

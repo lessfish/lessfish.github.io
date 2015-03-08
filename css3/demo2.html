@@ -1,13 +1,25 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title> 摩天轮式图片轮播 </title>
 <style type="text/css">
-  body{font: bold 15px '微软雅黑'; color: #6a6a6a;}
+  body{font: bold 15px '微软雅黑'; color: red;}
   #stage {
     width: 805px;
     height: 600px;
     /*border: 1px solid;*/
+    perspective: 500px;
+    perspective-origin: 17% 50%;
+    
     -webkit-perspective: 500px;
     -webkit-perspective-origin: 17% 50%;
+
+    -moz-perspective: 500px;
+    -moz-perspective-origin: 17% 50%;
+
+    -o-perspective: 500px;
+    -o-perspective-origin: 17% 50%;
+
+    -ms-perspective: 500px;
+    -ms-perspective-origin: 17% 50%;
   }
 
   #container {
@@ -16,8 +28,20 @@
     width: 500px; 
     height: 500px;
 
+    transform-style: preserve-3d;
+    transition: all 2s ease-in-out;
+
     -webkit-transform-style: preserve-3d;
     -webkit-transition: all 2s ease-in-out;
+
+    -moz-transform-style: preserve-3d;
+    -moz-transition: all 2s ease-in-out;
+
+    -o-transform-style: preserve-3d;
+    -o-transition: all 2s ease-in-out;
+
+    -ms-transform-style: preserve-3d;
+    -ms-transition: all 2s ease-in-out;
   }
   
   img {
@@ -48,16 +72,48 @@
   var imgs = document.getElementsByTagName('img');
   for(var i = 0; i <= 8; i++) {
     var deg = 40 * i;
+    imgs[i].style.transform = ''
+    + 'rotateX(' + deg + 'deg)' 
+    + 'translateZ(' + 190 + 'px)'
+    + 'scale(0.25,0.25)';
+
     imgs[i].style.webkitTransform = ''
+    + 'rotateX(' + deg + 'deg)' 
+    + 'translateZ(' + 190 + 'px)'
+    + 'scale(0.25,0.25)';
+
+    imgs[i].style.mozTransform = ''
+    + 'rotateX(' + deg + 'deg)' 
+    + 'translateZ(' + 190 + 'px)'
+    + 'scale(0.25,0.25)';
+
+    imgs[i].style.oTransform = ''
+    + 'rotateX(' + deg + 'deg)' 
+    + 'translateZ(' + 190 + 'px)'
+    + 'scale(0.25,0.25)';
+
+    imgs[i].style.msTransform = ''
     + 'rotateX(' + deg + 'deg)' 
     + 'translateZ(' + 190 + 'px)'
     + 'scale(0.25,0.25)';
   }
 
   var containerDeg = 0;
-  window.onmousewheel = document.onmousewheel = function(e) {
-    containerDeg += e.wheelDelta / 15 ;
-    document.getElementById('container').style.webkitTransform = 'rotateX(' + containerDeg + 'deg)' 
+
+  if(document.addEventListener){
+    document.addEventListener('DOMMouseScroll', scrollFunc, false);
+  }
+  window.onmousewheel = document.onmousewheel = scrollFunc;
+  
+
+  function scrollFunc(e) {
+    // alert(e.detail)
+    containerDeg += e.wheelDelta ? e.wheelDelta / 15 : -e.detail * 3;
+    document.getElementById('container').style.transform = 'rotateX(' + containerDeg + 'deg)';
+    document.getElementById('container').style.webkitTransform = 'rotateX(' + containerDeg + 'deg)';
+    document.getElementById('container').style.mozTransform = 'rotateX(' + containerDeg + 'deg)';
+    document.getElementById('container').style.oTransform = 'rotateX(' + containerDeg + 'deg)';
+    document.getElementById('container').style.msTransform = 'rotateX(' + containerDeg + 'deg)';
   }
   // 不能先scale 再rotate
 </script>
