@@ -1,0 +1,64 @@
+<div>
+<style type="text/css">
+  .font { font: bold 15px '微软雅黑'; color: red; }
+
+  .circle {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    -webkit-border-radius: 50px;
+    background-color:  hsl(0,50%,50%);
+    margin: 20px 0px;
+  }
+
+  .range {
+    /*margin-left: 50px;*/
+  }
+  
+  .left {
+    display: inline-block;
+    width: 15px;
+  }
+</style>
+
+<div class='circle'>
+</div>
+<div class='range'>
+  <span class='left font'> h </span><input type="range" id="rangeFirst" min="0" max="360" step="10" value="0" autocomplete="off"><span id='rangeFirstValue' class='font'> 0 </span>
+</div>
+<div class='range'>
+  <span class='left font'> s </span><input type="range" id="rangeSecond" min="0" max="100" step="10" value="50" autocomplete="off"><span id='rangeSecondValue' class='font'> 50% </span>
+</div>
+<div class='range'>
+  <span class='left font'> l </span><input type="range" id="rangeThird" min="0" max="100" step="10" value="50" autocomplete="off"><span id='rangeThirdValue' class='font'> 50% </span>
+</div>
+
+<script type="text/javascript">
+  // h
+  document.getElementById('rangeFirst').addEventListener("change", function() {
+    reset();
+  });
+
+  // s
+  document.getElementById('rangeSecond').addEventListener("change", function() {
+    reset();
+  });
+
+  // l
+  document.getElementById('rangeThird').addEventListener("change", function() {
+     reset();
+  });
+
+  //
+  function reset() {
+    var value1 = document.getElementById('rangeFirst').value;
+    var value2 = document.getElementById('rangeSecond').value;
+    var value3 = document.getElementById('rangeThird').value;
+    document.getElementsByClassName('circle')[0].style.backgroundColor ='hsl(' + value1 + ',' + value2 + '%' + ',' + value3 + '%)';
+
+    document.getElementById('rangeFirstValue').innerHTML = ' ' + value1;
+    document.getElementById('rangeSecondValue').innerHTML = ' ' + value2 +'%';
+    document.getElementById('rangeThirdValue').innerHTML = ' ' + value3 + '%';
+  }
+</script>
+</div>

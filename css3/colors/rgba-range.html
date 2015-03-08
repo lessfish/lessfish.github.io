@@ -1,0 +1,70 @@
+<div>
+<style type="text/css">
+  .font { font: bold 15px '微软雅黑'; color: red; }
+
+  .circle2 {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    -webkit-border-radius: 50px;
+    background-color:  rgba(0,0,0,1);
+    margin: 20px 0px;
+  }
+  
+  .left {
+    display: inline-block;
+    width: 15px;
+  }
+</style>
+
+<div class='circle2'>
+</div>
+<div>
+  <span class='left font'> r </span><input type="range" id="rangeFirst2" min="0" max="255" step="5" value="0" autocomplete="off"><span id='rangeFirstValue2' class='font'> 0 </span>
+</div>
+<div>
+  <span class='left font'> g </span><input type="range" id="rangeSecond2" min="0" max="255" step="5" value="0" autocomplete="off"><span id='rangeSecondValue2' class='font'> 0 </span>
+</div>
+<div>
+  <span class='left font'> b </span><input type="range" id="rangeThird2" min="0" max="255" step="5" value="0" autocomplete="off"><span id='rangeThirdValue2' class='font'> 0 </span>
+</div>
+<div>
+  <span class='left font'> a </span><input type="range" id="rangeFourth2" min="0" max="1" step="0.1" value="1" autocomplete="off"><span id='rangeThirdValue2' class='font'> 1 </span>
+</div>
+
+<script type="text/javascript">
+  // r
+  document.getElementById('rangeFirst2').addEventListener("change", function() {
+    reset2();
+  });
+
+  // g
+  document.getElementById('rangeSecond2').addEventListener("change", function() {
+    reset2();
+  });
+
+  // b
+  document.getElementById('rangeThird2').addEventListener("change", function() {
+     reset2();
+  });
+
+  // a
+  document.getElementById('rangeFourth2').addEventListener("change", function() {
+     reset2();
+  });
+
+  //
+  function reset2() {
+    var value1 = document.getElementById('rangeFirst2').value;
+    var value2 = document.getElementById('rangeSecond2').value;
+    var value3 = document.getElementById('rangeThird2').value;
+    var value4 = document.getElementById('rangeFourth2').value;
+    document.getElementsByClassName('circle2')[0].style.backgroundColor ='rgba(' + value1 + ',' + value2  + ',' + value3 + ',' + value4 + ')';
+
+    document.getElementById('rangeFirstValue2').innerHTML = ' ' + value1;
+    document.getElementById('rangeSecondValue2').innerHTML = ' ' + value2
+    document.getElementById('rangeThirdValue2').innerHTML = ' ' + value3;
+    document.getElementById('rangeFourthValue2').innerHTML = ' ' + value4;
+  }
+</script>
+</div>
