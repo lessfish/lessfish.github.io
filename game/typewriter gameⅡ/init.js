@@ -1,5 +1,5 @@
 (function() {
-	// get data
+  // get data
   $.ajax ({
     type: 'GET',
     url: 'data.html',
@@ -10,7 +10,7 @@
     }
   });
   
-	// create 9 divs to form a circle
+  // create 9 divs to form a circle
   for(var i = 0; i <= 8; i++) {
     var d = document.createElement('div');
     d.className = 'circle';
