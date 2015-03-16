@@ -34,7 +34,7 @@
       }
     }
   
-    var deg = 40 * i;
+    var deg = 40 * i;  
     d.style.webkitTransform = ''
     + 'rotateY(' + deg + 'deg)' 
     + 'translateZ(' + 190 + 'px)';
