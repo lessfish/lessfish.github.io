@@ -70,7 +70,12 @@
           d[i].removeChild(c[j]);
         }
 
-        var word = window.array[~~(Math.random() * window.array.length)];
+        var word;
+        while(true) {
+          word = window.array[~~(Math.random() * window.array.length)];
+          if(word.length < 4 || word.length > 10) continue;
+          break;
+        }
         var left = (100 - word.length * 8) / 2;
 
         for(var j = 0; j < word.length; j++) {
@@ -85,7 +90,7 @@
     },
 
     start: function() {
-      this.rotateDeg = 10;
+      this.rotateDeg = 15;
       this.isStart = true;
     },
 
