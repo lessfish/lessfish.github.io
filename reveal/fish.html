@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>reveal.js - The HTML Presentation Framework</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+        <section>
+          <h2>博客园简介</h2>
+          <h3>中国博客服务商前十强</h3>
+          <p>
+            <small>Created by <a href="http://www.cnblogs.com/zichi/">HanZichi</a> / <a href="https://github.com/hanzichi">@hanzichi</a></small>
+          </p>
+        </section>
+
+        <section>
+          <p>博客园创建于2004年1月，博客园诞生于江苏扬州这样一个IT非常落后的小城市，城市虽小，但是这里却有很多求知创新的人，博客园诞生的理由是如此简单。</p>
+        </section>
+
+        <section>
+          <small>2007年9月，博客园来到了上海，有了自己的团队，注册用户4万多，每天有15万以上的用户访问，除了博客，有了互动交流的小组，有了你问我答的博问，有了收藏精彩内容的网摘，有了搜索站内内容的找找看，有了随时记录思想火花的闪存，有了随时了解业内动态的新闻频道，有了知识库，有了期刊，有了……
+          博客园的用户中成长出了一批又一批专家，在IT行业中大展身手！
+          博客园在行业中的影响力越来越大！
+          博客园正朝着高品质的IT媒体与社区方向发展……
+          这些文字不能清楚地描述出真正的博客园，我们知道：真正的博客园体现于我们每天为用户提供的服务！</small>
+        </section>
+
+        <section>
+          <p>博客园的界面异常小清新，对于崇尚简洁风的用户来说那真是再好不过了</p>
+          <img src='./img/0.png' />
+        </section>
+
+        <section>
+          <small> 博客园还能自定义皮肤 </small>
+          <img class="fragment" src='./img/1.png' />
+          <small class="fragment"> 甚至还能在页面插入自定义JavaScript </small> <br/>
+          <small class="fragment"> 我去，真的不怕安全隐患吗? </small>
+        </section>
+
+        <section>
+          <h3> 博客园有很多大神 <h3>
+          <p class="fragment">比如...</p>
+          <p class="fragment">司徒正美</p>
+          <p class="fragment">汤姆大叔</p>
+          <p class="fragment">刘哇勇</p>
+          <p class="fragment">......</p>
+        </section>
+
+        <section data-markdown>
+           <script type="text/template">
+              <small>岑安是我本人很崇拜的大神，本科毕业于电子科大，曾在腾讯AlloyTeam担任前端工程师，目前在阿里巴巴。人不仅技术强大，而且长的也帅啊！</small> <br/>
+              <img class="fragment" src='./img/2.jpg' />
+          </script>
+        </section>
+
+        <section data-transition="zoom">
+          <small>关键是人还有妹子啊！亮瞎单身狗有木有！</small>
+          <img src='./img/3.jpg' height=500>
+        </section>
+
+        <section data-transition="slide">
+          <small>连背影都是如此的销魂...</small> <br/>
+          <img src='./img/4.jpg' height=500>
+        </section>
+
+        <section data-transition="convex" data-background="#4d7e65" data-background-transition="zoom">
+          可是特么的你不诚信啊！！！说好的"技术博不能荒废"尼玛写完人就消失在博客园了啊！！
+          <img src='./img/5.png' height=500>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            岑大大就是这样一位集美貌和智慧于一体的超级前端大神，如有幸能见之一面，那真是热泪盈眶。
+            更多了解可以参考他的[博客](http://hongru.cnblogs.com/)、[github](https://github.com/hongru)以及[facebook](https://www.facebook.com/horizonchen),还有他在alloyteam时的[文章](http://www.alloyteam.com/author/horizonchen/)
+          </script>
+        </section>
+
+        <section>
+          <p> 好吧有点偏题了有木有，还是来个优雅的ending吧~~~ </p>
+          <p> 祝福博客园越办越好~~~ </p>
+        </section>   
+
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'concave', // none/fade/slide/convex/concave/zoom
+
+
+        // Transition style for full page slide backgrounds
+        // when background changed, 
+        backgroundTransition: 'zoom', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
+

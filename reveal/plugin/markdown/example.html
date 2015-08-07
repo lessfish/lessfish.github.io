@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Markdown Demo</title>
+
+		<link rel="stylesheet" href="../../css/reveal.css">
+		<link rel="stylesheet" href="../../css/theme/black.css" id="theme">
+
+        <link rel="stylesheet" href="../../lib/css/zenburn.css">
+        <!-- Printing and PDF exports -->
+        
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+                <section data-transition="zoom">
+                    <h2>This slide will override the presentation transition and zoom!</h2>
+                </section>
+
+                <section data-markdown="example.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n">
+
+                </section>
+
+                <!-- Slides are separated by three dashes (quick 'n dirty regular expression) -->
+                <section data-markdown data-separator="---">
+                    <script type="text/template">
+                        ## Demo 1
+                        Slide 1
+                        ---
+                        ## Demo 1
+                        Slide 2
+                        ---
+                        ## Demo 1
+                        Slide 3
+                    </script>
+                </section>
+
+                <!-- Slides are separated by newline + three dashes + newline, vertical slides identical but two dashes -->
+                <section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$">
+                    <script type="text/template">
+                        ## Demo 2
+                        Slide 1.1
+
+                        --
+
+                        ## Demo 2
+                        Slide 1.2
+
+                        ---
+
+                        ## Demo 2
+                        Slide 2
+                    </script>
+                </section>
+
+                <!-- No "extra" slides, since there are no separators defined (so they'll become horizontal rulers) -->
+                <section data-markdown>
+                    <script type="text/template">
+                        A
+
+                        ---
+
+                        B
+
+                        ---
+
+                        C
+                    </script>
+                </section>
+
+                <!-- Slide attributes -->
+                <section data-markdown>
+                    <script type="text/template">
+                        <!-- .slide: data-background="#000000" -->
+                        ## Slide attributes
+                    </script>
+                </section>
+
+                <!-- Element attributes -->
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Element attributes
+                        - Item 1 <!-- .element: class="fragment" data-fragment-index="2" -->
+                        - Item 2 <!-- .element: class="fragment" data-fragment-index="1" -->
+                    </script>
+                </section>
+
+                <!-- Code -->
+                <section data-markdown>
+                    <script type="text/template">
+                        ```php
+                        public function foo()
+                        {
+                            $foo = array(
+                                'bar' => 'bar'
+                            )
+                        }
+                        ```
+                    </script>
+                </section>
+
+            </div>
+		</div>
+
+		<script src="../../lib/js/head.min.js"></script>
+		<script src="../../js/reveal.js"></script>
+
+		<script>
+
+			Reveal.initialize({
+				// controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+                // rtl: true,
+                // fragments: false,
+
+                // keyboard: false,
+                // slideNumber: true,
+				// Optional libraries used to extend on reveal.js
+                // width: 1000,
+                // height: 100,
+				dependencies: [
+					{ src: '../../lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '../notes/notes.js' }
+				]
+			});
+// Reveal.toggleOverview();
+		</script>
+
+	</body>
+</html>
