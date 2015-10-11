@@ -1,0 +1,101 @@
+<!doctype html>
+  <head>
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+    <title> 搜索框 DEMO </title>
+    <style>
+      input {
+        height: 24px;
+        width: 535px;
+        font-size: 20px;
+      }
+
+      table {
+        font-family: '微软雅黑', '宋体', '黑体';
+      }
+
+      td {
+        background-color: rgb(249,252,255);
+        height: 24px;
+        width: 535px;
+      }
+
+      td:hover {
+        background-color: rgb(168,213,252);
+        cursor: default;
+      }
+    </style>
+  </head>
+
+  <body>
+    <input type='text' id='txt' />
+    <table cellpadding='2' cellspacing='0'>
+      <tbody>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+      </tbody>
+    </table>
+
+    <script>
+      function hideTds() {
+        var tds = document.querySelectorAll('td');
+        for (var i = 0; i < 10; i++) {
+          tds[i].style.display = 'none';
+        }
+      }
+
+      hideTds();
+
+      document.querySelector('#txt').onkeyup = function() {
+        var tds = document.querySelectorAll('td');
+
+        for (var i = 0; i < 10; i++) {
+          tds[i].innerHTML = '';
+        }
+
+        hideTds();
+
+        if (this.value.trim() === '') {
+          return;
+        }
+        
+        var s = document.createElement('script');
+        s.src = 'http://unionsug.baidu.com/su?wd=' + encodeURI(this.value.trim()) + '&p=3&cb=fn';
+        document.body.appendChild(s);
+      };
+
+      function fn(data) {
+        var tds = document.querySelectorAll('td');
+
+        data.s.forEach(function(item, index) {
+          tds[index].style.display = '';
+          tds[index].innerHTML = item;
+        });
+
+        // delete scripts
+        var s = document.querySelectorAll('script');
+        for (var i = 1, len = s.length; i < len; i++) {
+          document.body.removeChild(s[i]);
+        }
+      }
+
+      document.querySelector('tbody').onclick = function(e) {
+        var wd = e.target.innerHTML;
+        window.open('https://www.baidu.com/s?word=' + encodeURI(wd));
+      };
+
+      document.onclick = function(e) {
+        if (e.target === document.body) {
+          hideTds();
+        }
+      }
+    </script>
+  </body>
+</html>
