@@ -1,0 +1,152 @@
+<!doctype html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <!-- <meta http-equiv='Content-Type' content='text/html; charset=utf-8' /> -->
+
+    <title> 搜索下拉 DEMO </title>
+
+    <style>
+	  body { behavior:url("csshover.htc"); }
+	  
+      input {
+        height: 24px;
+        width: 535px;
+        font-size: 20px;
+      }
+
+      table {
+        font-family: '微软雅黑', '宋体', '黑体';
+      }
+
+      td {
+        background-color: rgb(249,252,255);
+        height: 24px;
+        width: 535px;
+      }
+
+      td:hover {
+        background-color: rgb(168,213,252);
+        cursor: default;
+      }
+    </style>
+  </head>
+
+  <body>
+    <input type='text' id='txt' />
+    <table cellpadding='2' cellspacing='0'>
+      <tbody>
+        <tr> <td></td> </tr>
+        <tr> <td></td> </tr>
+        <tr> <td></td> </tr>
+        <tr> <td></td> </tr>
+        <tr> <td></td> </tr>
+        <tr> <td></td> </tr>
+        <tr> <td></td> </tr>
+        <tr> <td></td> </tr>
+        <tr> <td></td> </tr>
+        <tr> <td></td> </tr>
+      </tbody>
+    </table>
+
+    <script type="text/javascript">
+      // utf-8 -> gb2312
+      // delete scripts 
+	  
+      var EventUtil = {
+        addHandler: function(element, type, handler) {
+          if (element.addEventListener) {  // DOM2
+            element.addEventListener(type, handler, false);
+          } else if (element.attachEvent) {  // IE
+            element.attachEvent('on' + type, handler);
+          } else {  // DOM0
+            element['on' + type] = handler;
+          }
+        },
+
+        removeHandler: function(element, type, handler) {
+          if (element.removeEventListener) {
+            element.removeEventListener(type, handler, false);
+          } else if (element.detachEvent) {
+            element.detachEvent('on' + type, handler);
+          } else {
+            element['on' + type] = null;
+          }
+        }
+      };
+
+      String.prototype.trim = function() {
+        return this.replace(/^\s*|\s*$/g, '');
+      };
+    </script>
+    <script type="text/javascript">
+      function hideTds() {
+        var tds = document.getElementsByTagName('td');
+        for (var i = 0; i < 10; i++) {
+          tds[i].style.display = 'none';
+        }
+      }
+
+      hideTds();
+
+      EventUtil.addHandler(document.getElementById('txt'), 'keyup', function() {
+        var tds = document.getElementsByTagName('td');
+
+        for (var i = 0; i < 10; i++) {
+          tds[i].innerHTML = '';
+        }
+
+        hideTds();
+
+        if (document.getElementById('txt').value.trim() === '') {
+          return;
+        }
+
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.src = 'http://unionsug.baidu.com/su?wd=' + encodeURI(document.getElementById('txt').value.trim()) + '&p=3&cb=fn';
+        document.body.appendChild(s);
+      });
+
+      function fn(data) {
+        var tds = document.getElementsByTagName('td');
+
+        for (var i = 0, len = data.s.length; i < len; i++) {
+
+          tds[i].style.display = '';
+
+          var item = data.s[i]
+            , val = document.getElementById('txt').value.trim();
+
+          tds[i].innerHTML = item;
+        }
+
+        // delete scripts
+        // var s = document.querySelectorAll('script');
+        // var s = document.getElementsByTagName('script');
+
+        // for (var i = 2, len = s.length; i < len; i++) {
+        //   document.body.removeChild(s[i]);
+        // }
+      }
+
+      EventUtil.addHandler(document.getElementsByTagName('tbody')[0], 'click', function(e) {
+        var wd
+          , e = e ? e : window.e
+          , target = e.target || e.srcElement;
+
+        wd = target.innerHTML;
+        window.open('https://www.baidu.com/s?word=' + encodeURIComponent(wd));
+      });
+
+      EventUtil.addHandler(document, 'click', function(e) {
+        var e = e ? e : window.e
+          ,target = e.target || e.srcElement;
+
+        if (target === document.documentElement || target === document.body) {
+          hideTds();
+        }
+      });
+
+    </script>
+  </body>
+</html>
