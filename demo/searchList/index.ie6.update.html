@@ -1,0 +1,139 @@
+<!doctype html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <title> 搜索下拉 DEMO </title>
+    <style>	  
+      input {
+        height: 24px;
+        width: 535px;
+        font-size: 20px;
+      }
+
+      table {
+        font-family: '微软雅黑', '宋体', '黑体';
+      }
+
+      td {
+        background-color: rgb(249,252,255);
+        height: 24px;
+        width: 535px;
+      }
+
+      td:hover, td.hover{
+        background-color: rgb(168,213,252);
+        cursor: default;
+      }
+    </style>
+  </head>
+
+  <body>
+    <input type='text' id='txt' />
+    <script type="text/javascript" id='mainJs'>	 
+      var EventUtil = {
+        addHandler: function(element, type, handler) {
+          if (element.addEventListener) {  // DOM2
+            element.addEventListener(type, handler, false);
+          } else if (element.attachEvent) {  // IE
+            element.attachEvent('on' + type, handler);
+          } else {  // DOM0
+            element['on' + type] = handler;
+          }
+        },
+
+        removeHandler: function(element, type, handler) {
+          if (element.removeEventListener) {
+            element.removeEventListener(type, handler, false);
+          } else if (element.detachEvent) {
+            element.detachEvent('on' + type, handler);
+          } else {
+            element['on' + type] = null;
+          }
+        }
+      };  
+
+
+      String.prototype.trim = function() {
+        return this.replace(/^\s*|\s*$/g, '');
+      };
+   
+      // ------------ main ------------- //
+      function hideTable() {
+        var item = document.getElementById('tb');
+        if (!item) return;
+        item.parentNode.removeChild(item);
+      }
+
+      function showTable(data) {
+        var tb = document.createElement('table');
+        tb.cellPadding = 2, tb.cellSpacing = 0, tb.id = 'tb';
+
+        var tbody = document.createElement('tbody');
+        for (var i = 0, len = data.length; i < len; i++) {
+          var tr = document.createElement('tr')
+            , td = document.createElement('td');
+
+          td.innerHTML = data[i];
+          tr.appendChild(td);
+          tbody.appendChild(tr);
+        }
+
+        tb.appendChild(tbody);
+        document.body.insertBefore(tb, document.getElementsByTagName('script')[0]); 
+
+        EventUtil.addHandler(tbody, 'click', function(e) {
+          var e = e ? e : window.e
+            , target = e.target || e.srcElement
+            , wd = target.innerHTML;
+
+          window.open('https://www.baidu.com/s?word=' + encodeURIComponent(wd));
+        });
+  
+        var obj = document.getElementsByTagName('td');
+        for(var i = 0, len = obj.length; i < len; i++) { 
+          obj[i].onmouseover = function() { 
+            this.className = 'hover';
+          };
+
+          obj[i].onmouseout = function() { 
+            this.className = '';
+          } 
+        } 
+      }
+
+      EventUtil.addHandler(document.getElementById('txt'), 'keyup', function() {
+        hideTable();
+
+        if (document.getElementById('txt').value.trim() === '') {
+          return;
+        }
+
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.src = 'http://unionsug.baidu.com/su?wd=' + encodeURIComponent(document.getElementById('txt').value.trim()) + '&p=3&cb=fn';
+        document.body.appendChild(s);
+      });
+
+      function fn(data) {
+        hideTable();
+        showTable(data.s);
+
+        // delete scripts
+
+        // var s = document.getElementsByTagName('script');
+        // for (var i = 0, len = s.length; i < len; i++) {
+        //   if (s[i].id !== 'mainJs')
+        //     s[i].parentNode.removeChild(s[i]);
+        // }
+      }
+
+      EventUtil.addHandler(document, 'click', function(e) {
+        var e = e ? e : window.e
+          ,target = e.target || e.srcElement;
+
+        if (target === document.documentElement || target === document.body) {
+          hideTable();
+        }
+      });
+    </script>
+  </body>
+</html>
