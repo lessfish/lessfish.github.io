@@ -54,10 +54,11 @@
     };
     
     function lazyload() {
+      var lazy = 500;
       var images = document.images;
       for (var i = 0, len = images.length; i < len; i++) {
         var obj = images[i];
-        if(obj.getBoundingClientRect().top < document.documentElement.clientHeight && !obj.isLoad) {
+        if(obj.getBoundingClientRect().top - lazy < document.documentElement.clientHeight && !obj.isLoad) {
           obj.isLoad = true;
           obj.style.cssText = "transition: ''; opacity: 0;"
           if (obj.dataset) 
