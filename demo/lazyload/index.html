@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+  div {
+    text-align:center;
+  }
+
+  img {
+    margin-bottom: 50px;
+    width: 500px;
+    height: 280px;
+  }
+</style>
+<body>
+    <div>
+      <img data-original='images/0.jpg' /> <br/>
+      <img data-original='images/1.jpg' /> <br/>
+      <img data-original='images/2.jpg' /> <br/>
+      <img data-original='images/3.jpg' /> <br/>
+      <img data-original='images/4.jpg' /> <br/>
+      <img data-original='images/5.jpg' /> <br/>
+      <img data-original='images/6.jpg' /> <br/>
+      <img data-original='images/7.jpg' /> <br/>
+      <img data-original='images/8.jpg' /> <br/>
+      <img data-original='images/9.jpg' /> <br/>
+      <img data-original='images/10.jpg' /> <br/>
+      <img data-original='images/11.jpg' /> <br/>
+      <img data-original='images/12.jpg' /> <br/>
+    </div>
+  <script>
+    init();
+
+    function init() {
+      var images = document.images;
+      // 加载首屏图片
+      for (var i = 0, len = images.length; i < len; i++) {
+        var obj = images[i];
+        // 如果在可视区域并且还没被加载过
+        if(obj.getBoundingClientRect().top < document.documentElement.clientHeight && !obj.isLoad) {
+          obj.isLoad = true;
+          // 先调用 HTML5 方法
+          if (obj.dataset) 
+            imageLoaded(obj, obj.dataset.original);
+          else 
+            imageLoaded(obj, obj.getAttribute('data-original'));
+        } else {
+          break;
+        }
+      }
+    }
+
+    window.onscroll = function() {
+      lazyload();
+    };
+    
+    function lazyload() {
+      var images = document.images;
+      for (var i = 0, len = images.length; i < len; i++) {
+        var obj = images[i];
+        if(obj.getBoundingClientRect().top < document.documentElement.clientHeight && !obj.isLoad) {
+          obj.isLoad = true;
+          obj.style.cssText = "transition: ''; opacity: 0;"
+          if (obj.dataset) 
+            imageLoaded(obj, obj.dataset.original);
+          else 
+            imageLoaded(obj, obj.getAttribute('data-original'));
+          !function(obj) {
+            setTimeout(function() {
+              obj.style.cssText = "transition: 1s; opacity: 1;"
+            }, 16);
+          }(obj);
+        }
+      }
+    }
+
+    function imageLoaded(obj, src) {
+      var img = new Image();
+      img.onload = function() {
+        obj.src = src;
+      };
+      img.src = src;
+    }
+  </script>
+</body>
+</html
