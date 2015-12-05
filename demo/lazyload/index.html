@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<meta charset="UTF-8">
 <style>
   div {
     text-align:center;
@@ -58,18 +59,18 @@
       var images = document.images;
       for (var i = 0, len = images.length; i < len; i++) {
         var obj = images[i];
-        if(obj.getBoundingClientRect().top - lazy < document.documentElement.clientHeight && !obj.isLoad) {
+        if (obj.getBoundingClientRect().top - lazy < document.documentElement.clientHeight && !obj.isLoad) {
           obj.isLoad = true;
           obj.style.cssText = "transition: ''; opacity: 0;"
           if (obj.dataset) 
             imageLoaded(obj, obj.dataset.original);
           else 
             imageLoaded(obj, obj.getAttribute('data-original'));
-          !function(obj) {
-            setTimeout(function() {
-              obj.style.cssText = "transition: 1s; opacity: 1;"
-            }, 16);
-          }(obj);
+        }
+
+        if (obj.getBoundingClientRect().top < document.documentElement.clientHeight && !obj.isShow) {
+          obj.isShow = true;
+          obj.style.cssText = "transition: 1s; opacity: 1;"
         }
       }
     }
