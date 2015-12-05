@@ -2,32 +2,40 @@
 <html lang="en">
 <meta charset="UTF-8">
 <style>
-  div {
-    text-align:center;
+
+  ul {
+    margin: 0 auto;
+    padding: 0;
+    width: 300px;
+    list-style: none;
   }
 
-  img {
+  .lazy {
     margin-bottom: 100px;
     width: 300px;
     height: 168px;
+    text-align: center;
+    line-height: 168px; /*垂直居中*/
   }
+
+    
 </style>
 <body>
-    <div>
-      <img data-original='images/0.jpg' /> <br/>
-      <img data-original='images/1.jpg' /> <br/>
-      <img data-original='images/2.jpg' /> <br/>
-      <img data-original='images/3.jpg' /> <br/>
-      <img data-original='images/4.jpg' /> <br/>
-      <img data-original='images/5.jpg' /> <br/>
-      <img data-original='images/6.jpg' /> <br/>
-      <img data-original='images/7.jpg' /> <br/>
-      <img data-original='images/8.jpg' /> <br/>
-      <img data-original='images/9.jpg' /> <br/>
-      <img data-original='images/10.jpg' /> <br/>
-      <img data-original='images/11.jpg' /> <br/>
-      <img data-original='images/12.jpg' /> <br/>
-    </div>
+  <ul>
+    <li class='lazy'><img data-original='images/0.jpg' src='images/loading.gif'/></li>
+    <li class='lazy'><img data-original='images/1.jpg' src='images/loading.gif'/></li>
+    <li class='lazy'><img data-original='images/2.jpg' src='images/loading.gif'/></li>
+    <li class='lazy'><img data-original='images/3.jpg' src='images/loading.gif'/></li>
+    <li class='lazy'><img data-original='images/4.jpg' src='images/loading.gif'/></li>
+    <li class='lazy'><img data-original='images/5.jpg' src='images/loading.gif'/></li>
+    <li class='lazy'><img data-original='images/6.jpg' src='images/loading.gif'/></li>
+    <li class='lazy'><img data-original='images/7.jpg' src='images/loading.gif'/></li>
+    <li class='lazy'><img data-original='images/8.jpg' src='images/loading.gif'/></li>
+    <li class='lazy'><img data-original='images/9.jpg' src='images/loading.gif'/></li>
+    <li class='lazy'><img data-original='images/10.jpg' src='images/loading.gif'/></li>
+    <li class='lazy'><img data-original='images/11.jpg' src='images/loading.gif'/></li>
+    <li class='lazy'><img data-original='images/12.jpg' src='images/loading.gif'/></li>
+  </ul>
   <script>
     init();
 
