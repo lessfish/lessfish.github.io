@@ -1,14 +1,13 @@
-#demo list#
-###game###
+#game#
 - canvas
 - canvas2
 
-###love###
+#love#
 - to my lover on 2015.02.14
 - jj
 
-###canvas###
+#canvas#
 
-###css3###
+#css3#
 
-###others###
+#demo#
