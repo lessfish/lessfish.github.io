@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title> rotate 3d</title>
+    <style>
+      /*canvas {cursor: pointer;}*/
+    </style>
+    <script>
+      // 左上角计时，刷新
+      // 判断游戏成功
+      window.onload = function() {
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d'); 
+        var garden = new Garden(canvas);
+        window.garden = garden;
+        // 红  橙 蓝  绿  黄 白
+        //  0  1   2  3   4   5
+        window.colors = ['#ff0000', '#ff6600', '#0000ff', '#00ff00', '#ffff00', '#ffffff'];
+
+        // 记录鼠标操作的两个cube的index值
+        window.rotateArray = [];  
+
+        // 空格键静止
+        // window.isStill = true;
+        // 设置二维视角原点(一般为画布中心)
+        garden.setBasePoint(500, 250);
+          
+        // 颜色构造矩阵
+        // var color = [
+        //   // 第一排
+        //   [0, 5, 5, 3, 5, 5],
+        //   [0, 5, 5, 5, 5, 5],
+        //   [0, 2, 5, 5, 5, 5],
+        //   [0, 5, 5, 3, 5, 5],
+        //   [0, 5, 5, 5, 5, 5],
+        //   [0, 2, 5, 5, 5, 5],
+        //   [0, 5, 5, 3, 5, 4],
+        //   [0, 5, 5, 5, 5, 4],
+        //   [0, 2, 5, 5, 5, 4],
+
+        //   // 第二排
+        //   [5, 5, 5, 3, 5, 5],
+        //   [5, 5, 5, 5, 5, 5],
+        //   [5, 2, 5, 5, 5, 5],
+        //   [5, 5, 5, 3, 5, 5],
+        //   [5, 5, 5, 5, 5, 5],
+        //   [5, 2, 5, 5, 5, 5],
+        //   [5, 5, 5, 3, 5, 4],
+        //   [5, 5, 5, 5, 5, 4],
+        //   [5, 2, 5, 5, 5, 4],
+
+        //   // 第三排
+        //   [5, 5, 1, 3, 5, 5],
+        //   [5, 5, 1, 5, 5, 5],
+        //   [5, 2, 1, 5, 5, 5],
+        //   [5, 5, 1, 3, 5, 5],
+        //   [5, 5, 1, 5, 5, 5],
+        //   [5, 2, 1, 5, 5, 5],
+        //   [5, 5, 1, 3, 5, 4],
+        //   [5, 5, 1, 5, 5, 4],
+        //   [5, 2, 1, 5, 5, 4],
+        // ];
+        // 红  橙 蓝  绿  黄 白
+        //  0  1   2  3   4   5
+        // face面绘制 顺序 前 右 后 左 上 下
+        var color = [
+          // 第一排
+          [2, 5, 5, 5, 5, 5],
+          [0, 5, 5, 5, 0, 5],
+          [2, 0, 5, 5, 4, 5],
+          [0, 5, 5, 4, 5, 5],
+          [4, 5, 5, 5, 5, 5],
+          [5, 3, 5, 5, 5, 5],
+          [3, 5, 5, 5, 5, 0],
+          [0, 5, 5, 5, 5, 3],
+          [1, 4, 5, 5, 5, 2],
+
+          // 第二排
+          // 红  橙 蓝  绿  黄 白
+        //  0  1   2  3   4   5
+        // face面绘制 顺序 前 右 后 左 上 下
+          [5, 5, 3, 5, 1, 5],
+          [5, 5, 3, 5, 2, 5],
+          [5, 5, 3, 5, 0, 5],
+          [5, 5, 5, 0, 5, 5],
+          [5, 5, 5, 5, 5, 5],
+          [5, 1, 1, 5, 5, 5],
+          [5, 5, 0, 3, 5, 4],
+          [5, 5, 5, 5, 5, 3],
+          [5, 1, 3, 5, 5, 3],
+
+          // 第三排
+          // 后面先放着
+          [5, 5, 3, 2, 4, 5],
+          [5, 5, 1, 5, 4, 5],
+          [5, 2, 0, 5, 4, 5],
+          [5, 5, 1, 3, 5, 5],
+          [5, 5, 1, 5, 5, 5],
+          [5, 2, 3, 5, 5, 5],
+          [5, 5, 1, 4, 5, 5],
+          [5, 5, 1, 5, 5, 2],
+          [5, 2, 5, 5, 5, 1],
+        ];
+        // 构造
+        // face面绘制 顺序 前 右 后 左 上 下
+
+
+
+        // cube 颜色 前红 右蓝 后橙 左绿 上白 下黄
+
+        var r = 60;
+        var num = 0;
+        var a = [-r, 0, r];
+        // 三维数组初始化
+
+        for(var l = 0; l < 3; l++)  // z轴
+          for(var j = 0; j < 3; j++) // y轴
+            for(var i = 0; i < 3; i++)  { // x轴
+              var v = new Vector3(a[i], a[j], a[l]);
+              garden.createCube(v, r / 2 - 2, color[num++]); // 初始化cube的index值
+            }
+
+        garden.setListener();
+
+        // 渲染
+        setInterval(function() {garden.render();}, 1000 / 60);  
+
+
+        // getRandomCubes();
+        document.addEventListener('mousedown', function(event){
+          window.rotateArray = [];
+          var obj = canvas.getBoundingClientRect();
+          // 鼠标点击的地方在canvas上的(x,y)坐标
+          var x = event.clientX - obj.left;
+          var y = event.clientY - obj.top;
+          var v = new Vector2(x, y)
+          var ans = getCubeIndex(v);
+          if(ans)
+            window.rotateArray.push(ans);
+        });
+
+        document.addEventListener('mouseup', function(event){
+          var obj = canvas.getBoundingClientRect();
+          // 鼠标点击的地方在canvas上的(x,y)坐标
+          var x = event.clientX - obj.left;
+          var y = event.clientY - obj.top;
+          var v = new Vector2(x, y)
+          var ans = getCubeIndex(v);
+          if(ans)
+            window.rotateArray.push(ans);
+          console.log(rotateArray[0])
+          console.log(rotateArray[1])
+
+          // 如果两个点不符合要求，则直接return
+          
+          // 可以优化
+          window.isFindRoute = false;
+          window.hash = [];
+          window.hash[window.rotateArray[0]] = window.hash[window.rotateArray[1]] = true;
+
+          // 保存回路答案
+          window.rotateFinalArray = [];
+          dfs(2);
+          // // 因为dfs寻找回路需要时间，所以需要异步
+          // // 后面的可以都写在回调函数里 // 或者赋值f，后面的程序卸载一个函数里，一直判断f的值
+
+          // // setTimeout
+          // setTimeout(function() {
+            for(var i = 0; i < window.rotateFinalArray.length; i++)
+            console.log(window.rotateFinalArray[i])
+            console.log('//////////////')
+            // rotateArray = [];
+            // window.isFindRoute = false;
+        // }, 2000)
+          // setTimeout(function() {
+          //   console.log(window.isFindRoute)
+          // }, 4000)
+
+          // // 闭合回路
+
+          // 计算中间点在cube数组中的位置
+          var index = getMiddleCube();
+          rotateFinalArray.push(index);
+
+          for(var i = 0; i < 9; i++)
+          console.log(rotateFinalArray[i])
+          // // 必定是体心指向某个cube中心的一条向量，返回该cube的index
+          var index2 = getRotateVector();
+          // // console.log(index2)
+
+          var cubes = garden.cubes;
+          for(var i = 0; i < rotateFinalArray.length; i++) {
+            cubes[rotateFinalArray[i]].isRotate = true;
+            cubes[rotateFinalArray[i]].rotateVector = cubes[index2].pos3.normalize();
+          }
+        });
+
+        document.onkeydown = function(e) {
+          if(e.keyCode === 32) {
+            window.isStill = !window.isStill;
+          }     
+        }
+      };
+
+      // 任意打乱魔方
+      function getRandomCubes() {
+        var cubes = garden.cubes;
+        window.rotateArray = [];
+        var a, b;
+
+        // while(true) {
+        //   a = (Math.random() * 27) >> 0;
+        //   // 不能选择原点
+        //   if(cubes[a].pos3.isEqual(new Vector3())) continue;
+        //   window.rotateArray.push(a);
+        // }
+        
+        // for(var i = 0; i < 27; i++) {
+        //   // 不能选择原点
+        //   if(cubes[i].pos3.isEqual(a)) continue;
+        //   if(cubes[i].pos3.isEqual(new Vector3())) continue;
+        //   var dis = cubes[i].pos3.getDistance(cubes[a].pos3);
+        //   console.log(dis)
+        //   if(Math.abs(dis - 60) > 10) continue;
+        //   window.rotateArray.push(i);
+        // }
+        rotateArray.push(22);
+        rotateArray.push(23);
+
+        window.isFindRoute = false;
+        window.hash = [];
+        window.hash[window.rotateArray[0]] = window.hash[window.rotateArray[1]] = true;
+
+        // 保存回路答案
+        window.rotateFinalArray = [];
+        dfs(2);
+
+        // 计算中间点在cube数组中的位置
+        var index = getMiddleCube();
+        rotateFinalArray.push(index);
+
+        for(var i = 0; i < 9; i++)
+          console.log(rotateFinalArray[i])
+          // // 必定是体心指向某个cube中心的一条向量，返回该cube的index
+        var index2 = getRotateVector();
+
+        var cubes = garden.cubes;
+        for(var i = 0; i < rotateFinalArray.length; i++) {
+          cubes[rotateFinalArray[i]].isRandomRotate = true;
+          cubes[rotateFinalArray[i]].randomRotateVector = cubes[index2].pos3.normalize();
+        }
+
+      }
+      // 找过了不用找了，魔方中间点(0,0,0)不能经过
+      // 可能会有两条，那么选择平均z值大的那条，或者找出来的index和平均下，如果很大，就说明是最前面一面
+      function dfs(index) {
+        // if(index === 8) console.log(1)
+        // if(index === 8 && window.rotateArray[7] === 16 && window.rotateArray[6] === 7 && window.rotateArray[5] === 8 && window.rotateArray[4] === 6 && window.rotateArray[2] === 24 && window.rotateArray[3] === 15) console.log(1)
+
+        var cubes = garden.cubes;
+        if(index === 8) {
+          // console.log(1)
+          var dis = cubes[window.rotateArray[0]].pos3.getDistance(cubes[window.rotateArray[7]].pos3);
+          if(Math.abs(dis - 60) > 10) 
+            return;
+          // 找到了8个点组成的闭合回路，判断四个直角,此法不行
+          // 怎么判断8个点在一个平面上
+          // 作法向量
+
+          var cubes = garden.cubes;
+          var a = cubes[window.rotateArray[1]].pos3.minus(cubes[window.rotateArray[0]].pos3);
+          var b = cubes[window.rotateArray[7]].pos3.minus(cubes[window.rotateArray[6]].pos3);
+
+          // 找一个面的法向量，如果8点成面，那么肯定有两条符合的向量
+          var v = undefined;
+          for(var i = 0; i < 27; i++) {
+            var c = cubes[i].pos3;
+            // 因为有两个向量，所以通过istrue函数判断是否是真实的向量
+            if(a.isPerpTo(c) && b.isPerpTo(c)) {
+              v = c;
+              break;
+            }
+
+            if(i === 26 && v === undefined) return;
+          }
+
+          // 判断任意相邻向量是否垂直法向量
+          for(var i = 0; i < 7; i++) {
+            var a = cubes[window.rotateArray[i]].pos3.minus(cubes[window.rotateArray[i + 1]].pos3);
+            if(!a.isPerpTo(v)) return;
+          }
+          ////////////////////////////////////////////////
+          // console.log(1)
+          // 如果是最前面的面，return
+          var zz = 0;
+          for(var i = 0; i < 8; i++) 
+            zz += cubes[window.rotateArray[i]].pos3.z;
+          zz /= 8;
+          if(zz < -40) return;
+
+          // console.log(1)
+
+          // 如果是俄罗斯方块那种类型,这里也不对，8个点平均并不是中点
+          // 这里还要改
+          var vv = new Vector3();
+          for(var i = 0; i < 8; i+=2) {
+            vv.x += cubes[window.rotateArray[i]].pos3.x;
+            vv.y += cubes[window.rotateArray[i]].pos3.y;
+            vv.z += cubes[window.rotateArray[i]].pos3.z;
+          }
+          vv.x /= 4; 
+          vv.y /= 4;
+          vv.z /= 4;
+          var flag = false;
+          for(var i = 0; i < 27; i++) {
+            var vvv = cubes[i].pos3
+            if(vv.getDistance(vvv) > 5) continue;
+            flag = true;
+            break;
+          }
+          if(!flag) return;
+
+
+          for(var i = 0; i < 8; i++) {
+            // console.log(window.rotateArray[i]);
+            window.isFindRoute = true;
+            window.rotateFinalArray[i] = window.rotateArray[i];
+          }
+          // console.log('///////////////')
+          // alert('pk')
+          return;
+        }
+
+        if(window.isFindRoute) return;
+
+        for(var i = 0; i < 27; i++) {
+          if(window.hash[i]) continue;
+          // if(i === 17) continue;  // 魔方中点不找，待会应该判断魔方中点，不应该直接赋值
+          if(cubes[i].pos3.isEqual(new Vector3())) continue;
+          var front = window.rotateArray[index - 1];
+          // console.log(i)
+          var dis = cubes[front].pos3.getDistance(cubes[i].pos3);
+          if(Math.abs(dis - 60) > 10) continue;
+          // console.log(dis)
+          // debugger;
+          window.rotateArray[index] = i;
+          window.hash[i] = true;
+          dfs(index + 1);
+          window.hash[i] = false;
+
+        }
+      }
+
+      // 不在同一条直线的两个向量才能确定一个平面
+      function getRotateVector() {
+        // 垂直于rotate面的任意两条向量
+        var cubes = garden.cubes;
+        var a = cubes[window.rotateFinalArray[1]].pos3.minus(cubes[window.rotateFinalArray[0]].pos3);
+        var b = cubes[window.rotateFinalArray[7]].pos3.minus(cubes[window.rotateFinalArray[6]].pos3);
+
+        // 这里应该有两个
+        for(var i = 0; i < 27; i++) {
+          var c = cubes[i].pos3;
+          // 因为有两个向量，所以通过istrue函数判断是否是真实的向量
+          if(a.isPerpTo(c) && b.isPerpTo(c) && isTrue(i)) 
+            return i;
+        }
+      }
+
+      // 判断window.rotateFinalArray里的第0个cube经过90度旋转是否能到达第2个cube的位置，判断体心即可
+      function isTrue(index) {
+        var cubes = garden.cubes;
+        // 旋转向量
+        var v = cubes[index].pos3;
+        // 单位化
+        v = v.normalize();
+
+        var a = cubes[window.rotateFinalArray[0]];
+        var c = Math.cos(Math.PI / 2);
+        var s = Math.sin(Math.PI / 2);
+        // (x,y,z)为经过原点的单位向量
+        var x = v.x;
+        var y = v.y;
+        var z = v.z;
+        var new_x = (x * x * (1 - c)+c) * a.pos3.x + (x*y*(1-c)-z*s) * a.pos3.y + (x*z*(1-c)+y*s) * a.pos3.z;
+        var new_y = (y*x*(1-c)+z*s) * a.pos3.x + (y*y*(1-c)+c) * a.pos3.y + (y*z*(1-c)-x*s) * a.pos3.z;
+        var new_z = (x*z*(1-c)-y*s) * a.pos3.x + (y*z*(1-c)+x*s) * a.pos3.y + (z*z*(1-c)+c) * a.pos3.z;
+        var b = new Vector3(new_x, new_y, new_z);
+
+        // 判断旋转后所得的b向量是否和rotateArray[2]相同
+        var f = b.isEqual(cubes[window.rotateFinalArray[2]].pos3);
+        return f;
+      }
+
+      function getMiddleCube() {
+        var v = new Vector3();
+        var cubes = garden.cubes;
+        for(var i = 0; i < 8; i += 2) {
+          v.x += cubes[window.rotateFinalArray[i]].pos3.x;
+          v.y += cubes[window.rotateFinalArray[i]].pos3.y;
+          v.z += cubes[window.rotateFinalArray[i]].pos3.z;
+          // console.log(window.rotateFinalArray[i])
+        }
+        v.x /= 4;
+        v.y /= 4;
+        v.z /= 4;
+        // console.log("%d %d %d", v.x, v.y, v.z)
+        // console.log(v.x)
+        // 遍历26个cube找到该cube
+        for(var i = 0; i < 27; i++) {
+          if(v.isEqual(cubes[i].pos3))
+            return i;
+        }
+      }
+
+      function getCubeIndex(v) {
+        var length = garden.cubes.length;
+        var cubes = garden.cubes;
+        // 遍历cube,因为经过排序前面的cube先绘，所以倒着判断
+        var num = 0;
+        for(var i = length -1 ; i >= 0; i--) {
+          // 遍历六个面
+          for(var j = 5; j>=0; j--) {
+            num ++;
+            var f = cubes[i].f[j];
+            if(f.angle < 0) continue; // 夹角大于90不可见
+            // 可见则判断
+            var isFound = isPointIn(f.a.pos2, f.d.pos2, f.c.pos2, f.b.pos2, v);
+            if(isFound) { // 找到了
+              // 越大越晚绘，所以越前面
+              return i;
+            }
+          }
+        }
+      }
+
+      // 判断点m是否在顺时针方向的a,b,c,d四个点组成的凸四边形内
+      function isPointIn(a, b, c, d, m) {
+        var f = b.minus(a).dot(m.minus(a));
+        if(f <= 0) return false;
+
+        var f = c.minus(b).dot(m.minus(b));
+        if(f <= 0) return false;
+
+        var f = d.minus(c).dot(m.minus(c));
+        if(f <= 0) return false;
+
+        var f = a.minus(d).dot(m.minus(d));
+        if(f <= 0) return false;
+        return true;
+      }
+
+      // Garden类
+      function Garden(canvas) {
+        this.canvas = canvas;
+        this.ctx = this.canvas.getContext('2d');
+
+        // 三维系在二维上的原点
+        this.vpx = undefined;
+        this.vpy = undefined;
+        this.cubes = [];
+        this.angleY = Math.PI / 180 * 0;
+        this.angleX = Math.PI / 180 * 0;
+        this.angleP = Math.PI / 180 * 1.5;
+      }
+
+      Garden.prototype = {
+        setBasePoint: function(x, y) {
+          this.vpx = x;
+          this.vpy = y;
+        },
+
+        createCube: function(v, r, color, index) {
+          this.cubes.push(new Cube(this, v, r, color));
+        },
+
+        render: function() {
+          this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+          this.cubes.sort(function (a, b) {
+            if(b.pos3.z !== a.pos3.z)
+              return b.pos3.z - a.pos3.z;
+            else if(b.pos3.x !== a.pos3.x) {
+              if(b.pos3.x >= 0 && a.pos3.x >= 0 || b.pos3.x <= 0 && a.pos3.x <= 0)
+                return Math.abs(b.pos3.x) - Math.abs(a.pos3.x);
+              else return b.pos3.x - a.pos3.x;
+            } else {
+              if(b.pos3.y >= 0 && a.pos3.y >= 0 || b.pos3.y <= 0 && a.pos3.y <= 0)
+                return Math.abs(b.pos3.y) - Math.abs(a.pos3.y);
+              else return b.pos3.y - a.pos3.y;
+            }
+          });
+
+          for(var i = 0; i < this.cubes.length; i++) {
+            this.cubes[i].render();
+          }        
+        },
+
+        setListener: function() {
+          var that = this;
+          document.addEventListener('mousemove', function(event){
+            var obj = canvas.getBoundingClientRect();
+            var x = event.clientX - obj.top - that.vpx;
+            var y = event.clientY - obj.left - that.vpy;
+            that.angleY = -x * 0.0001;
+            that.angleX = y * 0.0001;
+          });
+        }
+      };
+
+      // Cube类
+      function Cube(garden, v, r, color) {
+        this.garden = garden;
+        // 正方体中心和半径
+        this.pos3 = v;
+        this.r = r;
+
+        // this.angleX = Math.PI / 180 * 1;
+        // this.angleY = Math.PI / 180 * 1;
+
+        // cube的8个点
+        this.p = [];
+
+        // cube的6个面
+        this.f = [];
+
+        // 6个面的颜色集
+        this.colors = color;  // color数组
+
+        // 是否在玩家需要翻转的3*3矩形中
+        this.isRotate = false;
+
+        // 是否在黑盒里随意打乱
+        this.isRandomRotate = false;
+        // rotateP函数中围绕的轴的单位向量
+        this.rotateVector = new Vector3(1, 0, 0);
+
+        this.randomRotateVector = new Vector3(1, 0, 0);
+
+        // this.rotateVector = new Vector3(60, 0, 0).normalize();
+
+        // 已翻转的次数,每次翻转1.5度，需要翻转60次
+        this.index = 0;
+
+        // 翻转后的cube的精确位置，并不和this.p一一对应，因为翻转后的姿态已经变化，所以需要两两对比判断距离
+        this.targetP = [];
+
+        this.init();
+      }
+
+      Cube.prototype = {
+        init: function() {
+          // 正方体的每个顶点都是一个ball类实现
+          this.p[0] = new Ball(this, this.pos3.x - this.r, this.pos3.y - this.r, this.pos3.z - this.r);
+          this.p[1] = new Ball(this, this.pos3.x - this.r, this.pos3.y + this.r, this.pos3.z - this.r);
+          this.p[2] = new Ball(this, this.pos3.x + this.r, this.pos3.y + this.r, this.pos3.z - this.r);
+          this.p[3] = new Ball(this, this.pos3.x + this.r, this.pos3.y - this.r, this.pos3.z - this.r);
+          this.p[4] = new Ball(this, this.pos3.x - this.r, this.pos3.y - this.r, this.pos3.z + this.r);
+          this.p[5] = new Ball(this, this.pos3.x - this.r, this.pos3.y + this.r, this.pos3.z + this.r);
+          this.p[6] = new Ball(this, this.pos3.x + this.r, this.pos3.y + this.r, this.pos3.z + this.r);
+          this.p[7] = new Ball(this, this.pos3.x + this.r, this.pos3.y - this.r, this.pos3.z + this.r);
+
+          // 正方体6个面
+          this.f[0] = new Face(this, this.p[0], this.p[1], this.p[2], this.p[3], this.colors[0]);
+          this.f[1] = new Face(this, this.p[3], this.p[2], this.p[6], this.p[7], this.colors[1]);
+          this.f[2] = new Face(this, this.p[6], this.p[5], this.p[4], this.p[7], this.colors[2]);
+          this.f[3] = new Face(this, this.p[4], this.p[5], this.p[1], this.p[0], this.colors[3]);
+          this.f[4] = new Face(this, this.p[0], this.p[3], this.p[7], this.p[4], this.colors[4]);
+          this.f[5] = new Face(this, this.p[5], this.p[6], this.p[2], this.p[1], this.colors[5]);
+        },
+
+        render: function() {
+          for(var i = 0; i < 8; i++) 
+            this.p[i].render();
+
+          // 八个点的坐标改变完后，改变cube体心坐标，为下一帧cube的排序作准备
+          this.changeCoordinate();
+
+          for(var i = 0; i < 6; i++)
+            this.f[i].angle = this.f[i].getAngle();
+
+          // 不是必须
+          // 从小到大排
+          this.f.sort(function (a, b) {
+            return a.angle > b.angle;
+          });
+
+          for(var i = 0; i < 6; i++) {
+            // 夹角 < 90，绘制
+            if(this.f[i].angle > 0)
+              this.f[i].draw();
+          }
+        },
+
+        // cube体心坐标改变
+        changeCoordinate: function() {
+          this.pos3.x = this.pos3.y = this.pos3.z = 0;
+          for(var i = 0; i < 8; i++) {
+            this.pos3.x += this.p[i].pos3.x;
+            this.pos3.y += this.p[i].pos3.y;
+            this.pos3.z += this.p[i].pos3.z;
+          }
+          this.pos3.x /= 8;
+          this.pos3.y /= 8;
+          this.pos3.z /= 8;
+        }
+      };
+
+      // Face类
+      // a, b, c, d为四个ball类
+      // color为数字
+      function Face(cube, a, b, c, d, color) {
+        this.cube = cube;
+        this.a = a;
+        this.b = b;
+        this.c = c;
+        this.d = d;
+        // this.color = '#' + ('00000' + parseInt(Math.random() * 0xffffff).toString(16)).slice(-6);
+        this.color = window.colors[color];
+        // this.color = window.colors[(Math.random() * 6) >> 0]
+        // 面的法向量和面心到视点向量的夹角的cos值
+        this.angle = undefined;
+      }
+
+      Face.prototype = {
+        draw: function() {
+          var ctx = this.cube.garden.ctx;
+          ctx.beginPath();
+          ctx.fillStyle = this.color;
+          ctx.moveTo(this.a.pos2.x, this.a.pos2.y);
+          ctx.lineTo(this.b.pos2.x, this.b.pos2.y);
+          ctx.lineTo(this.c.pos2.x, this.c.pos2.y);
+          ctx.lineTo(this.d.pos2.x, this.d.pos2.y);
+          ctx.closePath();
+          ctx.fill();
+        },
+
+        // 获取面的法向量和z轴夹角
+        getAngle: function() {
+          var x = (this.a.pos3.x + this.b.pos3.x + this.c.pos3.x + this.d.pos3.x) / 4 - this.cube.pos3.x;
+          var y = (this.a.pos3.y + this.b.pos3.y + this.c.pos3.y + this.d.pos3.y) / 4 - this.cube.pos3.y;
+          var z = (this.a.pos3.z + this.b.pos3.z + this.c.pos3.z + this.d.pos3.z) / 4 - this.cube.pos3.z;
+          // 面的法向量
+          var v = new Vector3(x, y, z);
+
+          // 视点设为(0,0,-500)
+          var x = 0 - (this.a.pos3.x + this.b.pos3.x + this.c.pos3.x + this.d.pos3.x) / 4;
+          var y = 0  - (this.a.pos3.y + this.b.pos3.y + this.c.pos3.y + this.d.pos3.y) / 4;
+          var z = - 500 - (this.a.pos3.z + this.b.pos3.z + this.c.pos3.z + this.d.pos3.z) / 4;
+          // 面心指向视点的向量
+          var v2 = new Vector3(x, y, z);
+          return v.dot(v2);
+        }
+      };
+
+      // Ball类
+      function Ball(cube, x, y, z) {
+        this.cube = cube;
+
+        // 三维上坐标
+        this.pos3 = new Vector3(x, y, z)
+
+        // 二维上坐标
+        this.pos2 = new Vector2();
+      }
+      
+      Ball.prototype = {
+        // 绕y轴变化，得出新的x，z坐标
+        rotateY: function() {
+          if(window.isStill) return;
+          var cosy = Math.cos(this.cube.garden.angleY);
+          var siny = Math.sin(this.cube.garden.angleY);
+          var x1 = this.pos3.z * siny + this.pos3.x * cosy;
+          var z1 = this.pos3.z * cosy - this.pos3.x * siny;
+          this.pos3.reset(x1, this.pos3.y, z1);
+        },
+
+        // 绕x轴变化，得出新的y，z坐标
+        rotateX: function() {
+          if(window.isStill) return;
+
+          var cosx = Math.cos(this.cube.garden.angleX);
+          var sinx = Math.sin(this.cube.garden.angleX);
+          var y1 = this.pos3.y * cosx - this.pos3.z * sinx;
+          var z1 = this.pos3.y * sinx + this.pos3.z * cosx;
+          this.pos3.reset(this.pos3.x, y1, z1);
+        },
+
+        // 绕任意穿过原点的轴旋转
+        rotateP: function() {
+          if(this.cube.isRotate) {
+             this.cube.index++;
+            // alert(1)
+
+            // 一个点达到60改变isRotate值？应该8个点全部达到吧
+            if(this.cube.index === 480) {
+              this.cube.isRotate = false;
+              this.cube.index = 0;
+            }
+
+            // alert(1)
+            var c = Math.cos(this.cube.garden.angleP);
+            var s = Math.sin(this.cube.garden.angleP);
+            // (x,y,z)为经过原点的单位向量
+            var x = this.cube.rotateVector.x;
+            var y = this.cube.rotateVector.y;
+            var z = this.cube.rotateVector.z;
+            var new_x = (x * x * (1 - c)+c) * this.pos3.x + (x*y*(1-c)-z*s) * this.pos3.y + (x*z*(1-c)+y*s) * this.pos3.z;
+            var new_y = (y*x*(1-c)+z*s) * this.pos3.x + (y*y*(1-c)+c) * this.pos3.y + (y*z*(1-c)-x*s) * this.pos3.z;
+            var new_z = (x*z*(1-c)-y*s) * this.pos3.x + (y*z*(1-c)+x*s) * this.pos3.y + (z*z*(1-c)+c) * this.pos3.z;
+            this.pos3.reset(new_x, new_y, new_z);
+          } else if(this.cube.isRandomRotate) {
+            // this.cube.index++;
+            // alert(1)
+
+            // 一个点达到60改变isRotate值？应该8个点全部达到吧
+            // if(this.cube.index === 480) {
+              this.cube.isRandomRotate = false;
+              // this.cube.index = 0;
+            // }
+
+            // alert(1)
+            var c = Math.cos(Math.PI / 2);
+            var s = Math.sin(Math.PI / 2);
+            // (x,y,z)为经过原点的单位向量
+            var x = this.cube.randomRotateVector.x;
+            var y = this.cube.randomRotateVector.y;
+            var z = this.cube.randomRotateVector.z;
+            var new_x = (x * x * (1 - c)+c) * this.pos3.x + (x*y*(1-c)-z*s) * this.pos3.y + (x*z*(1-c)+y*s) * this.pos3.z;
+            var new_y = (y*x*(1-c)+z*s) * this.pos3.x + (y*y*(1-c)+c) * this.pos3.y + (y*z*(1-c)-x*s) * this.pos3.z;
+            var new_z = (x*z*(1-c)-y*s) * this.pos3.x + (y*z*(1-c)+x*s) * this.pos3.y + (z*z*(1-c)+c) * this.pos3.z;
+            this.pos3.reset(new_x, new_y, new_z);
+          }
+          
+         
+        },
+
+        getPositionInTwoDimensionalSystem: function(a) {
+          // focalLength 表示当前焦距，一般可设为一个常量
+          var focalLength = 300; 
+          // 把z方向扁平化
+          var scale = focalLength / (focalLength + this.pos3.z);
+          this.pos2.x = this.cube.garden.vpx + this.pos3.x * scale;
+          this.pos2.y = this.cube.garden.vpy + this.pos3.y * scale;
+        },
+
+        render: function() {
+          this.rotateX();
+          this.rotateY();
+          this.rotateP();
+          this.getPositionInTwoDimensionalSystem();
+        }
+      };
+
+      // 向量
+      function Vector3(x, y, z) {
+        this.x = x || 0;
+        this.y = y || 0;
+        this.z = z || 0;
+      } 
+
+      Vector3.prototype.reset = function(x, y, z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+      }   
+
+      // 向量点积，大于0为0~90度
+      Vector3.prototype.dot = function(v) {
+        return this.x * v.x + this.y * v.y + this.z * v.z;
+      };
+
+      Vector3.prototype.length = function() {
+        return Math.sqrt(this.sqrLength());
+      };
+
+      Vector3.prototype.sqrLength = function() {
+        return this.x * this.x + this.y * this.y + this.z * this.z;
+      };
+
+      Vector3.prototype.getDistance = function(v) {
+        var dis = (this.x - v.x) * (this.x - v.x) + (this.y - v.y) * (this.y - v.y) + (this.z - v.z) * (this.z - v.z);
+        return Math.sqrt(dis);
+      };
+
+      // 近似判断两个向量是否是同一个
+      // 因为程序中基本上是判断3*3*3的27个点是否是同一个，不同的点距离实在太远
+      Vector3.prototype.isEqual = function(v) {
+        if(this.getDistance(v) < 30) return true;
+        else return false;
+      };
+
+      // 标准化，单位长度为1
+      Vector3.prototype.normalize = function() {
+        var inv = 1 / this.length();
+          return new Vector3(this.x * inv, this.y * inv, this.z * inv);
+      }
+
+      // 是否垂直，点积为0
+      Vector3.prototype.isPerpTo = function(v) {
+        var ans = this.dot(v);
+        if(Math.abs(ans) < 5) return true;
+        return false;
+      }
+      
+      // 向量ab，即为b向量减去a向量返回的新向量
+      Vector3.prototype.minus = function(v) {
+        return new Vector3(this.x - v.x, this.y - v.y, this.z - v.z);
+      }
+
+      ////////////////////////////////////////
+      // 二维向量
+      function Vector2(x, y) {
+        this.x = x || 0;
+        this.y = y || 0;
+      }
+
+      Vector2.prototype.reset = function(x, y) {
+        this.x = x;
+        this.y = y;
+      } 
+
+      // 向量叉乘
+      Vector2.prototype.dot = function(v) {
+        return this.x * v.y - v.x * this.y;
+      };
+
+      Vector2.prototype.minus = function(v) {
+        return new Vector2(this.x - v.x, this.y - v.y);
+      }
+      
+    </script>
+	<script id="jquery_183" type="text/javascript" class="library" src="/js/sandbox/jquery/jquery-1.8.3.min.js"></script>
+  </head>
+  <body bgcolor='#000'> 
+    <canvas id='canvas' width=1000 height=600 style='background-color:#000'>
+      This browser does not support html5.
+    </canvas>
+  </body>
+</html>
