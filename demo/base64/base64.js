@@ -4,7 +4,6 @@
     var base64hash = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
     function _btoa(str) {
-      str = str.replace(/\s/g, '');
       var ans = [], pre, num, rem, letter;
 
       for (var i = 0, len = str.length; i < len; i++) {
