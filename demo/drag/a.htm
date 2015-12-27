@@ -1,0 +1,57 @@
+<meta charset='utf-8'>
+<style>
+  span {
+    width: 300px;
+    height: 168px;
+    display: inline-block;
+    border: 1px blue solid;
+  }
+</style>
+
+<h1 id='font'> 请把图片拖到框中 </h1>
+<span id='sp0'><img src='images/0.jpg' draggable='true' id='img1' /></span>
+<span id='sp1'></span><br/>
+<span id='sp2'></span>
+<span id='sp3'></span>
+
+<script>
+  document.querySelector('#img1').ondragstart = function(e) {
+    // e.dataTransfer.effectAllowed = "none"; 
+
+    e.dataTransfer.setData('id', e.target.id);
+  };
+
+  var sps = document.querySelectorAll('span');
+
+  for (var len = sps.length; len--; ) {
+    var item = sps[len];
+
+    item.ondrop = function(e) {
+      e.preventDefault();
+      e.stopPropagation();  // 兼容firefox
+      
+      var id = e.dataTransfer.getData('id');
+
+      var node = document.getElementById(id);
+
+      if (e.target.id === 'img1') {
+
+      }
+      else {
+        e.target.appendChild(node);
+      }
+    };
+
+    item.ondragover = function(e) {
+      // e.dataTransfer.dropEffect = 'none';
+      e.preventDefault();
+    };
+
+    item.ondragleave = function(e) {
+    };
+
+    item.ondragenter = function(e) {
+
+    };
+  }
+</script>

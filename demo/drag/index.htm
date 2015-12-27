@@ -1,0 +1,87 @@
+<meta charset='utf-8'>
+<style>
+  body {background-color: #000;}
+  h1 {color: #fff;}
+  ul {height: 127px;}
+  li {list-style:none; display: inline;}
+  img {width: 100px; height: 56px; }
+  .dustbin {display: inline-block; margin-top: 50px; height: 127px; width: 121px; background: url(images/dustbin.png)}
+  .main {text-align:center;}
+</style>
+
+<div class='main'>
+  <h1> 请把图片拖到回收站中 </h1>
+  <ul>
+    <li><img src='images/0.jpg' draggable='true' id='img0' /></li>
+    <li><img src='images/1.jpg' draggable='true' id='img1' /></li>
+    <li><img src='images/2.jpg' draggable='true' id='img2' /></li>
+    <li><img src='images/3.jpg' draggable='true' id='img3' /></li>
+    <li><img src='images/4.jpg' draggable='true' id='img4' /></li>
+    <li><img src='images/5.jpg' draggable='true' id='img5' /></li>
+    <li><img src='images/6.jpg' draggable='true' id='img6' /></li>
+  </ul>
+  <span class='dustbin'></span>
+</div>
+
+<script>
+  // dragstart(drag元素) -> 
+  // drag(drag元素) -> 
+  // dragenter(drop元素) -> 
+  // dragover(drop元素) -> 
+  // dragleave(drop元素) -> 
+  // drop(drop元素) -> 
+  // dragend(drag元素)
+
+  var lis = document.querySelectorAll('img');
+
+  // 被拖拽元素，3 事件
+  for (var i = lis.length; i--; ) {
+
+    lis[i].ondragstart = function(e) {
+      // 设置鼠标手势
+      // e.dataTransfer.effectAllowed = 'link';
+
+      e.dataTransfer.setData('id', e.target.id);
+    };
+
+    // 拖拽过程中一直触发
+    lis[i].ondrag= function(e) {
+
+    };
+
+    // 拖拽结束
+    lis[i].ondragend = function(e) {
+
+    };
+  }
+
+
+  // 被拖拽元素可放置位置元素，4 事件
+  var dus = document.querySelector('.dustbin');
+
+  dus.ondragenter = function(e) {
+    e.preventDefault();
+  };
+
+
+  dus.ondragover = function(e) {
+    e.preventDefault();
+
+    // 设置鼠标手势
+    // e.dataTransfer.dropEffect = 'link'; 
+  };
+
+  dus.ondragleave = function(e) {
+    
+  };
+
+  dus.ondrop = function(e) {
+    e.preventDefault();
+    e.stopPropagation();  // 兼容firefox
+
+    var id = e.dataTransfer.getData('id')
+      , node = document.getElementById(id);
+
+    node.parentNode.removeChild(node);
+  };
+</script>
