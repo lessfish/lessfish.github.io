@@ -15,7 +15,7 @@
 - [百度搜索联想][6]
 - [图片惰性加载][7]
 - [base64 编码 & 解码][8]
-
+- [博客园简介（reveal.js）][9]
 
 #css3#
 - [标签云 CSS版本][3]
@@ -31,3 +31,4 @@
 [6]:http://hanzichi.github.io/demo/searchList/index.ie6.update.html
 [7]:http://hanzichi.github.io/demo/lazyload/index.html
 [8]:http://hanzichi.github.io/demo/base64/index.htm
+[9]:http://hanzichi.github.io/demo/reveal/fish.html#/
