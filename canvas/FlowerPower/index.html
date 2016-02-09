@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title> </title>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+    <script src="FlowerPower.js"></script>
+    <script>
+      window.onload = function() {
+        var gardencanvas = document.getElementById('canvas');
+        var gardenctx = gardencanvas.getContext('2d');
+        var garden = new Garden(gardenctx, gardencanvas);
+      
+        garden.createRandomBloom(200, 200);
+
+        // renderLoop
+        setInterval(function () {
+            garden.render();
+        }, Garden.options.growSpeed); 
+      };
+    </script>
+  </head>
+  <body>
+    <canvas id='canvas' width=500 height=500 style='background-color:white'>
+    </canvas>
+  </body>
+</html>

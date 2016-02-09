@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title> 是男人就走30步 </title>
+    <style type="text/css">
+      body {margin:0; padding:0; wdith:100%; height: 100%}
+      canvas {display:block}
+    </style>
+  </head>
+  <body>
+    <canvas id='canvas' style='background-color:#000'>
+      This browser does not support html5.
+    </canvas>
+    <script src='vector.js'></script>
+    <script>
+        // test
+        window.onload = function() {
+          var canvas = document.getElementById('canvas');  
+          canvas.height = window.height = window.innerHeight;
+          canvas.width = window.width = window.innerWidth;
+          var ctx = canvas.getContext('2d');
+          window.ctx = ctx;
+          window.canvas = canvas;
+
+          var game = {
+            now: 200,
+            rects: [],
+            // linegrow: false,
+            basepointPos: new Vector2(),
+            linePos: new Vector2(),
+            lineEndPos: new Vector2(),
+            ballPos: new Vector2(),
+
+            lineLen: 0,
+            lineAngle: Math.PI / 2,
+
+            linegrow: false,
+            linemove: false,
+            ballmove: false,
+            basepointmove: false,
+            // can: true,
+            timer: undefined,
+            step: 0,
+
+            isbegin: false,
+
+            init: function() {
+              while(this.now < width * 2) {
+                var l = getRandomInt(30, 70);
+                var dis = getRandomInt(200, 300);
+                if(this.now + l + dis >= width * 2)
+                  break;
+                var h = height - 150;
+                var v1 = new Vector2(this.now, h);
+                var v2 = new Vector2(this.now + l, h);
+                var v3 = new Vector2(this.now + l, height);
+                var v4 = new Vector2(this.now, height);
+                var rect = new Rect(v1, v2, v3, v4);
+                if(this.now === 200) {
+                  this.linePos = v1.getMid(v2);
+                  this.ballPos = v1.getMid(v2);
+                }
+                this.rects.push(rect);
+                this.now += l + dis;
+              }
+            },
+
+            render: function() {
+              ctx.clearRect(0, 0, width, height);             
+              this.update();
+              this.updateBasePoint();
+              this.draw();
+            },
+
+            draw: function() {
+              ctx.save();
+              ctx.translate(this.basepointPos.x, this.basepointPos.y);
+
+              // line
+              if(this.lineLen) {
+                ctx.beginPath();
+                ctx.strokeStyle = 'green';
+                ctx.moveTo(this.linePos.x, this.linePos.y);
+                ctx.lineTo(this.lineEndPos.x, this.lineEndPos.y);
+                ctx.lineWidth = 5;
+                ctx.stroke();
+              }
+
+              // ball
+              ctx.beginPath();
+              ctx.fillStyle = 'yellow';
+              ctx.arc(this.ballPos.x, this.ballPos.y - 7, 5, 0, Math.PI * 2, true);
+              ctx.closePath();
+              ctx.fill();
+
+              // rect
+              for(var i = 0; i < this.rects.length; i++)
+                this.rects[i].draw();
+
+              // show steps
+              ctx.font = "bold 50px serif"
+              ctx.textAlign = "left";
+              ctx.textBaseline = "top";
+              ctx.fillStyle = 'red';
+              ctx.fillText('step:' + this.step, -this.basepointPos.x, 0);
+
+              if(!this.isbegin) {
+                ctx.font = "bold 80px serif"
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillStyle = 'red';
+                ctx.fillText('按空格键开始!', this.basepointPos.x + Math.abs(this.basepointPos.x) + width / 2, height / 2);
+              }
+
+              ctx.restore();
+            },
+
+            update: function() {
+              var v1 = this.linePos;
+              var v2 = new Vector2();
+
+              if(this.linegrow && !this.linemove && !this.ballmove &&!this.basepointmove)
+                this.lineLen +=7;
+
+              if(this.linegrow)  // lineAdd
+                v2 = new Vector2(v1.x, v1.y - this.lineLen);
+
+              if(this.linemove) {
+                if(this.lineAngle >= 0) {
+                  this.lineAngle -= Math.PI / 180 * 3;
+                  v2 = new Vector2(v1.x + this.lineLen * Math.cos(this.lineAngle), v1.y - this.lineLen * Math.sin(this.lineAngle));
+                }
+              }
+
+              if(this.lineAngle <= 0) {
+                v2 = new Vector2(v1.x + this.lineLen * Math.cos(this.lineAngle), v1.y - this.lineLen * Math.sin(this.lineAngle));
+                this.linemove = false;
+                this.ballmove = true;
+              }
+              
+              if(this.ballmove && this.ballPos.x < v2.x) { 
+                if(v2.x - this.ballPos.x > 5)
+                  this.ballPos.add(new Vector2(5, 0));
+                else 
+                  this.ballPos.add(new Vector2(v2.x - this.ballPos.x, 0));
+              }
+
+              // 成功到达
+              if(this.ballmove && this.ballPos.x >= v2.x) {
+                if(v2.x < this.rects[1].v1.x || v2.x > this.rects[1].v2.x) {
+                  clearInterval(this.timer);
+                  var that = this;
+                  setTimeout(function() {
+                    that.gameover();
+                  }, 500);
+                  
+                } else {
+                  this.ballmove = false;
+                  this.linePos = v2;
+                  this.lineLen = 0;
+                  this.lineAngle = Math.PI / 2;
+                  this.step++;
+                  this.basepointmove = true;
+                }
+              }
+
+              this.lineEndPos = v2;
+            },
+
+            updateBasePoint: function() {
+              if(this.basepointmove) {
+                if(this.basepointPos.x > -this.rects[0].v2.x) {
+                  this.basepointPos.x -= 8;
+                } else {
+                  this.basepointmove = false;
+                  this.rects.splice(0, 1);
+                  this.buildRect();
+                }
+              } 
+            },
+
+            buildRect: function() {
+              var l = getRandomInt(30, 70);
+              var dis = getRandomInt(200, 300);
+              var h = height - 150;
+              var v1 = new Vector2(this.now, h);
+              var v2 = new Vector2(this.now + l, h);
+              var v3 = new Vector2(this.now + l, height);
+              var v4 = new Vector2(this.now, height);
+              var rect = new Rect(v1, v2, v3, v4);
+              this.rects.push(rect);
+              this.now += l + dis;
+            },
+
+            gameover: function() {
+              ctx.font = "bold 120px serif"
+              ctx.textAlign = "center";
+              ctx.textBaseline = "middle";
+              ctx.fillStyle = 'red';
+              ctx.fillText('game over!', this.basepointPos.x + Math.abs(this.basepointPos.x) + width / 2, height / 2);
+            },
+
+            setListener: function() {
+              var that = this;
+              document.onkeydown = function(e) {
+                if(e.keyCode !== 32) return;
+                that.linegrow = true;
+                that.isbegin = true;
+              };
+
+              document.onkeyup = function(e) {
+                if(e.keyCode !== 32) return;
+                that.linegrow = false;
+                that.linemove = true;
+              };
+            }
+          };
+
+          game.init();
+          // console.log(game.linePos)
+          game.setListener();
+          game.timer = setInterval(function() {
+            game.render();
+          }, 1000/60);
+
+        };
+
+        function Rect(v1, v2, v3, v4) {
+          this.v1 = v1;
+          this.v2 = v2;
+          this.v3 = v3;
+          this.v4 = v4;
+          this.color = 'blue';
+        }
+
+        Rect.prototype.draw = function() {
+          ctx.beginPath();
+          ctx.moveTo(this.v1.x, this.v1.y);
+          ctx.lineTo(this.v2.x, this.v2.y);
+          ctx.lineTo(this.v3.x, this.v3.y);
+          ctx.lineTo(this.v4.x, this.v4.y);
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        };
+
+        function getRandomInt(a, b) {
+          return (a + Math.random() * (b - a)) >> 0;
+        }
+    </script>
+  </body>
+</html>
