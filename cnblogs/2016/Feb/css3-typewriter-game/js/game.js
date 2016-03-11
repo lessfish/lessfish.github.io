@@ -1,4 +1,16 @@
 (function() {
+
+  window.requestAnimFrame = (function() {  
+    return  window.requestAnimationFrame ||   
+      window.webkitRequestAnimationFrame ||   
+      window.mozRequestAnimationFrame    ||   
+      window.oRequestAnimationFrame      ||   
+      window.msRequestAnimationFrame     ||   
+      function(callback){  
+        window.setTimeout(callback, 1000 / 60);  
+      }; 
+  })();
+  
   var game = {
     currentIndex: 0,  // 当前type div
     letterIndex: 0, // 

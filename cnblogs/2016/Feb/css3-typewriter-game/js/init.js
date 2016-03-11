@@ -2,8 +2,8 @@
   // get data
   $.ajax ({
     type: 'GET',
-    url: 'data.html',
-    dataType: 'html',
+    url: 'data.txt',
+    // dataType: 'html',
     async: false,  // 异步
     success: function (msg) {
       window.array = msg.split(/[^A-z]+/)
