@@ -1,5 +1,6 @@
 (function(exports, doc) {
   
+  // 兼容低版本 IE
   Function.prototype.bind = Function.prototype.bind || function(context) {
     var that = this;
     return function() {
@@ -9,6 +10,7 @@
   
   var T = {};
 
+  // 工具方法 begin
   T.getElementsByClassName = function(cls) {
     if (doc.getElementsByClassName)
       return doc.getElementsByClassName(cls);
@@ -35,16 +37,19 @@
       x: 0,
       y: 0
     };
+
     while (ele.offsetParent) {
       pos.x += ele.offsetLeft;
       pos.y += ele.offsetTop;
       ele = ele.offsetParent;
     }
+
     return pos;
   };
 
   T.getViewport = function() {
     var html = doc.documentElement;
+
     return { 
       w: !window.innerWidth ? html.clientHeight : window.innerWidth,
       h: !window.innerHeight ? html.clientHeight : window.innerHeight
@@ -62,11 +67,12 @@
       h: ele.offsetHeight
     };
   };
+  // 工具方法 end
 
   T.datalazyload = {
-    threshold: 150,  // {number} 阈值，预加载高度，单位(px)
-    els: null,       // {Array} 延迟加载元素集合(数组), class='datalazyload'
-    fn: null,        // {Function} scroll、resize、touchmove 所绑定方法，即为 pollTextareas()
+    threshold: 0,  // {number} 阈值，预加载高度，单位(px)
+    els: null,  // {Array} 延迟加载元素集合(数组)
+    fn: null,   // {Function} scroll、resize、touchmove 所绑定方法，即为 pollTextareas()
 
     evalScripts: function(code) {
       var head = doc.getElementsByTagName("head")[0]
@@ -111,12 +117,11 @@
     
     insert: function(ele) {
       var parent = ele.parentNode
-        , div = doc.createElement("div")
         , txt = this.decodeHTML(ele.innerHTML)
         , matchStyles = this.extractCode(txt, true)
         , matchScripts = this.extractCode(txt);
 
-      div.innerHTML = txt
+      parent.innerHTML = txt
         .replace(new RegExp("<script[^>]*>([\\S\\s]*?)</script\\s*>", "img"), "")
         .replace(new RegExp("<style[^>]*>([\\S\\s]*?)</style\\s*>", "img"), "");
 
@@ -125,10 +130,7 @@
           this.evalStyles(matchStyles[i]);
 
       // 如果延迟部分需要做 loading 效果
-      // parent.className = parent.className.replace("loading", "").trim();
-
-      parent.replaceChild(div, ele);
-      div.style.display = "";
+      parent.className = parent.className.replace("loading", "");
 
       if (matchScripts.length) 
         for (var i = 0, len = matchScripts.length; i < len; i++) 
@@ -169,7 +171,10 @@
       }
     },
 
-    init: function(cls) {
+    init: function(config) {
+      var cls = config.cls;
+      this.threshold = config.threshold ? config.threshold : 0;
+
       this.els = Array.prototype.slice.call(T.getElementsByClassName(cls));
       this.fn = this.pollTextareas.bind(this);
 
@@ -182,5 +187,3 @@
 
   exports["T"] = T;
 })(window, document);
-
-T.datalazyload.init("datalazyload");

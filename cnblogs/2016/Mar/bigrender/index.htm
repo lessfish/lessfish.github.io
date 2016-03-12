@@ -3,30 +3,120 @@
 <head>
   <meta charset="utf-8">
   <style>
-    * {margin: 0; padding: 0;}
-    .main {margin: 0 auto; text-align: center; padding-top: 200px; width:500px; height:1000px; border:5px black dashed;}
-    .datalazyload {width: 1000px; height: 200px;}
+    ul {
+      margin: 0 auto;
+      padding: 0;
+      width: 300px;
+      list-style: none;
+    }
+
+    .lazy { 
+      margin-bottom: 100px;
+      width: 300px;
+      height: 168px;
+      text-align: center;
+      line-height: 168px; /*垂直居中*/
+    }
+
+    .datalazyload {
+      width: 300px;
+      height: 168px;
+    }
+
+    .loading {
+      background-image: url("images/loading.gif");
+      background-repeat: no-repeat;
+      background-position: center;
+    }
   </style>
 </head>
 <body>
-  <div class="main">
+  <div>
     <h1>请往下滚动网页</h1>
   </div>
   <div>
-    <textarea class="datalazyload" style="visibility: hidden;"> 
-      <script type="text/javascript">
-        alert("I am lazyload zone!"); 
-      </script>
-
-      <style type="text/css">
-        .main {margin: 0 auto; text-align: center; padding-top: 200px; width:1000px; height:1000px; border:5px black dashed;}
-        .second {margin: 0 auto; width:1000px; height:200px; border: 5px purple dotted; padding-top: 100px; text-align: center;}
-      </style>
-      <div class="second">
-        <h1>我是延迟加载的部分！</h1>
-      </div>
-    </textarea>
+      <ul>
+        <div class="loading">
+          <textarea class="datalazyload" style="visibility: hidden;"> 
+            <li class='lazy'><img src='images/0.jpg' /></li>
+          </textarea>
+        </div>
+        <div class="loading">
+          <textarea class="datalazyload" style="visibility: hidden;"> 
+            <li class='lazy'><img src='images/1.jpg' /></li>
+          </textarea>
+        </div>
+        <div class="loading">
+          <textarea class="datalazyload" style="visibility: hidden;"> 
+            <li class='lazy'><img src='images/2.jpg' /></li>
+          </textarea>
+        </div>
+        <div class="loading">
+          <textarea class="datalazyload" style="visibility: hidden;"> 
+            <li class='lazy'><img src='images/3.jpg' /></li>
+          </textarea>
+        </div>
+        <div class="loading">
+          <textarea class="datalazyload" style="visibility: hidden;"> 
+            <li class='lazy'><img src='images/4.jpg' /></li>
+          </textarea>
+        </div>
+        <div class="loading">
+          <textarea class="datalazyload" style="visibility: hidden;"> 
+            <li class='lazy'><img src='images/5.jpg' /></li>
+          </textarea>
+        </div>
+        <div class="loading">
+          <textarea class="datalazyload" style="visibility: hidden;"> 
+            <li class='lazy'><img src='images/6.jpg' /></li>
+          </textarea>
+        </div>
+        <div class="loading">
+          <textarea class="datalazyload" style="visibility: hidden;"> 
+            <li class='lazy'><img src='images/7.jpg' /></li>
+          </textarea>
+        </div>
+        <div class="loading">
+          <textarea class="datalazyload" style="visibility: hidden;"> 
+            <li class='lazy'><img src='images/8.jpg' /></li>
+          </textarea>
+        </div>
+        <div class="loading">
+          <textarea class="datalazyload" style="visibility: hidden;"> 
+            <li class='lazy'><img src='images/9.jpg' /></li>
+          </textarea>
+        </div>
+        <div class="loading">
+          <textarea class="datalazyload" style="visibility: hidden;"> 
+            <li class='lazy'><img src='images/10.jpg' /></li>
+          </textarea>
+        </div>
+        <div class="loading">
+          <textarea class="datalazyload" style="visibility: hidden;"> 
+            <li class='lazy'><img src='images/11.jpg' /></li>
+          </textarea>
+        </div>
+        <div class="loading">
+          <textarea class="datalazyload" style="visibility: hidden;"> 
+            <li class='lazy'><img src='images/12.jpg' /></li>
+          </textarea>
+        </div>
+      </ul>
   </div>
+  <!-- <textarea class="datalazyload" style="visibility: hidden;"> 
+    <script>
+      // alert("延迟加载完毕！");
+    </script>
+  </textarea> -->
   <script src='datalazyload.js'></script>
+  <script>
+    // how to use
+    var config = {
+      cls: "datalazyload",  // 需要延迟加载的类，即 textarea 的类名
+      threshold: 0  // 延迟加载的阈值
+    };
+    
+    T.datalazyload.init(config);
+  </script>
 </body>
 </html>
