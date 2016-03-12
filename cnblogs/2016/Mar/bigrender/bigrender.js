@@ -1,6 +1,6 @@
 (function(exports, doc) {
   
-  // ¼æÈİµÍ°æ±¾ IE
+  // å…¼å®¹ä½ç‰ˆæœ¬ IE
   Function.prototype.bind = Function.prototype.bind || function(context) {
     var that = this;
     return function() {
@@ -10,7 +10,7 @@
   
   var T = {};
 
-  // ¹¤¾ß·½·¨ begin
+  // å·¥å…·æ–¹æ³• begin
   T.getElementsByClassName = function(cls) {
     if (doc.getElementsByClassName)
       return doc.getElementsByClassName(cls);
@@ -67,12 +67,12 @@
       h: ele.offsetHeight
     };
   };
-  // ¹¤¾ß·½·¨ end
+  // å·¥å…·æ–¹æ³• end
 
   T.datalazyload = {
-    threshold: 0,  // {number} ãĞÖµ£¬Ô¤¼ÓÔØ¸ß¶È£¬µ¥Î»(px)
-    els: null,  // {Array} ÑÓ³Ù¼ÓÔØÔªËØ¼¯ºÏ(Êı×é)
-    fn: null,   // {Function} scroll¡¢resize¡¢touchmove Ëù°ó¶¨·½·¨£¬¼´Îª pollTextareas()
+    threshold: 0,  // {number} é˜ˆå€¼ï¼Œé¢„åŠ è½½é«˜åº¦ï¼Œå•ä½(px)
+    els: null,  // {Array} å»¶è¿ŸåŠ è½½å…ƒç´ é›†åˆ(æ•°ç»„)
+    fn: null,   // {Function} scrollã€resizeã€touchmove æ‰€ç»‘å®šæ–¹æ³•ï¼Œå³ä¸º pollTextareas()
 
     evalScripts: function(code) {
       var head = doc.getElementsByTagName("head")[0]
@@ -129,7 +129,7 @@
         for (var i = matchStyles.length; i --;) 
           this.evalStyles(matchStyles[i]);
 
-      // Èç¹ûÑÓ³Ù²¿·ÖĞèÒª×ö loading Ğ§¹û
+      // å¦‚æœå»¶è¿Ÿéƒ¨åˆ†éœ€è¦åš loading æ•ˆæœ
       parent.className = parent.className.replace("loading", "");
 
       if (matchScripts.length) 
@@ -151,7 +151,7 @@
     },
 
     pollTextareas: function() {
-      // ĞèÑÓ³Ù¼ÓÔØµÄÔªËØÒÑ¾­È«²¿¼ÓÔØÍê
+      // éœ€å»¶è¿ŸåŠ è½½çš„å…ƒç´ å·²ç»å…¨éƒ¨åŠ è½½å®Œ
       if (!this.els.length) {
         T.removeEvent(window, "scroll", this.fn);
         T.removeEvent(window, "resize", this.fn);
@@ -159,7 +159,7 @@
         return;
       }
 
-      // ÅĞ¶ÏÊÇ·ñĞèÒª¼ÓÔØ
+      // åˆ¤æ–­æ˜¯å¦éœ€è¦åŠ è½½
       for (var i = this.els.length; i--; ) {
         var ele = this.els[i];
 
