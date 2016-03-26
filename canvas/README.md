@@ -19,7 +19,7 @@
 [5.0]: http://hanzichi.github.io/canvas/%E6%98%AF%E7%94%B7%E4%BA%BA%E5%B0%B1%E8%B5%B030%E6%AD%A5/
 [6.0]: http://hanzichi.github.io/canvas/3D%20%E6%A0%87%E7%AD%BE%E4%BA%91/
 [7.0]: http://hanzichi.github.io/canvas/FlowerPower/
-[8.0]: hanzichi.github.io/canvas/花丛文字效果/
+[8.0]: http://hanzichi.github.io/canvas/%E8%8A%B1%E4%B8%9B%E6%96%87%E5%AD%97%E6%95%88%E6%9E%9C/
 [9.0]: 
 
 
