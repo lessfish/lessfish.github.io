@@ -9,6 +9,7 @@
 - [3D 标签云][6.0]
 - [FlowerPower][7.0]
 - [花丛文字效果][8.0]
+- [超级玛丽][9.0]
 
 [0.0]: http://hanzichi.github.io/canvas/LoveOn20150214/
 [1.0]: http://hanzichi.github.io/canvas/%E9%AD%94%E6%96%B9/
@@ -19,6 +20,7 @@
 [6.0]: http://hanzichi.github.io/canvas/3D%20%E6%A0%87%E7%AD%BE%E4%BA%91/
 [7.0]: http://hanzichi.github.io/canvas/FlowerPower/
 [8.0]: hanzichi.github.io/canvas/花丛文字效果/
+[9.0]: 
 
 
 # See How To Do
@@ -32,6 +34,7 @@
 - [3D 标签云][6.1]
 - [FlowerPower][7.1]
 - [花丛文字效果][8.1]
+- [超级玛丽][9.1]
 
 [0.1]: http://www.cnblogs.com/zichi/p/4251174.html
 [1.1]: http://www.cnblogs.com/zichi/p/4267180.html
@@ -42,3 +45,4 @@
 [6.1]: http://www.cnblogs.com/zichi/p/4287187.html
 [7.1]: http://www.cnblogs.com/zichi/category/627224.html
 [8.1]: http://www.cnblogs.com/zichi/category/627224.html
+[9.1]: 

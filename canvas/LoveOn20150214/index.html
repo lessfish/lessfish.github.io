@@ -9,8 +9,8 @@
     </style>
   </head>
   <body bgcolor='#000'>
-    <script src='http://sandbox.runjs.cn/js/sandbox/jquery/jquery-1.8.3.min.js'></script>
-    <script src='http://hanzichi.github.io/game/Vector.js'></script>
+    <script src='js/jquery-1.8.3.min.js'></script>
+    <script src='js/vector.js'></script>
     <script>
         window.onload = function() {
           function Ball(v, current, r, g, b, a) {
@@ -100,7 +100,7 @@
 
               octx.clearRect(0, 0, width, height)
               var img = new Image();
-              img.src = "love.png";
+              img.src = "img/love.png";
               // var img = document.getElementById('img');
 
               var that = this;
@@ -182,7 +182,7 @@
                     if(id !== 3 && id !== 4 && id !==5 )
                       array.push(new Ball(new Vector2(i, j), current, r, g, b, a));
                     else if(id === 3 || id === 4) {
-                      console.log(1)
+                      // console.log(1)
                       cc = new Vector2(Math.random() * width, height + 1);
                       array.push(new Ball(new Vector2(i, j), cc, r, g, b, a));
                     } else {
