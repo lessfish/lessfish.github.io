@@ -1,7 +1,5 @@
 # 2016
 
-## February
-
 - [base64 encode & decode]()
 - [颜色调配(hsl)]()
 - [颜色调配(rgba)]()
@@ -13,8 +11,4 @@
 - [图片的延迟加载]()
 - [reveal demo (博客园简介)]()
 - [百度搜索下拉]()
-
-
-## March
-
-- 
+- [BigRender]()
