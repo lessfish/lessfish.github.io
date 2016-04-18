@@ -7,7 +7,7 @@
 - [CSS3 正方体](http://hanzichi.github.io/cnblogs/2016/css3-cube/index.html)
 - [CSS3 图片轮播](http://hanzichi.github.io/cnblogs/2016/css3-picture-carousel/demo2.html)
 - [CSS3 打字机游戏](http://hanzichi.github.io/cnblogs/2016/css3-typewriter-game/index.html)
-- [drag & drop](http://github.io/cnblogs/2016/drag-and-drop/index.htm)
+- [drag & drop](http://hanzichi.github.io/cnblogs/2016/drag-and-drop/index.htm)
 - [图片延迟加载](http://hanzichi.github.io/cnblogs/2016/picture-lazyload/index.html)
 - [博客园简介（reveal demo）](http://hanzichi.github.io/cnblogs/2016/reveal/fish.html#/)
 - [百度搜索下拉](http://hanzichi.github.io/cnblogs/2016/search-pull-down/index.h5.html)
