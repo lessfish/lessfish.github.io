@@ -11,16 +11,16 @@
 - [花丛文字效果][8.0]
 - [超级马里奥][9.0]
 
-[0.0]: http://hanzichi.github.io/canvas/LoveOn20150214/
-[1.0]: http://hanzichi.github.io/canvas/%E9%AD%94%E6%96%B9/
-[2.0]: http://hanzichi.github.io/canvas/%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F/
-[3.0]: http://hanzichi.github.io/canvas/%E6%89%93%E5%AD%97%E6%9C%BA%E6%B8%B8%E6%88%8F/
-[4.0]: http://hanzichi.github.io/canvas/%E5%AD%90%E5%BC%B9%E8%BF%BD%E8%B8%AA/
-[5.0]: http://hanzichi.github.io/canvas/%E6%98%AF%E7%94%B7%E4%BA%BA%E5%B0%B1%E8%B5%B030%E6%AD%A5/
-[6.0]: http://hanzichi.github.io/canvas/3D%20%E6%A0%87%E7%AD%BE%E4%BA%91/
+[0.0]: http://hanzichi.github.io/canvas/love-on-20150214/
+[1.0]: http://hanzichi.github.io/canvas/magic-cube/
+[2.0]: http://hanzichi.github.io/canvas/particle-system/
+[3.0]: http://hanzichi.github.io/canvas/canvas-typewriter-game/
+[4.0]: http://hanzichi.github.io/canvas/bullet-trace/
+[5.0]: http://hanzichi.github.io/canvas/go-30-steps-if-you-are-a-man/
+[6.0]: http://hanzichi.github.io/canvas/js-cloudtag/
 [7.0]: http://hanzichi.github.io/canvas/FlowerPower/
-[8.0]: http://hanzichi.github.io/canvas/%E8%8A%B1%E4%B8%9B%E6%96%87%E5%AD%97%E6%95%88%E6%9E%9C/
-[9.0]: http://hanzichi.github.io/canvas/superMario/index.htm
+[8.0]: http://hanzichi.github.io/canvas/flower-text/
+[9.0]: http://hanzichi.github.io/canvas/superMario/
 
 
 # See How To Do
@@ -45,4 +45,4 @@
 [6.1]: http://www.cnblogs.com/zichi/p/4287187.html
 [7.1]: http://www.cnblogs.com/zichi/category/627224.html
 [8.1]: http://www.cnblogs.com/zichi/category/627224.html
-[9.1]: https://github.com/hanzichi/hanzichi.github.io/blob/master/canvas/superMario/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0.md
+[9.1]: https://github.com/hanzichi/hanzichi.github.io/blob/master/canvas/superMario/README.md
