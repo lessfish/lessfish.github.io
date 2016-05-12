@@ -35,4 +35,9 @@
 
 # 2013
 
-
+- [碰撞的矩形 (Canvas)](http://hanzichi.github.io/2013/a-running-rectangle/)
+- [一个简单的画板 (Canvas)](http://hanzichi.github.io/2013/a-simple-drawing-board/)
+- [A tree (Canvas)](hanzichi.github.io/2013/a-simple-tree/)
+- [贪食蛇游戏 (Canvas 实现)](http://hanzichi.github.io/2013/snake-canvas/)
+- [贪食蛇游戏 (Dom 实现)](http://hanzichi.github.io/2013/snake-dom/)
+- [双圈戏黑夜 (Canvas)](http://hanzichi.github.io/2013/two-running-circles/)
