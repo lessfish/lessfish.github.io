@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <script>
+      window.onload = function() {
+        var canvas = document.getElementById("myCanvas");
+        var c = canvas.getContext("2d");
+        var px, py; // 旋转中心
+        px = py = 20;
+
+        var x, y;
+        x = y = -20; // 矩形左上角 常量
+        var w = 40; // 矩形长宽 常量
+        var add_x = 1;
+        var add_y = 1;
+        var add_deg = 1;
+        var deg = 0;
+
+        var color = "#" + parseInt(Math.random() * 0xffffff).toString(16);
+        var time_handle = window.setInterval(function() {
+          c.clearRect(0, 0, 500, 500);
+          c.save();
+          c.translate(px, py);
+          c.rotate(deg * Math.PI / 180);
+          c.fillStyle = color;
+          c.fillRect(x, y, w, w);
+          c.restore();
+          add_x = (px - 20 < 0 || px + 20 > 500) ? add_x * -1 : add_x;
+          add_y = (py - 20 < 0 || py + 20 > 250) ? add_y * -1 : add_y;
+          if (px - 20 < 0 || px + 20 > 500 || py - 20 < 0 || py + 20 > 250) {
+            add_deg *= -1;
+            var ans;
+            while (true) {
+              ans = Math.random();
+              if (ans > 0.2) break;
+            }
+            color = "#" + parseInt(ans * 0xffffff).toString(16);
+          }
+          deg += add_deg;
+          px += add_x;
+          py += add_y;
+        }, 1);
+      };
+    </script>
+  </head>
+  
+  <body>
+    <canvas id="myCanvas" width="500px" height="250px" style="background-color:black; position:relative; left:10px; top:10px;">
+    </canvas>
+  </body>
+</html>

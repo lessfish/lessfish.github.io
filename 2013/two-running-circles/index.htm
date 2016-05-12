@@ -1,0 +1,88 @@
+<html>
+  
+  <body>
+    <canvas id="myCanvas" width="500px" height="250px" style="background-color:black">
+    </canvas>
+    <script>
+      window.onload = function() {
+        var canvas = document.getElementById("myCanvas");
+        var c = canvas.getContext("2d");
+        var px = [35, 450];
+        var py = [35, 200];
+        var add_x = [1, -1];
+        var add_y = [1, -1];
+        var add_deg = [1, -1];
+        var deg = [0, 0];
+        var r = 30; // 半径 
+        var color = [getMulColor(), getMulColor()];
+
+        window.setInterval(function() {
+          for (var i = 0; i < 2; i++) {
+            c.save();
+            if (i === 0) c.clearRect(0, 0, 500, 250);
+            c.translate(px[i], py[i]);
+            c.rotate(deg[i] * Math.PI / 180);
+            c.beginPath();
+            c.strokeStyle = color[i];
+            c.lineWidth = 7;
+            c.arc(0, 0, r, 0, Math.PI * 2, true);
+            c.stroke();
+
+            var crack = [];
+            crack.push(i);
+            for (var j = 0; j < 2; j++) {
+              if (i === j) continue;
+              if (dis(px[i], py[i], px[j], py[j]) <= r * 2) crack.push(j); // 相碰的
+            }
+
+            if (crack.length > 1) { // 有相碰的
+              for (var j = 0; j < crack.length; j++) {
+                var index = crack[j];
+                add_x[index] *= -1;
+                add_y[index] *= -1;
+                add_deg[index] *= -1;
+              }
+            }
+
+            if (px[i] + r >= 500 || px[i] - r <= 0) add_x[i] *= -1;
+            if (py[i] + r >= 250 || py[i] - r <= 0) add_y[i] *= -1;
+            if (px[i] + r >= 500 || px[i] - r <= 0 || py[i] + r >= 250 || py[i] - r <= 0) {
+              color[i] = getMulColor();
+              add_deg[i] *= -1;
+            }
+            px[i] += add_x[i];
+            py[i] += add_y[i];
+            deg[i] += add_deg[i];
+            c.restore();
+          }
+        }, 1);
+        
+        function getColor() {
+          while (true) {
+            var ans = Math.random();
+            if (ans < 0.2) continue;
+            var color = "#" + parseInt(ans * 0xffffff).toString(16);
+            return color;
+          }
+        }
+
+        function getMulColor() {
+          var grd = c.createLinearGradient( - r, -r, r, r);
+          grd.addColorStop(0, getColor());
+          grd.addColorStop(0.2, getColor());
+          grd.addColorStop(0.4, getColor());
+          grd.addColorStop(0.6, getColor());
+          grd.addColorStop(0.8, getColor());
+          grd.addColorStop(1, getColor());
+          return grd;
+        }
+
+        function dis(x1, y1, x2, y2) {
+          var ans = (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
+          return Math.sqrt(ans);
+        }
+      }
+    </script>
+  </body>
+
+</html>

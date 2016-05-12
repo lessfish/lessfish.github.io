@@ -1,0 +1,106 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script>
+      window.onload = function() {
+        var c = document.getElementById("myCanvas").getContext("2d");
+        c.fillStyle = "#C7EDCC";
+        var a = 25,
+        b = 25; // the width and height of each square
+        var G = {
+          px: null,
+          // the head of the snake
+          py: null,
+          able_x: null,
+          // food position
+          able_y: null,
+          dir: null,
+          handle: null,
+          go: [[ - 1, 0], [0, -1], [1, 0], [0, 1]],
+          //  left up right down
+          f: [],
+          // the snake
+          s: [],
+          // mark the number in the snake
+          start: function() {
+            document.onkeydown = function(evt) {
+              if (Math.abs(evt.which - 37 - G.dir) === 2) return;
+              G.dir = evt.which - 37;
+            };
+
+            while (true) {
+              var start_num = G.getNum();
+              G.px = start_num % 20;
+              G.py = Math.floor(start_num / 20);
+              if (G.px < 5 || G.px > 15 || G.py < 5 || G.py > 15) continue;
+              c.fillRect(G.px * 25, G.py * 25, a, b);
+              G.dir = Math.floor(Math.random() * 4);
+              G.f.unshift(G.py * 20 + G.px);
+              G.s[G.py * 20 + G.px] = true; // is in the snake
+              G.px += G.go[G.dir][0];
+              G.py += G.go[G.dir][1];
+              c.fillRect(G.px * 25, G.py * 25, a, b);
+              G.f.unshift(G.py * 20 + G.px);
+              G.s[G.py * 20 + G.px] = true;
+              break;
+            }
+            G.createSquare();
+            G.move();
+          },
+          // end of start
+          move: function() {
+            G.handle = window.setInterval(function() {
+              var x = G.px + G.go[G.dir][0]; // next position
+              var y = G.py + G.go[G.dir][1];
+
+              if (x < 0 || x > 19 || y < 0 || y > 19 || G.s[y * 20 + x] === true) {
+                clearInterval(G.handle);
+                alert("Game Over!");
+                return;
+              }
+
+              c.fillRect(x * 25, y * 25, a, b);
+              G.f.unshift(y * 20 + x);
+              G.s[y * 20 + x] = true;
+              G.px = x;
+              G.py = y;
+
+              if (x == G.able_x && y == G.able_y) G.createSquare();
+              else {
+                var last = G.f.pop(); // pop last
+                G.s[last] = false;
+                var last_x = last % 20;
+                var last_y = Math.floor(last / 20);
+                c.clearRect(last_x * 25, last_y * 25, a, b);
+              }
+            },
+            100);
+          },
+          // end of move
+
+          createSquare: function() {
+            while (true) {
+              var create_num = G.getNum();
+              if (G.s[create_num]) continue;
+              G.able_x = create_num % 20;
+              G.able_y = Math.floor(create_num / 20);
+              c.fillRect(G.able_x * 25, G.able_y * 25, a, b);
+              break;
+            }
+          },
+          // end of createSquare
+          getNum: function() {
+            return Math.floor(Math.random() * 400);
+          }
+        }; // end of G
+
+        G.start();
+      }
+    </script>
+  </head>
+  
+  <body>
+    <canvas id="myCanvas" width="500px" height="500px" style="background-color:gray; border:5px solid black">
+    </canvas>
+  </body>
+</html>
