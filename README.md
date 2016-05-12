@@ -17,7 +17,7 @@
 - [drag & drop](http://hanzichi.github.io/2015/drag-and-drop/)
 - [图片延迟加载](http://hanzichi.github.io/2015/picture-lazyload/)
 - [博客园简介 (reveal demo)](http://hanzichi.github.io/2015/reveal/cnblogs.html)
-- [百度搜索下拉](http://hanzichi.github.io/2015/search-pull-down/index.h5.html)
+- [百度搜索下拉联想](http://hanzichi.github.io/2015/search-pull-down/index.h5.html)
 - [To My Lover on Feb.14 2015 (Canvas)](http://hanzichi.github.io/2015/love-on-20150214/)
 - [魔方 (Canvas)](hanzichi.github.io/2015/magic-cube/)
 - [粒子特效 (Canvas)](http://hanzichi.github.io/2015/particle-system/)
