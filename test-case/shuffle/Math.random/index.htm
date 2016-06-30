@@ -1,0 +1,60 @@
+<div style="width:67%; margin:0 auto">
+  <canvas id="canvas" height=300 width=600></canvas>
+</div>
+<script src="Chart.min.js"></script>
+<script>
+
+function shuffle(a) {
+  return a.concat().sort(function(a, b) {
+    return Math.random() - 0.5;
+  });
+}
+
+
+console.time('f2');
+
+var times = 10000;
+
+var sum = [];
+for (var i = 0; i <= 10; i++)
+  sum[i] = 0;
+
+for (var i = 0; i < times; i++) {
+  var a = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  var b = shuffle(a);
+
+  for (var j = 0; j <= 10; j++)
+    sum[j] += b[j];
+}
+
+for (var i = 0; i <= 10; i++)
+  sum[i] /= times;
+
+console.timeEnd('f2');
+
+var lineChartData = {
+  labels : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  datasets : [
+    {
+      label: "My First dataset",
+      fillColor : "rgba(220,220,220,0.2)",
+      strokeColor : "rgba(220,220,220,1)",
+      pointColor : "rgba(220,220,220,1)",
+      pointStrokeColor : "#fff",
+      pointHighlightFill : "#fff",
+      pointHighlightStroke : "rgba(220,220,220,1)",
+      data : sum,
+    }
+  ]
+};
+
+window.ctx = document.getElementById("canvas").getContext("2d");
+window.myLine = new Chart(ctx).Line(lineChartData, {
+  responsive: true,
+  bezierCurve: false,
+  scaleOverride :true ,   // 是否用硬编码重写 y 轴网格线
+  scaleSteps : 15,        // y 轴刻度的个数
+  scaleStepWidth : 0.5,   // y 轴每个刻度的宽度
+  scaleStartValue : 0     // y 轴的起始值
+});
+</script>
