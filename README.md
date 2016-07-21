@@ -26,6 +26,8 @@
 - [是男人就走30步 (Canvas)](http://hanzichi.github.io/2015/go-30-steps-if-you-are-a-man/)
 - [3D 标签云 (JS 实现)](http://hanzichi.github.io/2015/js-cloudtag/)
 - [文字粒子特效 (Canvas)](http://hanzichi.github.io/2015/particle-text/)
+- [Show Love (Canvas)](http://hanzichi.github.io/2015/show-love/)
+- [文字 cube 化效果 (Canvas)](http://hanzichi.github.io/2015/particle-cube/)
 
 
 # 2014
