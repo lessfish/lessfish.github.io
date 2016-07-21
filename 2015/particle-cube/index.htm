@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title> particle cube</title>
+    <script>
+      window.onload = function() {
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        var img = document.getElementById('img1');
+        ctx.drawImage(img, 0, 0);
+        var data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        var length = data.length;
+        var num = 0;
+        var textPoint = [];
+        var r = 5;
+        var offsetX = -130;
+        var offsetY = -170;
+        for (var i = 0, wl = canvas.width * 4; i < length; i += 4) {
+          if (data[i + 3]) {
+            var x = (i % wl) / 4;
+            var y = parseInt(i / wl)
+            num++;
+            textPoint.push([offsetX + x * r * 2, offsetY + y * r * 2]);
+          }
+        }
+
+        var garden = new Garden(canvas);
+
+        // 设置二维视角原点(一般为画布中心)
+        garden.setBasePoint(500, 250);
+        for(var i = 0; i < textPoint.length; i++)
+          garden.createCube(textPoint[i][0], textPoint[i][1], 0, r - 1);
+
+        // 构造
+        // var z = 20;
+        // garden.createCube(0, 0, z, 30);
+        // garden.createCube(60, 0, z, 20);
+        // garden.createCube(-60, 0, z, 20);
+
+        // garden.createCube(0, 60, z, 20);
+        // garden.createCube(60, 60, z, 20);
+        // garden.createCube(-60, 60, z, 20);
+        // garden.createCube(60, -60, z, 20);
+        // garden.createCube(0, -60, z, 20);
+
+        // garden.createCube(-60, -60, z, 20);
+
+
+        // 设置监听
+        // garden.setListener();
+
+        // 渲染
+        setInterval(function() {garden.render();}, 1000 / 60);
+      };
+
+      function Garden(canvas) {
+        this.canvas = canvas;
+        this.ctx = this.canvas.getContext('2d');
+
+        // 三维系在二维上的原点
+        this.vpx = undefined;
+        this.vpy = undefined;
+        this.cubes = [];
+        this.angleY = Math.PI / 180 * 1;
+        this.angleX = Math.PI / 180 * 1;
+      }
+
+      Garden.prototype = {
+        setBasePoint: function(x, y) {
+          this.vpx = x;
+          this.vpy = y;
+        },
+
+        createCube: function(x, y, z, r) {
+          this.cubes.push(new Cube(this, x, y, z, r));
+        },
+
+        render: function() {
+          this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+          var that = this;
+          this.cubes.sort(function (a, b) {
+            if(b.z !== a.z)
+              return b.z - a.z;
+            else if(b.xIndex !== a.xIndex) {
+              if(that.x >= 0)
+                return b.x - a.x;
+              else
+                return a.x - b.x;
+            } else {
+              if(that.y >= 0)
+                return b.y - a.y;
+              else
+                return a.y - b.y;
+            }
+          });
+
+          for(var i = 0; i < this.cubes.length; i++)
+            this.cubes[i].render();
+        }
+
+        // setListener: function() {
+        //   var that = this;
+        //   document.addEventListener('mousemove', function(event){
+        //     var x = event.clientX - that.vpx;
+        //     var y = event.clientY - that.vpy;
+        //     that.angleY = -x * 0.0001;
+        //     that.angleX = y * 0.0001;
+        //   });
+        // }
+      };
+
+      function Ball(cube, x, y, z) {
+        this.cube = cube;
+
+        // 三维上坐标
+        this.x = x;
+        this.y = y;
+        this.z = z;
+
+        // 二维上坐标
+        this.x2 = undefined;
+        this.y2 = undefined;
+      }
+
+      Ball.prototype = {
+        // 绕y轴变化，得出新的x，z坐标
+        rotateY: function() {
+          var cosy = Math.cos(this.cube.angleY);
+          var siny = Math.sin(this.cube.angleY);
+          var x1 = this.z * siny + this.x * cosy;
+          var z1 = this.z * cosy - this.x * siny;
+          this.x = x1;
+          this.z = z1;
+        },
+
+        // 绕x轴变化，得出新的y，z坐标
+        rotateX: function() {
+          var cosx = Math.cos(this.cube.angleX);
+          var sinx = Math.sin(this.cube.angleX);
+          var y1 = this.y * cosx - this.z * sinx;
+          var z1 = this.y * sinx + this.z * cosx;
+          this.y = y1;
+          this.z = z1;
+        },
+
+        getPositionInTwoDimensionalSystem: function(a) {
+          // focalLength 表示当前焦距，一般可设为一个常量
+          var focalLength = 300;
+          // 把z方向扁平化
+          var scale = focalLength / (focalLength + this.z);
+          this.x2 = this.cube.garden.vpx + this.x * scale;
+          this.y2 = this.cube.garden.vpy + this.y * scale;
+        },
+
+        render: function() {
+          this.rotateX();
+          this.rotateY();
+          this.getPositionInTwoDimensionalSystem();
+        }
+      };
+
+      function Cube(garden, x, y, z, r) {
+        this.garden = garden;
+
+        // 正方体中心和半径
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.r = r;
+
+        this.angleX = Math.PI / 180 * 1;
+        this.angleY = Math.PI / 180 * 1;
+
+        // cube的8个点
+        this.p = [];
+
+        // cube的6个面
+        this.f = [];
+
+        this.init();
+      }
+
+      Cube.prototype = {
+        init: function() {
+          // 正方体的每个顶点都是一个ball类实现
+          this.p[0] = new Ball(this, this.x - this.r, this.y - this.r, this.z - this.r);
+          this.p[1] = new Ball(this, this.x - this.r, this.y + this.r, this.z - this.r);
+          this.p[2] = new Ball(this, this.x + this.r, this.y + this.r, this.z - this.r);
+          this.p[3] = new Ball(this, this.x + this.r, this.y - this.r, this.z - this.r);
+          this.p[4] = new Ball(this, this.x - this.r, this.y - this.r, this.z + this.r);
+          this.p[5] = new Ball(this, this.x - this.r, this.y + this.r, this.z + this.r);
+          this.p[6] = new Ball(this, this.x + this.r, this.y + this.r, this.z + this.r);
+          this.p[7] = new Ball(this, this.x + this.r, this.y - this.r, this.z + this.r);
+
+          // 正方体6个面
+          this.f[0] = new Face(this, this.p[0], this.p[1], this.p[2], this.p[3]);
+          this.f[1] = new Face(this, this.p[3], this.p[2], this.p[6], this.p[7]);
+          this.f[2] = new Face(this, this.p[4], this.p[5], this.p[6], this.p[7]);
+          this.f[3] = new Face(this, this.p[4], this.p[5], this.p[1], this.p[0]);
+          this.f[4] = new Face(this, this.p[0], this.p[3], this.p[7], this.p[4]);
+          this.f[5] = new Face(this, this.p[5], this.p[1], this.p[2], this.p[6]);
+        },
+
+        render: function() {
+          for(var i = 0; i < 8; i++)
+            this.p[i].render();
+          // 八个点的坐标改变完后，改变cube自身坐标，获取体心，判断cube的绘制顺序
+          this.changeCoordinate();
+
+          for(var i = 0; i < 6; i++)
+            this.f[i].angle = this.f[i].getAngle();
+
+          this.f.sort(function (a, b) {
+            return a.angle > b.angle;
+          });
+
+          for(var i = 0; i < 6; i++) {
+            // 夹角 < 90，绘制
+            if(this.f[i].angle > 0)
+              this.f[i].draw();
+          }
+        },
+
+        // cube体心坐标改变
+        changeCoordinate: function() {
+          this.x = this.y = this.z = 0;
+          for(var i = 0; i < 8; i++) {
+            this.x += this.p[i].x;
+            this.y += this.p[i].y;
+            this.z += this.p[i].z;
+          }
+          this.x /= 8;
+          this.y /= 8;
+          this.z /= 8;
+        }
+      };
+
+      function Face(cube, a, b, c, d) {
+        this.cube = cube;
+        this.a = a;
+        this.b = b;
+        this.c = c;
+        this.d = d;
+        this.color = '#' + ('00000' + parseInt(Math.random() * 0xffffff).toString(16)).slice(-6);
+        // 面的法向量和面心到视点向量的夹角的cos值
+        this.angle = undefined;
+      }
+
+      Face.prototype = {
+        draw: function() {
+          var ctx = this.cube.garden.ctx;
+          ctx.beginPath();
+          ctx.fillStyle = this.color;
+          ctx.moveTo(this.a.x2, this.a.y2);
+          ctx.lineTo(this.b.x2, this.b.y2);
+          ctx.lineTo(this.c.x2, this.c.y2);
+          ctx.lineTo(this.d.x2, this.d.y2);
+          ctx.closePath();
+          ctx.fill();
+        },
+
+        // 获取面的法向量和z轴夹角
+        getAngle: function() {
+          var x = (this.a.x + this.b.x + this.c.x + this.d.x) / 4 - this.cube.x;
+          var y = (this.a.y + this.b.y + this.c.y + this.d.y) / 4 - this.cube.y;
+          var z = (this.a.z + this.b.z + this.c.z + this.d.z) / 4 - this.cube.z;
+          var v = new Vector(x, y, z);
+
+          // 视点设为(0,0,-500)
+          var x = 0 - (this.a.x + this.b.x + this.c.x + this.d.x) / 4;
+          var y = 0  - (this.a.y + this.b.y + this.c.y + this.d.y) / 4;
+          var z = - 500 - (this.a.z + this.b.z + this.c.z + this.d.z) / 4;
+          var v2 = new Vector(x, y, z);
+          return v.dot(v2);
+        }
+      };
+
+      function Vector(x, y, z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+      }
+
+      // 向量点积，大于0为0~90度
+      Vector.prototype.dot = function(v) {
+        return this.x * v.x + this.y * v.y + this.z * v.z;
+      }
+
+    </script>
+  </head>
+  <body bgcolor='#000'>
+    <img id="img1" style="display:none" src="hui.png" />
+    <canvas id='canvas' width=1000 height=600 style='background-color:#000'>
+      This browser does not support html5.
+    </canvas>
+  </body>
+</html>
