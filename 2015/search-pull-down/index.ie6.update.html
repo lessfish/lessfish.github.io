@@ -2,7 +2,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
     <title> 搜索下拉 DEMO </title>
-    <style>	  
+    <style>
       input {
         height: 24px;
         width: 535px;
@@ -28,7 +28,7 @@
 
   <body>
     <input type='text' id='txt' />
-    <script type="text/javascript" id='mainJs'>	 
+    <script type="text/javascript" id='mainJs'>
       var EventUtil = {
         addHandler: function(element, type, handler) {
           if (element.addEventListener) {  // DOM2
@@ -49,13 +49,13 @@
             element['on' + type] = null;
           }
         }
-      };  
+      };
 
 
       String.prototype.trim = function() {
         return this.replace(/^\s*|\s*$/g, '');
       };
-   
+
       // ------------ main ------------- //
       function hideTable() {
         var item = document.getElementById('tb');
@@ -78,7 +78,7 @@
         }
 
         tb.appendChild(tbody);
-        document.body.insertBefore(tb, document.getElementsByTagName('script')[0]); 
+        document.body.insertBefore(tb, document.getElementsByTagName('script')[0]);
 
         EventUtil.addHandler(tbody, 'click', function(e) {
           var e = e ? e : window.e
@@ -87,17 +87,17 @@
 
           window.open('https://www.baidu.com/s?word=' + encodeURIComponent(wd));
         });
-  
+
         var obj = document.getElementsByTagName('td');
-        for(var i = 0, len = obj.length; i < len; i++) { 
-          obj[i].onmouseover = function() { 
+        for(var i = 0, len = obj.length; i < len; i++) {
+          obj[i].onmouseover = function() {
             this.className = 'hover';
           };
 
-          obj[i].onmouseout = function() { 
+          obj[i].onmouseout = function() {
             this.className = '';
-          } 
-        } 
+          }
+        }
       }
 
       EventUtil.addHandler(document.getElementById('txt'), 'keyup', function() {
