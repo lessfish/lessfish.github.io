@@ -25,6 +25,7 @@
 - [子弹追踪 (Canvas)](http://hanzichi.github.io/2015/bullet-trace/)
 - [是男人就走30步 (Canvas)](http://hanzichi.github.io/2015/go-30-steps-if-you-are-a-man/)
 - [3D 标签云 (JS 实现)](http://hanzichi.github.io/2015/js-cloudtag/)
+- [文字粒子特效 (Canvas)](http://hanzichi.github.io/2015/particle-text/)
 
 
 # 2014
