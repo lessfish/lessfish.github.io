@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title> 粒子特效 </title>
+
+  </head>
+  <body bgcolor='#000'>
+    <canvas id='canvas' width=1200 height=550 style='background-color:#000'>
+      This browser does not support html5.
+    </canvas>
+    <img id="img1" style="display:none" src="hui.png" />
+    <script>
+        window.onload = function() {
+          var canvas = document.getElementById('canvas');
+          var ctx = canvas.getContext('2d');
+          var img = document.getElementById('img1');
+          // img.src = '2.png'
+          ctx.drawImage(img, 0, 0);
+          var data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+          var length = data.length;
+          var num = 0;
+          var textPoint = [];
+          var r = 5;
+          var offsetX = -130;
+          var offsetY = -140;
+          for (var i = 0, wl = canvas.width * 4; i < length; i += 4) {
+            if (data[i + 3]) {
+              var x = (i % wl) / 4;
+              var y = parseInt(i / wl)
+              num++;
+              textPoint.push([offsetX + x * r * 2, offsetY + y * r * 2]);
+            }
+          }
+          console.log(num)
+
+          // for(var i = 0; i < textPoint.length; i++) {
+          //   // console.log(1)
+          //   ctx.beginPath();
+          //   ctx.fillStyle = 'red';
+          //   console.log("%d %d",  textPoint[i][0], textPoint[i][1])
+          //   ctx.arc(textPoint[i][0], textPoint[i][1], r, 0, Math.PI * 2, true);
+          //   ctx.fill();
+          // }
+
+          var garden = new Garden(canvas);
+
+          // 设置原点(一般为画布中心)
+          garden.setBasePoint(500, 250);
+
+          // 构造三维系上的点
+          for(var i = 0; i < textPoint.length; i++) {
+            garden.createBall(textPoint[i][0], textPoint[i][1], 0, 4);
+            // garden.createBall(textPoint[i][0], textPoint[i][1], -40, 4);
+          }
+
+          // 设置监听
+          // garden.setListener();
+
+          // 渲染
+          setInterval(function() {garden.render();}, 1000 / 60);
+        };
+
+        function Garden(canvas) {
+          this.canvas = canvas;
+          this.ctx = this.canvas.getContext('2d');
+
+          // 三维系在二维上的原点
+          this.vpx = undefined;
+          this.vpy = undefined;
+          this.balls = [];
+          // this.angleY = 0;
+          // this.angleX = 0;
+        }
+
+        Garden.prototype = {
+          setBasePoint: function(x, y) {
+            this.vpx = x;
+            this.vpy = y;
+          },
+
+          createBall: function(x, y, z, ballR) {
+            this.balls.push(new Ball(this, x, y, z, ballR));
+          },
+
+          render: function() {
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.balls.sort(function (a, b) {return b.z - a.z });
+
+            for(var i = 0; i < this.balls.length; i++) {
+              // this.balls[i].rotateY();
+              // this.balls[i].rotateX();
+              this.balls[i].move();
+              this.balls[i].draw(i);
+              // console.log(this.balls[i].index)
+            }
+          },
+
+          setListener: function() {
+            var that = this;
+            document.addEventListener('mousemove', function(event){
+              var x = event.clientX - that.vpx;
+              var y = event.clientY - that.vpy;
+              that.angleY = -x * 0.0001;
+              that.angleX = y * 0.0001;
+            });
+          }
+        };
+
+        function Ball(garden, x, y, z, ballR) {
+          this.garden = garden;
+
+          // now position
+          this.x = Math.random() * 1000 - 500;
+          this.y = Math.random() * 1000 - 500;
+          this.z = Math.random() * 1000 - 500;
+
+          // 三维上目标坐标
+          this.tx = x === undefined? Math.random() * 200 - 100: x;
+          this.ty = y === undefined? Math.random() * 200 - 100: y;
+          this.tz = z === undefined? Math.random() * 200 - 100: z;
+
+          this.addX = (this.tx - this.x) / 60;
+          this.addY = (this.ty - this.y) / 60;
+          this.addZ = (this.tz - this.z) / 60;
+          this.index = 0;
+
+          this.r = Math.floor(Math.random() * 255);
+          this.g = Math.floor(Math.random() * 255);
+          this.b = Math.floor(Math.random() * 255);
+
+          // 三维上半径
+          this.ballR = ballR === undefined? 10 + Math.random() * 10: ballR;
+
+          // 二维上半径
+          this.radius = undefined;
+
+          // 二维上坐标
+          this.x2 = undefined;
+          this.y2 = undefined;
+
+          this.angleY = 0;
+          this.angleX = 0;
+        }
+
+        Ball.prototype = {
+          move: function() {
+            if(this.index >= 60 && this.index <= 90) {
+              var that = this;
+              // setTimeout(function() {
+              // console.log(1)
+              // this.tx = Math.random() * 1000 - 500;
+              // this.ty = Math.random() * 1000 - 500;
+              // this.tz = Math.random() * 1000 - 500;
+              // this.addX = (this.tx - this.x) / 60;
+              // this.addY = (this.ty - this.y) / 60;
+              // this.addZ = (this.tz - this.z) / 60;
+              this.index++;
+              return;
+            }
+
+
+            if(this.index > 90 && this.index < 180) {
+              this.index++;
+              this.angleX = Math.PI / 90;
+              this.rotateX();
+              this.angleY = Math.PI / 180;
+              this.rotateY();
+              return;
+            }
+
+            if(this.index === 240)
+              return;
+
+            this.x += this.addX;
+            this.y += this.addY;
+            this.z += this.addZ;
+            this.index++;
+
+          },
+          // 绕y轴变化，得出新的x，z坐标
+          rotateY: function() {
+            var cosy = Math.cos(this.angleY);
+            var siny = Math.sin(this.angleY);
+            var x1 = this.z * siny + this.x * cosy;
+            var z1 = this.z * cosy - this.x * siny;
+            this.x = x1;
+            this.z = z1;
+          },
+
+          // 绕x轴变化，得出新的y，z坐标
+          rotateX: function() {
+            // console.log(1)
+            var cosx = Math.cos(this.angleX);
+            var sinx = Math.sin(this.angleX);
+            var y1 = this.y * cosx - this.z * sinx;
+            var z1 = this.y * sinx + this.z * cosx;
+            this.y = y1;
+            this.z = z1;
+          },
+
+          draw: function(a) {
+            // focalLength 表示当前焦距，一般可设为一个常量
+            var focalLength = 300;
+
+            // 把z方向扁平化
+            var scale = focalLength / (focalLength + this.z);
+            this.x2 = this.garden.vpx + this.x * scale;
+            this.y2 = this.garden.vpy + this.y * scale;
+            this.radius = this.ballR * scale;
+
+            this.garden.ctx.beginPath();
+            this.garden.ctx.fillStyle = 'rgba('+this.r+','+this.g+','+this.b+','+ Math.min(1, scale)+')';
+            if(this.x2 < 0 || this.x2 > 1200 || this.y2 < 0 || this.y2 > 550) return;
+            if(this.radius < 0) return;
+            this.garden.ctx.arc(this.x2, this.y2, this.radius, 0, Math.PI * 2 , true);
+            this.garden.ctx.fill();
+          }
+        };
+    </script>
+  </body>
+</html>
