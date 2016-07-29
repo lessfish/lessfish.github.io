@@ -1,7 +1,7 @@
 **【Notice: 请在 chrome 下看 demo，不保证兼容性】**
 # 2016
 	
-- [超级马里奥 (Canvas)](http://hanzichi.github.io/2016/superMario/)
+- [超级马里奥 (Canvas)](http://hanzichi.github.io/2016/superMario/) [wait for a while for loading...]
 - [BigRender](http://hanzichi.github.io/2016/bigrender/)
 - [Integer to Roman & Roman to Integer](http://hanzichi.github.io/2016/integer-roman-conversion/)
 
