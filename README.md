@@ -1,3 +1,4 @@
+**【Notice: 请在 chrome 下看 demo，不保证兼容性】**
 # 2016
 	
 - [超级马里奥 (Canvas)](http://hanzichi.github.io/2016/superMario/)
