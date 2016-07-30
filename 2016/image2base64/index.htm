@@ -1,0 +1,47 @@
+<title>获取图片 base64 编码</title>
+<meta charset="utf-8">
+<style>
+  textarea {
+    width: 100%;
+    height: 200px;
+    margin-top: 10px;
+  }
+</style>
+<body>
+<h1>上传图片或者拖动图片到框内获取图片 base64 编码</h1>
+<input type='file' multiple /><br/>
+<textarea></textarea>
+<script>
+  document.querySelector('input').onchange = function() {
+    var reader = new FileReader();
+
+    reader.onload = function() {
+      var dataURL = reader.result;
+      document.querySelector('textarea').innerHTML = dataURL;
+    };
+
+    reader.readAsDataURL(this.files[0]);
+  };
+
+
+  // drag & drop
+  var ipt = document.querySelector('textarea');
+  ipt.ondragover = function () { return false; };
+
+  // Add drop handler
+  ipt.ondrop = function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    e = e || window.event;
+    var files = e.dataTransfer.files;
+    var reader = new FileReader();
+
+    reader.onload = function() {
+      var dataURL = reader.result;
+      document.querySelector('textarea').innerHTML = dataURL;
+    };
+
+    reader.readAsDataURL(files[0]);
+  };
+</script>
+</body>
