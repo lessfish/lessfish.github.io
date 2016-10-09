@@ -5,6 +5,7 @@
 - [BigRender](http://hanzichi.github.io/2016/bigrender/)
 - [Integer to Roman & Roman to Integer](http://hanzichi.github.io/2016/integer-roman-conversion/)
 - [image to base64](http://hanzichi.github.io/2016/image2base64/)
+- [数独在线求解](http://hanzichi.github.io/2016/sudoku-killer/)
 
 
 # 2015
