@@ -16,6 +16,20 @@
   button.innerHTML = 'Click to solve';
   button.onclick = function() {
     // get sudoku map
+    /*
+    window.a = [
+      [3, '', 1, 4, 2, 9, '', '', 6],
+      ['', '', '', 8, '', 1, '', 5, ''],
+      [4, 8, '', '', 5, '', 2, '', ''],
+      [1, '', '', '', 8, 2, 6, 9, ''],
+      ['', '', '', '', '', 5, '', 8, 7],
+      ['', '', 7, 3, 6, '', '', '', 2],
+      ['', 7, '', 9, 4, '', 1, '', 3],
+      [9, 4, '', '', '', 6, '', '', ''],
+      [6, 1, '', '', 7, 3, '', '', 5]
+    ];
+    */
+
     var tds = document.getElementsByTagName('td');
     window.a = [];
     for (var i = 0; i < 9; i++) {
@@ -132,7 +146,7 @@ function dfs(index) {
 
     dfs(index + 1);
 
-    // backtrace
+    // backtrack
     a[x][y] = '';
   }
 }
