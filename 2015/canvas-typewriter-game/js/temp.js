@@ -32,9 +32,7 @@ Ball.prototype.update = function(id) {
 
   // 判断游戏结束
   if(this.state === 1 && this.pos2.y > height) {
-    // clearInterval(handle);
     game.isOver = true;
-    // alert('game over!');
     return;
   }
 
@@ -48,7 +46,7 @@ Ball.prototype.kill = function(id) {
   this.father.balls.splice(id, 1);
 };
 
-// 
+//
 function Letter(a, dis) {
   this.letter = a;
   this.balls = [];
@@ -58,13 +56,13 @@ function Letter(a, dis) {
 
 Letter.prototype.getBalls = function(dis) {
   // 离屏canvas
-  var ocanvas = document.createElement('canvas'); 
-  // document.body.appendChild(ocanvas); 
+  var ocanvas = document.createElement('canvas');
+  // document.body.appendChild(ocanvas);
   ocanvas.height = window.innerHeight;
   ocanvas.width = window.innerWidth;
-  var octx = ocanvas.getContext('2d');
 
-  octx.font = " 1px Monospace"
+  var octx = ocanvas.getContext('2d');
+  octx.font = "1px Monospace";
   octx.textAlign = "left";
   octx.textBaseline = "top";
   octx.fillStyle = 'red';
@@ -96,7 +94,7 @@ Letter.prototype.update = function() {
     this.balls[i].update(i);
 };
 
-// 
+//
 function Word(a) {
   this.word = a;
   this.letters = [];
@@ -104,7 +102,7 @@ function Word(a) {
 }
 
 Word.prototype.getLetters = function() {
-  ctx.font = " 1px Monospace";
+  ctx.font = "1px Monospace";
   var offset = getRandomNum(0, width - ctx.measureText(this.word).width * 2);
   for(var i = 0; i < this.word.length; i++) {
     this.letters.push(new Letter(this.word.charAt(i), offset))
@@ -115,7 +113,7 @@ Word.prototype.getLetters = function() {
 
 // Word
 // word消失做平抛运动，实质还是ball的运动
-Word.prototype.disappear = function(id) { 
+Word.prototype.disappear = function(id) {
   for(var i = 0; i < this.letters.length; i++) {
     var l = this.letters[i];
     l.disappear();
@@ -132,7 +130,7 @@ Word.prototype.update = function() {
     this.letters[i].update();
 };
 
-//
+// Collection
 function Collection() {
   this.words = [];
 };

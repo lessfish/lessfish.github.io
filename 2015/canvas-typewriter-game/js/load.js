@@ -1,5 +1,5 @@
-window.canvas = document.createElement('canvas'); 
-document.body.appendChild(window.canvas); 
+window.canvas = document.createElement('canvas');
+document.body.appendChild(window.canvas);
 canvas.height = window.height = window.innerHeight;
 canvas.width = window.width = window.innerWidth / 2;
 window.ctx = canvas.getContext('2d');

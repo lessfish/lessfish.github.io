@@ -6,6 +6,7 @@
 - [Integer to Roman & Roman to Integer](http://hanzichi.github.io/2016/integer-roman-conversion/)
 - [image to base64](http://hanzichi.github.io/2016/image2base64/)
 - [数独在线求解](http://hanzichi.github.io/2016/sudoku-killer/)
+- [a simple canvas game](http://hanzichi.github.io/2016/a-simple-canvas-game/)
 
 
 # 2015

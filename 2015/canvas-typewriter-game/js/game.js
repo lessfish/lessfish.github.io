@@ -3,7 +3,7 @@ var game = {
   keys: [],
   stage: undefined,
   wordIndex: -1, // 当前正在kill的word编号，默认-1
-  letterIndex: -1, // 
+  letterIndex: -1, //
   timeIndex: +new Date, // 时间戳，控制速度
   score: 0,
   hash: [], // hash killed words
@@ -13,7 +13,6 @@ var game = {
   addListener: function() {
     addEventListener("keydown", function(e) {
       // game.keys[e.keyCode] = true;
-      // alert(e.keyCode)
       var s = String.fromCharCode(e.keyCode).toLowerCase();
       // 还没有新的word需要消除，寻找
       if(game.wordIndex === -1) {
@@ -95,13 +94,10 @@ var game = {
 
 game.init();
 game.addListener();
-// window.handle = setInterval(function() {
-  // game.render();
-// }, 1000/60);
 
 //调用 相当于setTimeout里的callback
-function animationLoop(){   
-  // logic  
+function animationLoop(){
+  // logic
   game.render();
   // 循环
   if(!game.isOver)
@@ -116,7 +112,7 @@ function animationLoop(){
     ctx.fillText('game over!', width/2, height/2 - 50);
     ctx.fillText('score: ' + game.score, width/2, height/2);
   }
-}  
+}
 
 // 启动
 requestAnimFrame(animationLoop);
