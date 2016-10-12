@@ -14,7 +14,7 @@ window.array = [
 'make',
 'history',
 'grandpa',
-'grandma',//
+'grandma',
 'destroy',
 'find',
 'there',
