@@ -3,7 +3,7 @@
 推荐下列资料：
 
 - [How to make a simple HTML5 Canvas game](http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/)
-- [如何开发一个简单的HTML5 Canvas 小游戏](http://www.cnblogs.com/Wayou/p/how-to-make-a-simple-html5-canvas-game.html)
+- [如何开发一个简单的HTML5 Canvas 小游戏](http://www.cnblogs.com/Wayou/p/how-to-make-a-simple-html5-canvas-game.html)（上文译文）
 - [source code](https://github.com/lostdecade/simple_canvas_game)
 
 备注几个可能需要注意的点。
