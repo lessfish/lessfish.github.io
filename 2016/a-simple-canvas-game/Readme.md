@@ -25,8 +25,8 @@ document.body.appendChild(canvas);
 ```
 body {margin:0; padding:0; wdith:100%; height: 100%}
 canvas {display:block; background-color:#000; margin:0 auto;}
-
 ```
+
 ```javascript
 window.canvas = document.createElement('canvas');
 window.ctx = canvas.getContext('2d');
