@@ -11,7 +11,7 @@
 
 ## 游戏的基本原理
 
-![](images/renderjpg)
+![](images/render.jpg)
 
 
 ## 创建画布
