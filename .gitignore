@@ -1,2 +1,5 @@
 /2013/a-simple-black-cat/
 /2013/a-complex-black-cat/
+.DS_Store
+node_modules/
+npm-debug.log*
