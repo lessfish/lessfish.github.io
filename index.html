@@ -5,8 +5,13 @@
   <title>zichi's space</title>
   <base target="_blank" />
   <style>
+    html body {
+      margin: 0;
+      padding: 0;
+    }
+
     .wrapper {
-      margin: 0 auto;
+      margin-left: 10px;
     }
 
     .main .cell {
@@ -28,8 +33,22 @@
       margin-bottom: 15px;
     }
 
-    body {
+    .wrapper {
       /*background-color: rgba(0, 0, 0, 0.22);*/
+      background-image: url(images/bg.jpg);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: transparent;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      z-index: 1;
+      margin: 0;
+      padding: 0;
+      padding-left: 15px;
     }
   </style>
 </head>
