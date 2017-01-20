@@ -3,7 +3,7 @@
   <meta charset="utf-8" />
   <script>
     var tools = function () {
-    
+
       return {
         ua: window.navigator.userAgent,
         nativeSupp: !!(window.btoa || window.atob),
@@ -48,11 +48,11 @@
       <p id="result"></p>
     </div>
     </div>
-    
+
     <script>
       (function () {
         var $ua, $supp, $text, $sel, $btn, $result;
-        
+
         function init () {
           var $ = tools.$;
           $ua = $('ua');
@@ -77,7 +77,7 @@
             $result.innerHTML = window[method](val);
           })
         }
-        
+
         tools.addEvent(window, 'load', init);
       })();
     </script>
