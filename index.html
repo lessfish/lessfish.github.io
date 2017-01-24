@@ -46,7 +46,7 @@
 
     .wrapper {
       /*background-color: rgba(0, 0, 0, 0.22);*/
-      background-image: url(images/bg.jpg);
+      /*background-image: url(images/bg2.jpg);*/
       position: absolute;
       top: 0;
       left: 0;
@@ -94,5 +94,10 @@
 
     <span class="h3">Contact me: <a href="mailto:hanzichi@outlook.com">hanzichi@outlook.com</a></span>
   </div>
+  <script type="text/javascript">
+    let len = 3;
+    let index = ~~(Math.random() * len);
+    document.querySelector('.wrapper').style.backgroundImage = `url(images/bg${index}.jpg)`;
+  </script>
 </body>
 </html>
