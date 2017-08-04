@@ -1,4 +1,9 @@
 **【Notice: 请在 chrome 下看 demo，不保证其他浏览器的兼容性】**
+
+# 2017
+- [word-wrap, word-break, and white-space](http://hanzichi.github.io/2017/word-wrap/)
+
+
 # 2016
 
 - [超级马里奥 (Canvas)](http://hanzichi.github.io/2016/superMario/) [wait for a while for loading...]

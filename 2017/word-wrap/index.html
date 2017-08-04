@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>word-wrap, word-break, and white-spacing</title>
+  <style>
+    .container .wrapper {
+      width: 600px;
+      margin: 0 auto;
+      padding-bottom: 20px;
+      border-bottom: 1px solid gray;
+    }
+
+    .container .wrapper>:nth-last-child(2) {
+      width: 100px;
+      height: 120px;
+      border: 1px solid red;
+    }
+
+    .container .wrapper:nth-child(3)>:nth-last-child(2) {
+      height: 200px;
+    }
+
+    input[type="radio"] {
+      display: inline-block;
+    }
+
+    .word-wrap-normal {
+      word-wrap: normal;
+    }
+
+    .word-wrap-word-break {
+      word-wrap: break-word;
+    }
+    
+    .word-break-normal {
+      word-break: normal;
+    }
+
+    .word-break-break-all {
+      word-break: break-all;
+    }
+
+    .word-break-keep-all {
+      word-break: keep-all;
+    }
+    
+    .white-space-normal {
+      white-space: normal;
+    }
+
+    .white-space-pre {
+      white-space: pre;
+    }
+
+    .white-space-nowrap {
+      white-space: nowrap;
+    }
+
+    .white-space-pre-wrap {
+      white-space: pre-wrap;
+    }
+
+    .white-space-pre-line {
+      white-space: pre-line;
+    }
+
+    .code {
+      border: 1px solid gray;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="wrapper">
+      <h1>word-wrap (overflow-wrap)</h1>
+      <div>
+        this is a veryveryveryveryveryvery long sentence
+      </div>
+      <div class="radio-group">
+        <input type="radio" value="word-wrap-normal" checked>normal<br>
+        <input type="radio" value="word-wrap-word-break">break-word（还算温柔的换行，在 normal 基础上换行）<br>
+      </div>
+    </div>
+
+    <div class="wrapper">
+      <h1>word-break</h1>
+      <div>
+        this is a veryveryveryveryveryvery long sentence
+      </div>
+      <div class="radio-group">
+        <input type="radio" value="word-break-normal" checked>normal<br>
+        <input type="radio" value="word-break-break-all">break-all（如其名，能换行的都给换行，最节省空间。对于 non-CJK (中文/日文/韩文) 文本，可在任意字符间断行）<br>
+        <input type="radio" value="word-break-keep-all">keep-all（CJK 文本不断行。 Non-CJK 文本表现同 normal。）<br>
+      </div>
+    </div>
+
+    <div class="wrapper">
+      <h1>white-space</h1>
+      <ul>
+        <li>空格是否合并</li>
+        <li>回车是否显示成换行</li>
+        <li>句子太长是否在有空格处换行</li>
+      </ul>
+      <h3>source code</h3>
+      <pre class="code">
+        this  
+          is 
+            a veryveryveryveryveryvery long 
+              sentence
+      </pre>
+      <div>
+        this 
+          is 
+            a veryveryveryveryveryvery long
+              sentence
+      </div>
+      <div class="radio-group">
+        <input type="radio" value="white-space-normal" checked>normal（空格合并，回车不换行，句子太长换行）<br>
+        <input type="radio" value="white-space-nowrap">nowrap（空格合并，回车不换行，句子太长不换行）<br>
+        <input type="radio" value="white-space-pre">pre（空格不合并，回车换行，句子太长不换行）<br>
+        <input type="radio" value="white-space-pre-wrap">pre-wrap（空格不合并，回车换行，句子太长换行）<br>
+        <input type="radio" value="white-space-pre-line">pre-line（空格合并，回车换行，句子太长换行）<br>
+      </div>
+    </div>  
+  </div>
+  <script>
+    document.querySelector(".container").addEventListener("click", e => {
+      let target = e.target
+      if (target.type !== 'radio') return
+
+      let cla = target.value
+      let parent = target.parentNode
+      parent.previousElementSibling.className = cla
+
+      let radios = parent.querySelectorAll('input[type="radio"]')
+      for (let i = 0, len = radios.length; i < len; i++)
+        radios[i].checked = false
+      
+      target.checked = true
+    })
+  </script>
+</body>
+</html>
