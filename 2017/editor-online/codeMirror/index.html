@@ -1,0 +1,119 @@
+<head>
+  <!-- 核心 css 文件 -->
+  <link href="https://cdn.bootcss.com/codemirror/5.30.0/codemirror.css" rel="stylesheet">
+  <!-- <link href="https://cdn.bootcss.com/codemirror/5.30.0/theme/3024-night.css" rel="stylesheet"> -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      height: 100vh;
+      width: 100vw;
+      position: relative;
+    }
+
+    body .left {
+      float: left;
+      height: 100%;
+      width: 50%;
+    }
+
+    body .left #editor {
+      height: 100%;
+      width: 100%;
+    }
+    
+    body .right {
+      float: left;
+      height: 100%;
+      box-sizing: border-box;
+      width: 50%;
+      border-left: 1px dashed #777;
+    }
+
+    body .right iframe {
+      width: 100%;
+      height: 100%;
+    }
+
+    .btn {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
+    /* override*/
+    .CodeMirror {
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+<div class="left">
+<textarea id="editor" name="editor">
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <style>
+
+  </style>
+</head>
+<body>
+
+</body>
+</html>
+</textarea>
+</div>
+<div class="right">
+  <iframe frameborder=0></iframe>
+</div>
+<button class="btn">新页面查看效果</button>
+<!-- 核心 js 文件 -->
+<script src="https://cdn.bootcss.com/codemirror/5.30.0/codemirror.js"></script>
+
+<!-- 语法高亮 -->
+<script src="https://cdn.bootcss.com/codemirror/5.30.0/mode/xml/xml.min.js"></script>
+<script src="https://cdn.bootcss.com/codemirror/5.30.0/mode/css/css.min.js"></script>
+<script src="https://cdn.bootcss.com/codemirror/5.30.0/mode/htmlmixed/htmlmixed.min.js"></script>
+
+<!-- auto close tags -->
+<script src="https://cdn.bootcss.com/codemirror/5.30.0/addon/edit/closetag.js"></script>
+
+<script src="https://cdn.bootcss.com/codemirror/5.30.0/keymap/sublime.min.js"></script>
+<script src="https://cdn.bootcss.com/codemirror/5.30.0/addon/edit/matchbrackets.min.js"></script>
+<script>
+  var editor = CodeMirror.fromTextArea(document.querySelector('#editor'), {
+    mode:  "htmlmixed",
+    lineNumbers: true,
+    tabSize: 2,
+    autofocus: true,
+    // theme: '3024-night',
+    // smartIndent: true,
+    // styleActiveLine: true,
+    autoCloseTags: true,
+    keyMap: 'sublime',
+
+    //括号匹配
+    matchBrackets: true,
+  });
+
+  editor.on('change', self => {
+    let html = self.getValue()
+    document.querySelector('.right > iframe').srcdoc = html
+  })
+
+  document.querySelector('.btn').addEventListener('click', () => {
+    runCode()
+  }, false)
+
+  function runCode() {
+    let code = editor.getValue()
+    let handler = window.open('')
+    handler.opener = null
+    handler.document.write(code)
+    handler.document.close()
+  }
+</script> 
+</body>
