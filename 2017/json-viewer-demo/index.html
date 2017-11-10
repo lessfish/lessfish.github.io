@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>json-viewer demo</title>
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="json-browse/jquery.json-browse.js"></script>
+  <link rel="stylesheet" href="json-browse/jquery.json-browse.css">
+</head>
+<body>
+  <pre id="json-renderer" class="json-body"></pre>
+  <script>
+    let data = {
+        "firstName": "John",
+        "lastName": "Smith",
+        "age": 25,
+        "money": -5000,
+        "hope": 0,
+        "married": false,
+        "children": null,
+        "lonely": true,
+        "html": "<p>This <br> is a paragraph <br> with <br> line breaks</p>",
+        "something": [
+            "else",
+            true,
+            12345,
+            {
+                "prop": false
+            }
+        ],
+        "address": {
+            "streetAddress": "21 2nd Street",
+            "city": "New York",
+            "state": "NY",
+            "postalCode": 10021
+        },
+        "phoneNumber": [
+            {
+                "type": "home",
+                "number": "212 555-1239"
+            },
+            {
+                "type": "fax",
+                "number": "646 555-4567"
+            }
+        ],
+        "gender": {
+            "type": "male"
+        }
+    }
+    
+    $('#json-renderer').jsonBrowse(data)
+  </script>
+</body>
+</html>
