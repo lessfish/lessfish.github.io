@@ -1,0 +1,245 @@
+
+  <style type="text/css" media="screen">
+    .codedog {
+      width: 900px;
+      height: 300px;
+    }
+
+    .codedog .codedog-nav {
+      height: 30px;      
+    } 
+
+    .codedog .codedog-nav .btn-new-page {
+      float: right;
+    } 
+
+    .codedog .codedog-main {
+      height: 270px;
+    }
+
+    .codedog .codedog-editor { 
+      width: 50%;
+      height: 100%;
+      float: left;
+    }
+
+    .codedog .result {
+      width: 50%;
+      height: 100%;
+      float: left;
+      border: 1px solid #000;
+      box-sizing: border-box;
+    }
+
+    .codedog .result .preview {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hljs {
+      width: 900px;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script>
+  function runCode(editorId) {
+    let code = ace.edit(editorId).getValue()
+    let handler = window.open('')
+    handler.opener = null
+    handler.document.write(code)
+    handler.document.close()
+  }
+
+  document.onclick = e => {
+    let target = e.target
+    if (target.className !== 'btn-new-page') 
+      return
+
+    runCode(target.parentNode.nextElementSibling.children[0])
+  }
+  </script>
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
+  <script>hljs.initHighlightingOnLoad();</script>
+  <h2 id="-">两个元素嵌套</h2>
+
+  <div class="codedog" id="codedog0">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor0" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor0 = ace.edit("editor0")
+    editor0.$blockScrolling = 1
+    editor0.setTheme("ace/theme/monokai")
+    editor0.getSession().setMode("ace/mode/html")
+    editor0.getSession().setTabSize(2)
+    editor0.getSession().setValue(`<body>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  .wrapper {
+    width: 100px;
+    height: 50px;
+    background: #655;
+    padding: .8em;
+  }
+
+  .inner {
+    background: tan;
+    border-radius: 10px; 
+    padding: 15px;
+  }
+</style>  
+<div class="wrapper">
+  <div class="inner"></div>  
+</div>
+</body>`)
+
+    let iframe0 = document.querySelector("#codedog0 .preview");
+    iframe0.srcdoc = `<body>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  .wrapper {
+    width: 100px;
+    height: 50px;
+    background: #655;
+    padding: .8em;
+  }
+
+  .inner {
+    background: tan;
+    border-radius: 10px; 
+    padding: 15px;
+  }
+</style>  
+<div class="wrapper">
+  <div class="inner"></div>  
+</div>
+</body>`
+
+    editor0.getSession().on('change', () => {
+      iframe0.srcdoc =  editor0.getValue()
+    });
+  </script>
+  
+<h2 id="-">更优雅的方案</h2>
+
+  <div class="codedog" id="codedog1">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor1" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor1 = ace.edit("editor1")
+    editor1.$blockScrolling = 1
+    editor1.setTheme("ace/theme/monokai")
+    editor1.getSession().setMode("ace/mode/html")
+    editor1.getSession().setTabSize(2)
+    editor1.getSession().setValue(`<body>
+<style>
+  .myDiv {
+    height: 50px;
+    width: 100px;
+    background: red;
+    border-radius: .8em; 
+    box-shadow: 0 0 0 .6em #655; 
+    outline: .6em solid #655;
+  }
+</style>  
+<div class="myDiv"></div>
+</body>`)
+
+    let iframe1 = document.querySelector("#codedog1 .preview");
+    iframe1.srcdoc = `<body>
+<style>
+  .myDiv {
+    height: 50px;
+    width: 100px;
+    background: red;
+    border-radius: .8em; 
+    box-shadow: 0 0 0 .6em #655; 
+    outline: .6em solid #655;
+  }
+</style>  
+<div class="myDiv"></div>
+</body>`
+
+    editor1.getSession().on('change', () => {
+      iframe1.srcdoc =  editor1.getValue()
+    });
+  </script>
+  
+<p>我们基本受益于两个事实，描边（outline）并不会跟着元素的圆角走（因而显示出直角），但是 box-shadow 却是会的。因此，如果我们把这两者叠加到一起，box-shadow 会刚好填补描边和容器圆角之间的空隙。</p>
+<p>事实上，指定一个等于描边宽度的扩张值可能会得到异常渲染（目前在 chrome 中也是一样），因此推荐一个更小的值，那么，这个值是？</p>
+<p>其实，我们需要满足 (根号2-1)*r &lt;= 扩张半径 &lt;= 描边宽度，这意味着，如果描边的宽度比 (根号2-1)*r 小，那我们是不可能用这个方法达成效果的。根号2 -1 约等于 0.414，<strong>如果可以的话，我们可以将扩张半径取值为 border-radius 的一半</strong>。</p>
+
+  <div class="codedog" id="codedog2">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor2" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor2 = ace.edit("editor2")
+    editor2.$blockScrolling = 1
+    editor2.setTheme("ace/theme/monokai")
+    editor2.getSession().setMode("ace/mode/html")
+    editor2.getSession().setTabSize(2)
+    editor2.getSession().setValue(`<body>
+<style>
+  .myDiv {
+    height: 50px;
+    width: 100px;
+    background: red;
+    border-radius: .8em; 
+    box-shadow: 0 0 0 .4em #655; 
+    outline: .6em solid #655;
+  }
+</style>  
+<div class="myDiv"></div>
+</body>`)
+
+    let iframe2 = document.querySelector("#codedog2 .preview");
+    iframe2.srcdoc = `<body>
+<style>
+  .myDiv {
+    height: 50px;
+    width: 100px;
+    background: red;
+    border-radius: .8em; 
+    box-shadow: 0 0 0 .4em #655; 
+    outline: .6em solid #655;
+  }
+</style>  
+<div class="myDiv"></div>
+</body>`
+
+    editor2.getSession().on('change', () => {
+      iframe2.srcdoc =  editor2.getValue()
+    });
+  </script>
+  

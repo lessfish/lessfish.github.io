@@ -1,0 +1,774 @@
+
+  <style type="text/css" media="screen">
+    .codedog {
+      width: 900px;
+      height: 300px;
+    }
+
+    .codedog .codedog-nav {
+      height: 30px;      
+    } 
+
+    .codedog .codedog-nav .btn-new-page {
+      float: right;
+    } 
+
+    .codedog .codedog-main {
+      height: 270px;
+    }
+
+    .codedog .codedog-editor { 
+      width: 50%;
+      height: 100%;
+      float: left;
+    }
+
+    .codedog .result {
+      width: 50%;
+      height: 100%;
+      float: left;
+      border: 1px solid #000;
+      box-sizing: border-box;
+    }
+
+    .codedog .result .preview {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hljs {
+      width: 900px;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script>
+  function runCode(editorId) {
+    let code = ace.edit(editorId).getValue()
+    let handler = window.open('')
+    handler.opener = null
+    handler.document.write(code)
+    handler.document.close()
+  }
+
+  document.onclick = e => {
+    let target = e.target
+    if (target.className !== 'btn-new-page') 
+      return
+
+    runCode(target.parentNode.nextElementSibling.children[0])
+  }
+  </script>
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
+  <script>hljs.initHighlightingOnLoad();</script>
+  <h2 id="-">网格</h2>
+<p>当我们把多个渐变图案组合起来，让它们透过彼此的透明区域显现时，可以得到各种各样的网格。</p>
+
+  <div class="codedog" id="codedog0">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor0" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor0 = ace.edit("editor0")
+    editor0.$blockScrolling = 1
+    editor0.setTheme("ace/theme/monokai")
+    editor0.getSession().setMode("ace/mode/html")
+    editor0.getSession().setTabSize(2)
+    editor0.getSession().setValue(`<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: white; 
+    background-image: linear-gradient(90deg, 
+                        rgba(200, 0, 0, .5) 50%, transparent 0),
+                      linear-gradient(
+                        rgba(200, 0, 0, .5) 50%, transparent 0);
+    background-size: 30px 30px;
+  }
+</style>
+</body>`)
+
+    let iframe0 = document.querySelector("#codedog0 .preview");
+    iframe0.srcdoc = `<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: white; 
+    background-image: linear-gradient(90deg, 
+                        rgba(200, 0, 0, .5) 50%, transparent 0),
+                      linear-gradient(
+                        rgba(200, 0, 0, .5) 50%, transparent 0);
+    background-size: 30px 30px;
+  }
+</style>
+</body>`
+
+    editor0.getSession().on('change', () => {
+      iframe0.srcdoc =  editor0.getValue()
+    });
+  </script>
+  
+<p>在某些情况下，我们希望 <strong>网格中每个格子的大小可以调整，而网格线条的粗细同时保持固定</strong>。以下是一个 <strong>使用长度而不是百分比</strong> 作为色标的例子。</p>
+
+  <div class="codedog" id="codedog1">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor1" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor1 = ace.edit("editor1")
+    editor1.$blockScrolling = 1
+    editor1.setTheme("ace/theme/monokai")
+    editor1.getSession().setMode("ace/mode/html")
+    editor1.getSession().setTabSize(2)
+    editor1.getSession().setValue(`<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #58a;
+    background-image:
+      linear-gradient(white 1px, transparent 0),
+      linear-gradient(90deg, white 1px, transparent 0);
+    background-size: 30px 30px;
+  }
+</style>
+</body>`)
+
+    let iframe1 = document.querySelector("#codedog1 .preview");
+    iframe1.srcdoc = `<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #58a;
+    background-image:
+      linear-gradient(white 1px, transparent 0),
+      linear-gradient(90deg, white 1px, transparent 0);
+    background-size: 30px 30px;
+  }
+</style>
+</body>`
+
+    editor1.getSession().on('change', () => {
+      iframe1.srcdoc =  editor1.getValue()
+    });
+  </script>
+  
+<h2 id="-">波点</h2>
+
+  <div class="codedog" id="codedog2">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor2" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor2 = ace.edit("editor2")
+    editor2.$blockScrolling = 1
+    editor2.setTheme("ace/theme/monokai")
+    editor2.getSession().setMode("ace/mode/html")
+    editor2.getSession().setTabSize(2)
+    editor2.getSession().setValue(`<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #655;
+    background-image: radial-gradient(tan 30%, transparent 0);
+    background-size: 30px 30px;
+  }
+</style>
+</body>`)
+
+    let iframe2 = document.querySelector("#codedog2 .preview");
+    iframe2.srcdoc = `<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #655;
+    background-image: radial-gradient(tan 30%, transparent 0);
+    background-size: 30px 30px;
+  }
+</style>
+</body>`
+
+    editor2.getSession().on('change', () => {
+      iframe2.srcdoc =  editor2.getValue()
+    });
+  </script>
+  
+<p>我们可以生成两层圆点阵列图案，并把它们的背景定位错开，从而导得到真正的波点图案。</p>
+
+  <div class="codedog" id="codedog3">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor3" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor3 = ace.edit("editor3")
+    editor3.$blockScrolling = 1
+    editor3.setTheme("ace/theme/monokai")
+    editor3.getSession().setMode("ace/mode/html")
+    editor3.getSession().setTabSize(2)
+    editor3.getSession().setValue(`<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #655;
+    background-image: 
+      radial-gradient(tan 30%, transparent 0),
+      radial-gradient(tan 30%, transparent 0);
+    background-position: 0 0, 15px 15px;
+    background-size: 30px 30px;
+
+  }
+</style>
+</body>`)
+
+    let iframe3 = document.querySelector("#codedog3 .preview");
+    iframe3.srcdoc = `<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #655;
+    background-image: 
+      radial-gradient(tan 30%, transparent 0),
+      radial-gradient(tan 30%, transparent 0);
+    background-position: 0 0, 15px 15px;
+    background-size: 30px 30px;
+
+  }
+</style>
+</body>`
+
+    editor3.getSession().on('change', () => {
+      iframe3.srcdoc =  editor3.getValue()
+    });
+  </script>
+  
+<h2 id="-">棋盘</h2>
+<p>这里的窍门在于 <strong>用两个直角三角形来拼合出我们想要的方块</strong>。</p>
+
+  <div class="codedog" id="codedog4">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor4" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor4 = ace.edit("editor4")
+    editor4.$blockScrolling = 1
+    editor4.setTheme("ace/theme/monokai")
+    editor4.getSession().setMode("ace/mode/html")
+    editor4.getSession().setTabSize(2)
+    editor4.getSession().setValue(`<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #eee;
+    background-image:
+      linear-gradient(45deg, #bbb 50%, transparent 0);
+    background-size: 30px 30px;
+  }
+</style>
+</body>`)
+
+    let iframe4 = document.querySelector("#codedog4 .preview");
+    iframe4.srcdoc = `<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #eee;
+    background-image:
+      linear-gradient(45deg, #bbb 50%, transparent 0);
+    background-size: 30px 30px;
+  }
+</style>
+</body>`
+
+    editor4.getSession().on('change', () => {
+      iframe4.srcdoc =  editor4.getValue()
+    });
+  </script>
+  
+<p>我们把这些直角三角形的直角边缩短到原来的一半。</p>
+
+  <div class="codedog" id="codedog5">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor5" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor5 = ace.edit("editor5")
+    editor5.$blockScrolling = 1
+    editor5.setTheme("ace/theme/monokai")
+    editor5.getSession().setMode("ace/mode/html")
+    editor5.getSession().setTabSize(2)
+    editor5.getSession().setValue(`<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #eee;
+    background-image:
+      linear-gradient(45deg, #bbb 25%, transparent 0);
+    background-size: 30px 30px;
+  }
+</style>
+</body>`)
+
+    let iframe5 = document.querySelector("#codedog5 .preview");
+    iframe5.srcdoc = `<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #eee;
+    background-image:
+      linear-gradient(45deg, #bbb 25%, transparent 0);
+    background-size: 30px 30px;
+  }
+</style>
+</body>`
+
+    editor5.getSession().on('change', () => {
+      iframe5.srcdoc =  editor5.getValue()
+    });
+  </script>
+  
+<p>我们把色标的顺序反转，将两者组合。</p>
+
+  <div class="codedog" id="codedog6">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor6" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor6 = ace.edit("editor6")
+    editor6.$blockScrolling = 1
+    editor6.setTheme("ace/theme/monokai")
+    editor6.getSession().setMode("ace/mode/html")
+    editor6.getSession().setTabSize(2)
+    editor6.getSession().setValue(`<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #eee;
+    background-image:
+      linear-gradient(45deg, #bbb 25%, transparent 0),
+      linear-gradient(45deg, transparent 75%, #bbb 0);
+    background-size: 30px 30px;
+  }
+</style>
+</body>`)
+
+    let iframe6 = document.querySelector("#codedog6 .preview");
+    iframe6.srcdoc = `<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #eee;
+    background-image:
+      linear-gradient(45deg, #bbb 25%, transparent 0),
+      linear-gradient(45deg, transparent 75%, #bbb 0);
+    background-size: 30px 30px;
+  }
+</style>
+</body>`
+
+    editor6.getSession().on('change', () => {
+      iframe6.srcdoc =  editor6.getValue()
+    });
+  </script>
+  
+<p>然后把第二层渐变在水平和垂直方向均移动贴片长度的一半，就可以拼成一个完整的方块。</p>
+
+  <div class="codedog" id="codedog7">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor7" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor7 = ace.edit("editor7")
+    editor7.$blockScrolling = 1
+    editor7.setTheme("ace/theme/monokai")
+    editor7.getSession().setMode("ace/mode/html")
+    editor7.getSession().setTabSize(2)
+    editor7.getSession().setValue(`<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #eee;
+    background-image:
+      linear-gradient(45deg, #bbb 25%, transparent 0),
+      linear-gradient(45deg, transparent 75%, #bbb 0);
+    background-size: 30px 30px;
+    background-position: 0 0, 15px 15px;
+  }
+</style>
+</body>`)
+
+    let iframe7 = document.querySelector("#codedog7 .preview");
+    iframe7.srcdoc = `<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #eee;
+    background-image:
+      linear-gradient(45deg, #bbb 25%, transparent 0),
+      linear-gradient(45deg, transparent 75%, #bbb 0);
+    background-size: 30px 30px;
+    background-position: 0 0, 15px 15px;
+  }
+</style>
+</body>`
+
+    editor7.getSession().on('change', () => {
+      iframe7.srcdoc =  editor7.getValue()
+    });
+  </script>
+  
+<p>这本质上只是 <strong>棋盘的一半</strong>，我们只需要把现有的这一组渐变重复一份，从而创建出另一组正方形。</p>
+
+  <div class="codedog" id="codedog8">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor8" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor8 = ace.edit("editor8")
+    editor8.$blockScrolling = 1
+    editor8.setTheme("ace/theme/monokai")
+    editor8.getSession().setMode("ace/mode/html")
+    editor8.getSession().setTabSize(2)
+    editor8.getSession().setValue(`<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #eee;
+    background-image:
+      linear-gradient(45deg, #bbb 25%, transparent 0),
+      linear-gradient(45deg, transparent 75%, #bbb 0),
+      linear-gradient(45deg, #bbb 25%, transparent 0),
+      linear-gradient(45deg, transparent 75%, #bbb 0);
+    background-size: 30px 30px;
+    background-position: 
+      0 0, 
+      15px 15px,
+      15px 15px,
+      30px 30px;
+  }
+</style>
+</body>`)
+
+    let iframe8 = document.querySelector("#codedog8 .preview");
+    iframe8.srcdoc = `<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #eee;
+    background-image:
+      linear-gradient(45deg, #bbb 25%, transparent 0),
+      linear-gradient(45deg, transparent 75%, #bbb 0),
+      linear-gradient(45deg, #bbb 25%, transparent 0),
+      linear-gradient(45deg, transparent 75%, #bbb 0);
+    background-size: 30px 30px;
+    background-position: 
+      0 0, 
+      15px 15px,
+      15px 15px,
+      30px 30px;
+  }
+</style>
+</body>`
+
+    editor8.getSession().on('change', () => {
+      iframe8.srcdoc =  editor8.getValue()
+    });
+  </script>
+  
+<p>代码还可以优化，将以上 background-image 中 1、4 划为一组，2、3 划为一组。</p>
+
+  <div class="codedog" id="codedog9">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor9" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor9 = ace.edit("editor9")
+    editor9.$blockScrolling = 1
+    editor9.setTheme("ace/theme/monokai")
+    editor9.getSession().setMode("ace/mode/html")
+    editor9.getSession().setTabSize(2)
+    editor9.getSession().setValue(`<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #eee;
+    background-image:
+      linear-gradient(45deg,
+        rgba(0, 0, 0, .25) 25%, transparent 0,
+        transparent 75%, rgba(0, 0, 0, .25) 0),
+      linear-gradient(45deg,
+        rgba(0, 0, 0, .25) 25%, transparent 0,
+        transparent 75%, rgba(0, 0, 0, .25) 0);
+    background-size: 30px 30px;
+    background-position: 
+      0 0, 
+      15px 15px;
+  }
+</style>
+</body>`)
+
+    let iframe9 = document.querySelector("#codedog9 .preview");
+    iframe9.srcdoc = `<body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #eee;
+    background-image:
+      linear-gradient(45deg,
+        rgba(0, 0, 0, .25) 25%, transparent 0,
+        transparent 75%, rgba(0, 0, 0, .25) 0),
+      linear-gradient(45deg,
+        rgba(0, 0, 0, .25) 25%, transparent 0,
+        transparent 75%, rgba(0, 0, 0, .25) 0);
+    background-size: 30px 30px;
+    background-position: 
+      0 0, 
+      15px 15px;
+  }
+</style>
+</body>`
+
+    editor9.getSession().on('change', () => {
+      iframe9.srcdoc =  editor9.getValue()
+    });
+  </script>
+  
+<p>其实，svg 是更好的选择。</p>
+
+  <div class="codedog" id="codedog10">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor10" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor10 = ace.edit("editor10")
+    editor10.$blockScrolling = 1
+    editor10.setTheme("ace/theme/monokai")
+    editor10.getSession().setMode("ace/mode/html")
+    editor10.getSession().setTabSize(2)
+    editor10.getSession().setValue(`<svg xmlns="http://www.w3.org/2000/svg"
+  width="100" height="100" fill-opacity=".25" >
+  <rect x="50" width="50" height="50" />
+  <rect y="50" width="50" height="50" />
+</svg>`)
+
+    let iframe10 = document.querySelector("#codedog10 .preview");
+    iframe10.srcdoc = `<svg xmlns="http://www.w3.org/2000/svg"
+  width="100" height="100" fill-opacity=".25" >
+  <rect x="50" width="50" height="50" />
+  <rect y="50" width="50" height="50" />
+</svg>`
+
+    editor10.getSession().on('change', () => {
+      iframe10.srcdoc =  editor10.getValue()
+    });
+  </script>
+  
+<p>对于现代浏览器，svg 文件可以以 data URI 的形式嵌入到样式表中，甚至不需要用 base64 或 URLencode 来对其编码。</p>
+
+  <div class="codedog" id="codedog11">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor11" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor11 = ace.edit("editor11")
+    editor11.$blockScrolling = 1
+    editor11.setTheme("ace/theme/monokai")
+    editor11.getSession().setMode("ace/mode/html")
+    editor11.getSession().setTabSize(2)
+    editor11.getSession().setValue(`<body>
+<style>
+  body {
+    background: #eee url('data:image/svg+xml,\\
+      <svg xmlns="http://www.w3.org/2000/svg"\\
+        width="100" height="100" fill-opacity=".25" >\\
+        <rect x="50" width="50" height="50" />\\
+        <rect y="50" width="50" height="50" />\\
+      </svg>');
+    background-size: 30px 30px;
+  }
+</style>
+</body>`)
+
+    let iframe11 = document.querySelector("#codedog11 .preview");
+    iframe11.srcdoc = `<body>
+<style>
+  body {
+    background: #eee url('data:image/svg+xml,\\
+      <svg xmlns="http://www.w3.org/2000/svg"\\
+        width="100" height="100" fill-opacity=".25" >\\
+        <rect x="50" width="50" height="50" />\\
+        <rect y="50" width="50" height="50" />\\
+      </svg>');
+    background-size: 30px 30px;
+  }
+</style>
+</body>`
+
+    editor11.getSession().on('change', () => {
+      iframe11.srcdoc =  editor11.getValue()
+    });
+  </script>
+  

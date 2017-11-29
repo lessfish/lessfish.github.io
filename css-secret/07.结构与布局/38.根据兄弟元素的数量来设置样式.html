@@ -1,0 +1,344 @@
+
+  <style type="text/css" media="screen">
+    .codedog {
+      width: 900px;
+      height: 300px;
+    }
+
+    .codedog .codedog-nav {
+      height: 30px;      
+    } 
+
+    .codedog .codedog-nav .btn-new-page {
+      float: right;
+    } 
+
+    .codedog .codedog-main {
+      height: 270px;
+    }
+
+    .codedog .codedog-editor { 
+      width: 50%;
+      height: 100%;
+      float: left;
+    }
+
+    .codedog .result {
+      width: 50%;
+      height: 100%;
+      float: left;
+      border: 1px solid #000;
+      box-sizing: border-box;
+    }
+
+    .codedog .result .preview {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hljs {
+      width: 900px;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script>
+  function runCode(editorId) {
+    let code = ace.edit(editorId).getValue()
+    let handler = window.open('')
+    handler.opener = null
+    handler.document.write(code)
+    handler.document.close()
+  }
+
+  document.onclick = e => {
+    let target = e.target
+    if (target.className !== 'btn-new-page') 
+      return
+
+    runCode(target.parentNode.nextElementSibling.children[0])
+  }
+  </script>
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
+  <script>hljs.initHighlightingOnLoad();</script>
+  <h2 id="-">难题</h2>
+<p>对于 CSS 选择符来说，基于兄弟元素的总数来匹配元素并不简单。设想一个列表，假设 <strong>仅当列表项的总数为 4 时</strong> 才对这些列表项设置样式。我们可以用 <code>li:nth-child(4)</code> 来选中列表的第四个列表项，但这并不是我们想要的；我们需要 <strong>在列表项的总数为 4 时</strong> 选中 <strong>每一个</strong> 列表项。</p>
+<h2 id="-">解决方案</h2>
+
+  <div class="codedog" id="codedog0">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor0" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor0 = ace.edit("editor0")
+    editor0.$blockScrolling = 1
+    editor0.setTheme("ace/theme/monokai")
+    editor0.getSession().setMode("ace/mode/html")
+    editor0.getSession().setTabSize(2)
+    editor0.getSession().setValue(`<body>
+<style>
+  /*当列表正好包含四项时，命中所有列表项*/
+  /*列表的第一个元素就是列表的倒数第四个元素，说明这个列表有四项*/
+  li:first-child:nth-last-child(4),
+  li:first-child:nth-last-child(4) ~ li {
+    color: red;
+  }
+</style>  
+<ul>
+  <li>apple</li>
+  <li>banana</li>
+  <li>peach</li>
+  <li>orange</li>
+</ul>
+<ul>
+  <li>apple</li>
+  <li>banana</li>
+  <li>peach</li>
+</ul>
+</body>`)
+
+    let iframe0 = document.querySelector("#codedog0 .preview");
+    iframe0.srcdoc = `<body>
+<style>
+  /*当列表正好包含四项时，命中所有列表项*/
+  /*列表的第一个元素就是列表的倒数第四个元素，说明这个列表有四项*/
+  li:first-child:nth-last-child(4),
+  li:first-child:nth-last-child(4) ~ li {
+    color: red;
+  }
+</style>  
+<ul>
+  <li>apple</li>
+  <li>banana</li>
+  <li>peach</li>
+  <li>orange</li>
+</ul>
+<ul>
+  <li>apple</li>
+  <li>banana</li>
+  <li>peach</li>
+</ul>
+</body>`
+
+    editor0.getSession().on('change', () => {
+      iframe0.srcdoc =  editor0.getValue()
+    });
+  </script>
+  
+<p>这个方法需要的代码还是冗长繁琐的，我们可以用预处理器优化。</p>
+<h2 id="-">根据兄弟元素的数量范围来匹配元素</h2>
+<p>列表项的总数是 4 或者更多时选中所有列表项：</p>
+
+  <div class="codedog" id="codedog1">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor1" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor1 = ace.edit("editor1")
+    editor1.$blockScrolling = 1
+    editor1.setTheme("ace/theme/monokai")
+    editor1.getSession().setMode("ace/mode/html")
+    editor1.getSession().setTabSize(2)
+    editor1.getSession().setValue(`<body>
+<style>
+  /*列表项的总数是 4 或者更多时选中所有列表项*/
+  li:first-child:nth-last-child(n + 4),
+  li:first-child:nth-last-child(n + 4) ~ li {
+    color: red;
+  }
+</style>  
+<ul>
+  <li>apple</li>
+  <li>banana</li>
+  <li>peach</li>
+  <li>orange</li>
+</ul>
+<ul>
+  <li>apple</li>
+  <li>banana</li>
+  <li>peach</li>
+</ul>
+</body>`)
+
+    let iframe1 = document.querySelector("#codedog1 .preview");
+    iframe1.srcdoc = `<body>
+<style>
+  /*列表项的总数是 4 或者更多时选中所有列表项*/
+  li:first-child:nth-last-child(n + 4),
+  li:first-child:nth-last-child(n + 4) ~ li {
+    color: red;
+  }
+</style>  
+<ul>
+  <li>apple</li>
+  <li>banana</li>
+  <li>peach</li>
+  <li>orange</li>
+</ul>
+<ul>
+  <li>apple</li>
+  <li>banana</li>
+  <li>peach</li>
+</ul>
+</body>`
+
+    editor1.getSession().on('change', () => {
+      iframe1.srcdoc =  editor1.getValue()
+    });
+  </script>
+  
+<p>列表项的总数是 4 或者更少时，选中所有列表项：</p>
+
+  <div class="codedog" id="codedog2">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor2" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor2 = ace.edit("editor2")
+    editor2.$blockScrolling = 1
+    editor2.setTheme("ace/theme/monokai")
+    editor2.getSession().setMode("ace/mode/html")
+    editor2.getSession().setTabSize(2)
+    editor2.getSession().setValue(`<body>
+<style>
+  li:first-child:nth-last-child(-n + 4),
+  li:first-child:nth-last-child(-n + 4) ~ li {
+    color: red;
+  }
+</style>  
+<ul>
+  <li>apple</li>
+  <li>banana</li>
+  <li>peach</li>
+  <li>orange</li>
+  <li>watermelon</li>
+</ul>
+<ul>
+  <li>apple</li>
+  <li>banana</li>
+  <li>peach</li>
+</ul>
+</body>`)
+
+    let iframe2 = document.querySelector("#codedog2 .preview");
+    iframe2.srcdoc = `<body>
+<style>
+  li:first-child:nth-last-child(-n + 4),
+  li:first-child:nth-last-child(-n + 4) ~ li {
+    color: red;
+  }
+</style>  
+<ul>
+  <li>apple</li>
+  <li>banana</li>
+  <li>peach</li>
+  <li>orange</li>
+  <li>watermelon</li>
+</ul>
+<ul>
+  <li>apple</li>
+  <li>banana</li>
+  <li>peach</li>
+</ul>
+</body>`
+
+    editor2.getSession().on('change', () => {
+      iframe2.srcdoc =  editor2.getValue()
+    });
+  </script>
+  
+<p>我们也可以把两种技巧组合起来使用，假设我们希望在列表包含 2 ～ 6 个列表项时命中所有的列表项。</p>
+
+  <div class="codedog" id="codedog3">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor3" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor3 = ace.edit("editor3")
+    editor3.$blockScrolling = 1
+    editor3.setTheme("ace/theme/monokai")
+    editor3.getSession().setMode("ace/mode/html")
+    editor3.getSession().setTabSize(2)
+    editor3.getSession().setValue(`<body>
+<style>
+  li:first-child:nth-last-child(n + 2):nth-last-child(-n + 6),
+  li:first-child:nth-last-child(n + 2):nth-last-child(-n + 6) ~ li {
+    color: red;
+  }
+</style>  
+<ul>
+  <li>apple</li>
+  <li>banana</li>
+  <li>peach</li>
+  <li>orange</li>
+  <li>watermelon</li>
+</ul>
+<ul>
+  <li>apple</li>
+  <li>banana</li>
+  <li>peach</li>
+</ul>
+<ul>
+  <li>apple</li>
+</ul>
+</body>`)
+
+    let iframe3 = document.querySelector("#codedog3 .preview");
+    iframe3.srcdoc = `<body>
+<style>
+  li:first-child:nth-last-child(n + 2):nth-last-child(-n + 6),
+  li:first-child:nth-last-child(n + 2):nth-last-child(-n + 6) ~ li {
+    color: red;
+  }
+</style>  
+<ul>
+  <li>apple</li>
+  <li>banana</li>
+  <li>peach</li>
+  <li>orange</li>
+  <li>watermelon</li>
+</ul>
+<ul>
+  <li>apple</li>
+  <li>banana</li>
+  <li>peach</li>
+</ul>
+<ul>
+  <li>apple</li>
+</ul>
+</body>`
+
+    editor3.getSession().on('change', () => {
+      iframe3.srcdoc =  editor3.getValue()
+    });
+  </script>
+  

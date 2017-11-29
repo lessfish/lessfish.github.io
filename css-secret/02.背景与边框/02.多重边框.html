@@ -1,0 +1,186 @@
+
+  <style type="text/css" media="screen">
+    .codedog {
+      width: 900px;
+      height: 300px;
+    }
+
+    .codedog .codedog-nav {
+      height: 30px;      
+    } 
+
+    .codedog .codedog-nav .btn-new-page {
+      float: right;
+    } 
+
+    .codedog .codedog-main {
+      height: 270px;
+    }
+
+    .codedog .codedog-editor { 
+      width: 50%;
+      height: 100%;
+      float: left;
+    }
+
+    .codedog .result {
+      width: 50%;
+      height: 100%;
+      float: left;
+      border: 1px solid #000;
+      box-sizing: border-box;
+    }
+
+    .codedog .result .preview {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hljs {
+      width: 900px;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script>
+  function runCode(editorId) {
+    let code = ace.edit(editorId).getValue()
+    let handler = window.open('')
+    handler.opener = null
+    handler.document.write(code)
+    handler.document.close()
+  }
+
+  document.onclick = e => {
+    let target = e.target
+    if (target.className !== 'btn-new-page') 
+      return
+
+    runCode(target.parentNode.nextElementSibling.children[0])
+  }
+  </script>
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
+  <script>hljs.initHighlightingOnLoad();</script>
+  <h2 id="ugly-">ugly 方案</h2>
+<p>一个很容易想到的方案是多层元素嵌套，这个方案非常不优雅。</p>
+<h2 id="box-shadow-">box-shadow 方案</h2>
+<p>box-shadow 接受第四个参数（扩张半径），通过指定正值或者负值，可以让投影面积增大或者减小。一个正值的扩张半径加上两个为零的偏移量以及为零的模糊值，得到的 “投影” 其实就像一道实线边框。</p>
+
+  <div class="codedog" id="codedog0">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor0" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor0 = ace.edit("editor0")
+    editor0.$blockScrolling = 1
+    editor0.setTheme("ace/theme/monokai")
+    editor0.getSession().setMode("ace/mode/html")
+    editor0.getSession().setTabSize(2)
+    editor0.getSession().setValue(`<body>
+<style>
+  body {
+    padding: 20px;
+  }
+  .myDiv {
+    width: 100px;
+    height: 50px;
+    background: yellowgreen;
+    box-shadow: 0 0 0 10px #655,
+                0 0 0 15px deeppink, 
+                0 2px 15px 15px rgba(0, 0, 0, .6);
+  }
+</style>  
+<div class="myDiv"></div>
+</body>`)
+
+    let iframe0 = document.querySelector("#codedog0 .preview");
+    iframe0.srcdoc = `<body>
+<style>
+  body {
+    padding: 20px;
+  }
+  .myDiv {
+    width: 100px;
+    height: 50px;
+    background: yellowgreen;
+    box-shadow: 0 0 0 10px #655,
+                0 0 0 15px deeppink, 
+                0 2px 15px 15px rgba(0, 0, 0, .6);
+  }
+</style>  
+<div class="myDiv"></div>
+</body>`
+
+    editor0.getSession().on('change', () => {
+      iframe0.srcdoc =  editor0.getValue()
+    });
+  </script>
+  
+<h2 id="outline-">outline 方案</h2>
+<p>在某些情况下，<strong>你可能只需要两层边框</strong>。</p>
+
+  <div class="codedog" id="codedog1">
+    <div class="codedog-nav">
+      <button class="btn-new-page">新页面打开</button>
+    </div>
+    <div class="codedog-main">
+      <div id="editor1" class="codedog-editor"></div>
+      <div class="result">
+        <iframe class="preview" frameborder=0></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    let editor1 = ace.edit("editor1")
+    editor1.$blockScrolling = 1
+    editor1.setTheme("ace/theme/monokai")
+    editor1.getSession().setMode("ace/mode/html")
+    editor1.getSession().setTabSize(2)
+    editor1.getSession().setValue(`<body>
+<style>
+  body {
+    padding: 20px;
+  }
+  .myDiv {
+    width: 100px;
+    height: 50px;
+    background: yellowgreen;
+    border: 10px solid #655;
+    outline: 5px dashed deeppink;
+    outline-offset: -5px;
+  }
+</style>  
+<div class="myDiv"></div>
+</body>`)
+
+    let iframe1 = document.querySelector("#codedog1 .preview");
+    iframe1.srcdoc = `<body>
+<style>
+  body {
+    padding: 20px;
+  }
+  .myDiv {
+    width: 100px;
+    height: 50px;
+    background: yellowgreen;
+    border: 10px solid #655;
+    outline: 5px dashed deeppink;
+    outline-offset: -5px;
+  }
+</style>  
+<div class="myDiv"></div>
+</body>`
+
+    editor1.getSession().on('change', () => {
+      iframe1.srcdoc =  editor1.getValue()
+    });
+  </script>
+  
