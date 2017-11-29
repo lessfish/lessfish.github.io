@@ -62,6 +62,7 @@ setTimeout(() => {
 
     sections.forEach(sectionName => {
       let url = urlPrefix + chapterName + '/' + sectionName.replace('.md', '.html')
+      url = encodeURI(url)
       markdownStr += `- [${sectionName.replace('.md', '')}](${url})\n`
     })
 
