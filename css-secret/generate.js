@@ -61,8 +61,8 @@ setTimeout(() => {
     sections.sort()
 
     sections.forEach(sectionName => {
-      let url = urlPrefix + chapterName + '/' + sectionName
-      markdownStr += `- [${sectionName}](${url})\n`
+      let url = urlPrefix + chapterName + '/' + sectionName.replace('.md', '.html')
+      markdownStr += `- [${sectionName.replace('.md', '')}](${url})\n`
     })
 
     markdownStr += '\n'
