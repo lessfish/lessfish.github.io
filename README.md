@@ -2,7 +2,8 @@
 
 # 2017
 - [word-wrap, word-break, and white-space](//hanzichi.github.io/2017/word-wrap/)
-- [html editor (use codeMirror)](//hanzichi.github.io/2017/editor-online/codeMirror/) / [html editor (ace)](//hanzichi.github.io/2017/editor-online/ace/)
+- [html editor (use codeMirror)](//hanzichi.github.io/2017/editor-online/codeMirror/) / [html editor (use ace)](//hanzichi.github.io/2017/editor-online/ace/)
+- [flex](//hanzichi.github.io/2017/flex/)
 
 # 2016
 

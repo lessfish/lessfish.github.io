@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>flex cheatsheet</title>
+  <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+<body>
+<div class="container">
+  <h1>容器的属性</h1>
+
+  <!-- flex-direction -->
+  <div class="section1 section">
+    <h2>flex-direction</h2>
+    <div class="flex-area row">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+    </div>
+    <div class="radio-area">
+      <input type="radio" value="row" checked />
+      <input type="radio" value="row-reverse" />
+      <input type="radio" value="column" />
+      <input type="radio" value="column-reverse" />
+    </div>
+    <div class="intro">
+      决定主轴的方向，即项目的排列方向。
+    </div>
+  </div>
+
+  <!-- flex-wrap -->
+  <div class="section2 section">
+    <h2>flex-wrap</h2>
+    <div class="flex-area nowrap">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+    </div>
+    <div class="radio-area">
+      <input type="radio" value="nowrap" checked />
+      <input type="radio" value="wrap" />
+      <input type="radio" value="wrap-reverse" />
+    </div>
+    <div class="intro">
+      默认情况下，项目都排在一条线（又称 "轴线"）上（如果排不下，默认会压缩，不换行）。flex-wrap 属性定义，如果一条轴线排不下，如何换行。
+    </div>
+  </div>
+
+  <!-- justify-content -->
+  <div class="section3 section">
+    <h2>justify-content</h2>
+    <div class="flex-area flex-start">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+    </div>
+    <div class="radio-area">
+      <input type="radio" value="flex-start" checked />
+      <input type="radio" value="flex-end" />
+      <input type="radio" value="center" />
+      <input type="radio" value="space-between" />
+      <input type="radio" value="space-around" />
+    </div>
+    <div class="intro">
+       定义项目在主轴上的对齐方式。
+    </div>
+  </div>
+
+  <!-- align-items -->
+  <div class="section4 section">
+    <h2>align-items</h2>
+    <div class="flex-area stretch">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+    </div>
+    <div class="radio-area">
+      <input type="radio" value="stretch" checked />
+      <input type="radio" value="flex-start" />
+      <input type="radio" value="flex-end" />
+      <input type="radio" value="center" />
+      <input type="radio" value="baseline" />
+    </div>
+    <div class="intro">
+      定义项目在交叉轴上的对齐方式。<br>
+      stretch（默认值）：如果项目未设置高度或设为 auto，将占满整个容器的高度。<br>
+      baseline: 项目的第一行文字的基线对齐。
+    </div>
+  </div>
+
+  <!-- align-content -->
+  <div class="section5 section">
+    <h2>align-content</h2>
+    <div class="flex-area stretch">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+    </div>
+    <div class="radio-area">
+      <input type="radio" value="stretch" checked />
+      <input type="radio" value="flex-start" />
+      <input type="radio" value="flex-end" />
+      <input type="radio" value="center" />
+      <input type="radio" value="space-between" />
+      <input type="radio" value="space-around" />
+    </div>
+    <div class="intro">
+      定义了多根轴线的对齐方式。<strong>如果项目只有一根轴线，该属性不起作用。</strong><br>
+      stretch（默认值）：轴线占满整个交叉轴。
+    </div>
+  </div>
+
+  <h1>项目的属性</h1>
+
+  <!-- order -->
+  <div class="section6 section">
+    <h2>order</h2>
+    <div class="flex-area">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+    </div>
+    <div class="intro">
+      属性定义项目的排列顺序。数值越小，排列越靠前，默认为 0。
+    </div>
+  </div>
+
+  <!-- flex-grow -->
+  <div class="section7 section">
+    <h2>flex-grow</h2>
+    <div class="flex-area">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+    </div>
+    <div class="intro">
+      属性定义项目的放大比例，默认为 0，即如果存在剩余空间，也不放大。如果所有项目的 flex-grow 属性都为 1，则它们将等分剩余空间（如果有的话）。如果一个项目的 flex-grow 属性为 2，其他项目都为 1，则前者占据的剩余空间将比其他项多一倍。
+    </div>
+  </div>
+
+  <!-- flex-shrink -->
+  <div class="section8 section">
+    <h2>flex-shrink</h2>
+    <div class="flex-area">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+    </div>
+    <div class="intro">
+      属性定义了项目的缩小比例，默认为 1，即如果空间不足，该项目将缩小。如果所有项目的 flex-shrink 属性都为 1，当空间不足时，都将等比例缩小。如果一个项目的 flex-shrink 属性为 0，其他项目都为 1，则空间不足时，前者不缩小。
+    </div>
+  </div>
+
+  <!-- flex-basis -->
+  <div class="section9 section">
+    <h2>flex-basis</h2>
+    <div class="flex-area">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+    </div>
+    <div class="intro">
+      属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为 auto，即项目的本来大小。<br>
+      它可以设为跟 width 或 height 属性一样的值（比如 350px），则项目将占据固定空间。
+    </div>
+  </div>
+
+  <!-- align-self -->
+  <div class="section10 section">
+    <h2>align-self</h2>
+    <div class="flex-area">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+    </div>
+    <div class="intro">
+      align-self 属性允许单个项目有与其他项目不一样的对齐方式，可覆盖 align-items 属性。默认值为 auto，表示继承父元素的 align-items 属性，如果没有父元素，则等同于 stretch。<br>
+      该属性可能取 6 个值，除了 auto，其他都与 align-items 属性完全一致。
+    </div>
+  </div>
+</div>
+<script>
+document.querySelector(".container").addEventListener("click", e => {
+  let target = e.target
+  if (target.type !== 'radio') return
+
+  let cla = target.value
+  let parent = target.parentNode
+  parent.previousElementSibling.className = 'flex-area ' + cla 
+
+  let radios = parent.querySelectorAll('input[type="radio"]')
+  for (let i = 0, len = radios.length; i < len; i++)
+    radios[i].checked = false
+  
+  target.checked = true
+})
+</script>
+</body>
+</html>
