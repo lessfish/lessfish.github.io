@@ -70,6 +70,10 @@
     .code {
       border: 1px solid gray;
     }
+
+    .help-block {
+      color: #777;
+    }
   </style>
 </head>
 <body>
@@ -95,6 +99,7 @@
         <input type="radio" value="word-break-break-all">break-all（如其名，能换行的都给换行，最节省空间。对于 non-CJK (中文/日文/韩文) 文本，可在任意字符间断行）<br>
         <input type="radio" value="word-break-keep-all">keep-all（CJK 文本不断行。 Non-CJK 文本表现同 normal。）<br>
       </div>
+      <p class="help-block">发现一个奇怪的现象，如果段落中有长标点，如果使用了 break-all，Safari 和 Firefox 都能正常表现，Chrome 下却不截断，只能使用 word-wrap: break-word，并且同时还不能加 word-break: break-all。<a href="https://github.com/w3c/csswg-drafts/issues/1171">这里</a>有个详细的讨论</p>
     </div>
 
     <div class="wrapper">
