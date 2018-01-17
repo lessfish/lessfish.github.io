@@ -1,4 +1,4 @@
-**【Notice: 请在 chrome 下看 demo，不保证其他浏览器的兼容性】**
+> Notice: 请在 chrome 下看 demo，不保证其他浏览器的兼容性 
 
 # 2017
 - [word-wrap, word-break, and white-space](//hanzichi.github.io/2017/word-wrap/)
