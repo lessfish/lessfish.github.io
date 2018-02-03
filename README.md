@@ -3,12 +3,13 @@
 # 2018
 
 - [HTML5 复制](//github.com/hanzichi/hanzichi.github.io/blob/master/2018/copy/README.md)
+- [flex 实例](//github.com/hanzichi/hanzichi.github.io/blob/master/2018/flex/README.md)
 
 
 # 2017
 - [word-wrap, word-break, and white-space](//hanzichi.github.io/2017/word-wrap/)
 - [html editor (use codeMirror)](//hanzichi.github.io/2017/editor-online/codeMirror/) / [html editor (use ace)](//hanzichi.github.io/2017/editor-online/ace/)
-- [flex demo](//hanzichi.github.io/2017/flex/index.html)
+- [flex cheatsheet](//hanzichi.github.io/2017/flex/index.html)
 
 # 2016
 

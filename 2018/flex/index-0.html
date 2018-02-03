@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>基本网格布局</title>
+  <style>
+    style {border: 1px dashed #777; padding: 10px; margin-bottom: 20px; white-space: pre}
+  </style>
+</head>
+<body>
+<style contentEditable>
+.grid {
+  display: flex; 
+  height: 100px;
+  background: #eee;
+}
+
+.grid-cell {
+  flex-grow: 1;
+  background: #777;
+  margin: 10px;
+}
+</style>
+<div class="grid">
+  <div class="grid-cell"></div>
+  <div class="grid-cell"></div>
+  <div class="grid-cell"></div>
+</div>
+</body>
+</html>

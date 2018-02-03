@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>百分比布局</title>
+  <style>
+    style {border: 1px dashed #777; padding: 10px; margin-bottom: 20px; white-space: pre}
+  </style>
+</head>
+<body>
+<style contentEditable>
+.grid {
+  display: flex; 
+  height: 100px;
+  background: #eee;
+}
+
+.grid-cell {
+  flex-grow: 1;
+  background: #777;
+  margin: 10px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.u-1of3 {
+  flex: 0 0 33.33%;
+}
+
+.u-1of4 {
+  flex: 0 0 25%;
+}
+
+</style>
+<style>
+.notice {
+  width: 50%;
+  margin-top: 15px;
+  padding: 10px;
+  background: #804d97;
+  border-radius: 10px;
+  color: #fff;
+}
+</style>
+<div class="grid">
+  <div class="grid-cell u-1of3">1/3</div>
+  <div class="grid-cell">auto</div>
+  <div class="grid-cell">auto</div>
+  <div class="grid-cell u-1of4">1/4</div>
+</div>
+<p class="notice">
+  将宽度为固定的百分比的网格的 `flex-grow` 和 `flex-shrink` 属性均设置为 0，表示无论是否存在剩余空间或者剩余空间不足的情况下，都不缩放；同时将其他元素的 `flex-grow` 值设置为 1，即如果存在剩余空间，则平分。
+</p>
+</body>
+</html>

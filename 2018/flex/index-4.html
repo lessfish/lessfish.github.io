@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>固定底栏</title>
+  <style>
+    header, footer {height: 150px; background: #eee;}
+    .Site {
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    .Site-content {
+      flex: 1;
+      background: yellow;
+    }
+  </style>
+</head>
+<body class="Site">
+  <header>this is header</header>
+  <main class="Site-content">this is the content</main>
+  <footer>this is footer</footer>
+</body>
+</html>
