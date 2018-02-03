@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+<p>点击复制后在右边 textarea Command+V 看一下</p>
+<span id="inputText">测试文本-3</span>
+<input type="button" id="btn" value="复制">
+<textarea rows="4"></textarea>
+<script>
+  var btn = document.getElementById('btn')
+
+  btn.addEventListener('click', function() {
+    document.addEventListener('copy', function copy(e) {
+      var msg = document.querySelector('#inputText').innerHTML
+      e.clipboardData.setData('text/plain', msg)
+      e.preventDefault()
+    })
+
+    // 执行 copy 命令
+    document.execCommand('copy')
+
+    // 移除绑定事件
+    document.removeEventListener('copy', 'copy')
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+<p>点击复制后在右边 textarea Command+V 看一下</p>
+<span id="inputText">测试文本-1</span>
+<input type="button" id="btn" value="复制">
+<textarea rows="4"></textarea>
+<script>
+  var btn = document.getElementById('btn')
+  btn.addEventListener('click', function() {
+    // 动态创建 input 元素
+    var aux = document.createElement("input")
+
+    // 获得需要复制的内容
+    aux.setAttribute("value", document.getElementById("inputText").innerHTML)
+
+    // 添加到 DOM 元素中
+    document.body.appendChild(aux)
+
+    // 执行选中
+    // 注意: 只有 input 和 textarea 可以执行 select() 方法
+    aux.select()
+      
+    // 获得选中的内容
+    var content = window.getSelection().toString()
+    console.log(content)
+        
+    // 执行复制命令
+    document.execCommand("copy")
+
+    // 将 input 元素移除
+    document.body.removeChild(aux)
+  })
+</script>
+</body>
+</html>

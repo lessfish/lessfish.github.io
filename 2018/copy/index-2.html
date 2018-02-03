@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+<p>点击复制后在右边 textarea Command+V 看一下</p>
+<span id="inputText">测试文本-2</span>
+<input type="button" id="btn" value="复制">
+<textarea rows="4"></textarea>
+<script>
+  var btn = document.getElementById('btn')
+  btn.addEventListener('click', function() {
+    var copyDOM = document.querySelector('#inputText')
+    // var range = document.createRange()
+
+    // // 选中需要复制的节点
+    // range.selectNode(copyDOM)
+
+    // // 执行选中元素
+    // window.getSelection().addRange(range)
+
+    // // 执行 copy 操作
+    // var successful = document.execCommand('copy')
+    
+    // // 移除选中的元素
+    // window.getSelection().removeAllRanges()
+    var range = document.createRange();  
+  // 选中需要复制的节点
+  range.selectNode(copyDOM);
+  // 执行选中元素
+  window.getSelection().addRange(range);
+  // 执行 copy 操作
+var successful = document.execCommand('copy');  
+  try {  
+    var msg = successful ? 'successful' : 'unsuccessful';  
+    console.log('copy is' + msg);  
+  } catch(err) {  
+    console.log('Oops, unable to copy');  
+  }
+// 移除选中的元素
+  window.getSelection().removeAllRanges()
+  })
+</script>
+</body>
+</html>

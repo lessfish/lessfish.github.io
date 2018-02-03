@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+<p>点击复制后在右边 textarea Command+V 看一下</p>
+<input type="text" id="inputText" value="测试文本-0">
+<input type="button" id="btn" value="复制">
+<textarea rows="4"></textarea>
+<script>
+  var btn = document.getElementById('btn')
+  btn.addEventListener('click', function() {
+    var inputText = document.getElementById('inputText')
+    var currentFocus = document.activeElement
+    inputText.focus()
+    inputText.setSelectionRange(0, inputText.value.length)
+    document.execCommand('copy', true)
+    currentFocus.focus()
+  })
+</script>
+</body>
+</html>

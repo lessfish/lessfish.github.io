@@ -1,5 +1,10 @@
 > Notice: 请在 chrome 下看 demo，不保证其他浏览器的兼容性 
 
+# 2018
+
+- [HTML5 复制](//github.com/hanzichi/hanzichi.github.io/blob/master/2018/copy/README.md)
+
+
 # 2017
 - [word-wrap, word-break, and white-space](//hanzichi.github.io/2017/word-wrap/)
 - [html editor (use codeMirror)](//hanzichi.github.io/2017/editor-online/codeMirror/) / [html editor (use ace)](//hanzichi.github.io/2017/editor-online/ace/)
