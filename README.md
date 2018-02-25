@@ -4,7 +4,7 @@
 
 - [HTML5 复制](//github.com/hanzichi/hanzichi.github.io/blob/master/2018/copy/README.md)
 - [flex 实例](//github.com/hanzichi/hanzichi.github.io/blob/master/2018/flex/README.md)
-- [打分组件](//hanzichi.github.io/2018/star/)
+- [打分组件](//hanzichi.github.io/2018/star/index.html)
 
 
 # 2017
