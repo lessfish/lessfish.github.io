@@ -2,11 +2,13 @@
 <html>
 <head>
   <title>固定底栏</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
   <style>
+    * {margin: 0; padding: 0;}
     header, footer {height: 150px; background: #eee;}
     .Site {
       display: flex;
-      min-height: 100vh;
+      height: 100vh;
       flex-direction: column;
     }
 
@@ -16,9 +18,19 @@
     }
   </style>
 </head>
-<body class="Site">
+<body class="Site" id="Site">
   <header>this is header</header>
   <main class="Site-content">this is the content</main>
   <footer>this is footer</footer>
+
+  <script>
+    // 兼容移动端，100vh 在移动端显示会有问题（会包括底栏）
+    // 更全的使用可以参考这个库 https://github.com/rodneyrehm/viewport-units-buggyfill
+    // SO 上的讨论 https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser
+    let ua = navigator.userAgent.toLowerCase()
+    if (ua.includes('iphone') || ua.includes('andriod')) {
+      document.getElementById('Site').style.height = window.innerHeight + 'px'
+    }
+  </script>
 </body>
 </html>
