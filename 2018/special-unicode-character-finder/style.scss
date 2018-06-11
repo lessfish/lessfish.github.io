@@ -1,0 +1,51 @@
+* {margin: 0; padding: 0}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  .text-area {
+    width: 80%;
+    height: 80vh;
+    display: flex;
+    justify-content: space-between;
+    .input-area {
+      width: 49.5%;
+      height: 100%;
+      textarea {
+        width: 100%;
+        height: 100%;
+        outline: none;
+      }
+    }
+    .result-area {
+      width: 49.5%;
+      height: 100%;
+      border: 1px solid #000;
+    }
+  }
+  .btns-area {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    .finder-btn-wrapper {
+      margin-bottom: 5px;
+    }
+    #finder-btn, #remove-btn {
+      margin-right: 5px;
+    }
+  }
+}
+
+.special-case {
+  display: inline-block;
+  width: 5px;
+  height: 15px;
+  background: red;
+}
+
+.text-danger {
+  color: red;
+}
