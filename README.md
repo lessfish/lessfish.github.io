@@ -1,16 +1,16 @@
-> Notice: 请在 chrome 下看 demo，不保证其他浏览器的兼容性 
+> Notice: 请使用 chrome 打开，不保证其他浏览器的兼容性
 
 # 2018
 
 - [HTML5 复制](//github.com/hanzichi/hanzichi.github.io/blob/master/2018/copy/README.md)
 - [flex 实例](//github.com/hanzichi/hanzichi.github.io/blob/master/2018/flex/README.md)
 - [打分组件](//hanzichi.github.io/2018/star/index.html)
-
+- [发现／删除隐藏的 Unicode 字符](//hanzichi.github.io/2018/special-unicode-character-finder/index.html)
 
 # 2017
 - [word-wrap, word-break, and white-space](//hanzichi.github.io/2017/word-wrap/)
 - [html editor (use codeMirror)](//hanzichi.github.io/2017/editor-online/codeMirror/) / [html editor (use ace)](//hanzichi.github.io/2017/editor-online/ace/)
-- [flex cheatsheet](//hanzichi.github.io/2017/flex/index.html)
+- [flex cheatsheet](//hanzichi.github.io/2017/flex/index.html)（[more](https://darekkay.com/dev/flexbox-cheatsheet.html), [more](//yoksel.github.io/flex-cheatsheet/)）
 
 # 2016
 
