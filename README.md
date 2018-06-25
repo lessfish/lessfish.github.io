@@ -6,6 +6,7 @@
 - [flex 实例](//github.com/hanzichi/hanzichi.github.io/blob/master/2018/flex/README.md)
 - [打分组件](//hanzichi.github.io/2018/star/index.html)
 - [发现／删除隐藏的 Unicode 字符](//hanzichi.github.io/2018/special-unicode-character-finder/index.html)
+- [纸片卷角](//hanzichi.github.io/2018/curls/index.html)
 
 # 2017
 - [word-wrap, word-break, and white-space](//hanzichi.github.io/2017/word-wrap/)

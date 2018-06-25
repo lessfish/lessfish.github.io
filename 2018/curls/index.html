@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>纸片卷角效果</title>
+  <style type="text/css">
+    .hvr-curl-top-left {
+      display: inline-block;
+      vertical-align: middle;
+      transform: perspective(1px) translateZ(0);
+      box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+      position: relative;
+      
+      margin: .4em;
+      padding: 1em;
+      cursor: pointer;
+      background: #e1e1e1;
+      text-decoration: none;
+      color: #666;
+    }
+
+    .hvr-curl-top-left:before {
+      pointer-events: none;
+      position: absolute;
+      content: '';
+      height: 0;
+      width: 0;
+      top: 0;
+      left: 0;
+      background: white;
+      background: linear-gradient(135deg, white 45%, #aaa 50%, #ccc 56%, white 80%);
+      z-index: 1000;
+      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+      transition-duration: 0.3s;
+      transition-property: width, height;
+    }
+
+    .hvr-curl-top-left:hover:before, .hvr-curl-top-left:focus:before, .hvr-curl-top-left:active:before {
+      width: 25px;
+      height: 25px;
+    }
+  </style>
+</head>
+<body>
+  <a href="#" class="hvr-curl-top-left">Curl Top Left</a>
+</body>
+</html>
