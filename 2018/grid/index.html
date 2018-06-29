@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<title>圣杯布局 grid 实现</title>
+<style>
+/* grid style*/
+.HolyGrail {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 12em auto 12em;
+  grid-template-rows: 150px auto 150px; 
+  grid-template-areas: 
+    "h h h"
+    "n m a"
+    "f f f";
+}
+
+header {
+  grid-area: h;
+}
+
+footer {
+  grid-area: f;
+}
+
+.HolyGrail-content {
+  grid-area: m;
+}
+
+.HolyGrail-nav {
+  grid-area: n;
+}
+
+.HolyGrail-ads {
+  grid-area: a;
+}
+
+/* style */
+* {margin: 0; padding: 0;}
+
+header, footer {
+  background: #ddd;
+}
+
+.HolyGrail-content {
+  background: yellow;
+}
+
+.HolyGrail-nav, .HolyGrail-ads {
+  background: red;
+}
+</style>
+<style>
+/* 如果是小屏幕，躯干的三栏自动变为垂直叠加 */
+@media (max-width: 768px) {
+  .HolyGrail {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: auto ;
+    grid-template-rows: 150px 1fr 1fr 1fr 150px; 
+    grid-template-areas: 
+      "h"
+      "n" 
+      "m" 
+      "a"
+      "f";
+  }
+}
+</style>
+</head>
+<body class="HolyGrail">
+  <header>this is header</header>
+  <nav class="HolyGrail-nav">left part</nav>
+  <main class="HolyGrail-content">main part</main>
+  <aside class="HolyGrail-ads">right part</aside>
+  <footer>this is footer</footer>
+</body>
+</html>
