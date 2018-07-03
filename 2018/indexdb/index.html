@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IndexDB CURD</title>
+    <script src="//cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+    <link href="//cdn.bootcss.com/pure/1.0.0/pure-min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/tingle/0.13.2/tingle.min.css" rel="stylesheet">
+    <script src="//cdn.bootcss.com/tingle/0.13.2/tingle.min.js"></script>
+  </head>
+  <body style="padding:10px">
+    <div id="app">
+      <table class="pure-table pure-table-striped" v-if="players.length">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>名字</th>
+            <th>出生年</th>
+            <th>操作</th></tr>
+        </thead>
+        <tbody>
+          <tr v-for="(p, index) of players">
+            <td>{{ index }}</td>
+            <td>{{ p.name }}</td>
+            <td>{{ p.birthYear }}</td>
+            <td>
+              <button class="pure-button" @click="del(p.id)">删除</button>
+              <button class="pure-button" @click="update(p.id, p.name, p.birthYear)">修改</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="pure-button" @click="create" style="margin-top:10px">新增</button>
+    </div>
+    <script>
+      // 数据库数据结果，存为全局方便使用
+      var db
+
+      // db 信息抽象成一个对象
+      var myDB = {
+        name: 'myDB',
+        version: 1,
+      }
+
+      // store(表) 信息
+      var store = {
+        name: 'players'
+      }
+
+      // 打开数据库
+      var DBOpenRequest = window.indexedDB.open(myDB.name, myDB.version)
+
+      // 主逻辑中的增／删／改
+      var app = new Vue({
+        el: '#app',
+        data: {
+          players: []
+        },
+        methods: {
+          del(id) {
+            // 修改 model
+            this.players = this.players.filter(item => item.id !== id)
+            
+            // 根据 id 从 IndexDB 中删除 
+            var objectStore = db.transaction([store.name], "readwrite").objectStore(store.name)
+
+            // 直接删除            
+            var objectStoreRequest = objectStore.delete(id)
+
+            // 删除成功后
+            objectStoreRequest.onsuccess = function() {
+              console.log('删除成功')
+            }
+          },
+          create() {
+            var modal = new tingle.modal({
+              closeMethods: ['overlay', 'button', 'escape'],
+            })
+
+            // set content
+            let html = `
+              <div class="pure-form" id="form">
+                <input type="text" placeholder="名字" v-model="name">
+                <input type="number" placeholder="出生年" v-model="birthYear">
+                <button type="submit" class="pure-button pure-button-primary" @click="create">新增</button>
+              </div>
+            `
+            modal.setContent(html)
+
+            // open modal
+            modal.open()
+
+            new Vue({
+              el: '#form',
+              data: {
+                name: '',
+                birthYear: ''
+              },
+              methods: {
+                create() {
+                  // 更新 model
+                  app.players.push({
+                    name: this.name,
+                    birthYear: this.birthYear
+                  }) 
+
+                  // 更新 IndexDB 数据
+                  db.transaction([store.name], "readwrite").objectStore(store.name).add({
+                    name: this.name,
+                    birthYear: this.birthYear
+                  }).onsuccess = () => {console.log('新增成功')}
+
+                  modal.close()
+                }
+              }
+            })
+          },
+          update(id, name, birthYear) {
+            var modal = new tingle.modal({
+              closeMethods: ['overlay', 'button', 'escape'],
+            })
+
+            // set content
+            let html = `
+              <div class="pure-form" id="form">
+                <input type="text" placeholder="名字" v-model="name">
+                <input type="number" placeholder="出生年" v-model="birthYear">
+
+                <button type="submit" class="pure-button pure-button-primary" @click="update">修改</button>
+              </div>
+            `
+
+            modal.setContent(html)
+
+            // open modal
+            modal.open()
+
+            new Vue({
+              el: '#form',
+              data: {
+                name,
+                birthYear
+              },
+              methods: {
+                update() {
+                  var transaction = db.transaction([store.name], "readwrite")
+
+                  // 打开已经存储的数据对象
+                  var objectStore = transaction.objectStore(store.name)
+
+                  // 获取存储的对应键的存储对象
+                  var objectStoreRequest = objectStore.get(id)
+
+                  // 修改后的数据替换当前数据
+                  objectStoreRequest.onsuccess = function(event) {
+                    // 老数据
+                    var oldData = objectStoreRequest.result
+
+                    // 修改后的数据
+                    var newData = {
+                      name: this.name,
+                      birthYear: this.birthYear
+                    }
+
+                    newData = Object.assign(oldData, newData)
+
+                    // 更新数据库存储数据 
+                    objectStore
+                      .put(newData)
+                      .onsuccess = () => {console.log('修改成功')}
+
+                    // 更新 model 数据
+                    for (let p of app.players) {
+                      if (p.id === newData.id) {
+                        p = Object.assign(p, newData)
+                        break
+                      }
+                    }
+                    
+                    modal.close()
+                  }.bind(this)
+                }
+              }
+            })
+          }
+        }
+      })
+
+      // 数据库打开成功后
+      DBOpenRequest.onsuccess = function(event) {
+        console.log('打开成功')
+
+        // 存储数据结果，很重要
+        db = DBOpenRequest.result
+
+        // 打开对象存储，获得游标列表
+        // 查
+        var objectStore = db.transaction([store.name]).objectStore(store.name)
+
+        objectStore.openCursor().onsuccess = function(event) {
+          var cursor = event.target.result
+
+          // 如果游标没有遍历完，继续下面的逻辑
+          if (cursor) {
+            console.log(cursor.value) 
+            app.players.push(cursor.value)
+
+            // 继续下一个游标项
+            cursor.continue()
+          } else {
+            console.log('遍历完了')
+          }
+        }
+      }
+
+      // 下面事情执行于：数据库首次创建版本，或者 window.indexedDB.open 传递的新版本（版本数值要比现在的高）
+      DBOpenRequest.onupgradeneeded = function(event) {
+        // 通常在这里对主键，字段等进行重定义
+        db = event.target.result
+
+        if (!db.objectStoreNames.contains(store.name)) {
+          // 创建一个数据库存储对象
+          var objectStore = db.createObjectStore(store.name, {
+            keyPath: 'id',
+            autoIncrement: true
+          })
+        }
+      }
+    </script>
+  </body>
+</html>
