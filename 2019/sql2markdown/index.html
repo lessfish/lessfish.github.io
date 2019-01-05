@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>sql2markdown</title>
+  <style>
+    body {padding: 0 50px;}
+    h1 {font-size: 40px}
+    textarea {width: 100%; height: 200px;}
+    button {font-size: 20px; padding: 10px; margin-bottom: 5px}
+  </style>
+</head>
+<body>
+  <h1>sql2markdown</h1>
+  <textarea class="input"></textarea>
+  <button class="btn">转换</button>
+  <textarea class="result"></textarea>
+  <button class="copy-btn" data-clipboard-target=".result">复制结果</button>
+  <script src="./index.js"></script>
+  <script src="//cdn.bootcss.com/clipboard.js/2.0.1/clipboard.min.js"></script>
+  <script>
+    document.querySelector('.btn').onclick = () => {
+      const sql = document.querySelector('.input').value
+      const md = getMdFromSql(sql)
+      document.querySelector('.result').value = md
+    }
+
+    new ClipboardJS('.copy-btn');
+  </script>
+</body>
+</html>
