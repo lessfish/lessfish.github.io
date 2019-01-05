@@ -2,7 +2,7 @@
 
 # 2019
 
-- [sql2mark](//hanzichi.github.io/2019/sql2markdown/)
+- [sql2markdown](//hanzichi.github.io/2019/sql2markdown/)
 
 # 2018
 
