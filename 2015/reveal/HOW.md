@@ -10,8 +10,10 @@
 
 接着进入实战，该项目的代码托管在[github](https://github.com/hakimel/reveal.js)里，除去其他一些引用的js、css文件，就只剩下一个简单的index页面了，可以看我整理的[模板文件](https://github.com/hanzichi/hanzichi.github.io/blob/master/2015/reveal/template.html)（模板文件效果预览点击[这里](http://hanzichi.github.io/2015/reveal/template.html#/)，如果你需要，可以直接拿它来进行修改。
 
-###1、每个slide的编写####
+### 1、每个slide的编写
+
 ***
+
 很显然，每个slide其实是每个`<section>`标签内的内容。直接在里面写html内容完全没有问题，这里简单讲下一些需要注意的点。
 
 - Slide Backgrounds
@@ -131,8 +133,10 @@ section内支持markdown代码，比如这样：
 需要注意的是这时Reveal的配置中(模板文件最后）就需要加上相应的markdown文件依赖。markdown文件也能独立存在然后在section中引用，markdown中每个元素也能添加相应的属性事件（比如需要点击才显示），详见[document](https://github.com/hakimel/reveal.js/#user-content-markdown)
 
 
-###2、Reveal的配置###
+### 2、Reveal的配置
+
 ***
+
 Reveal的配置在页面底部的JavaScript中，你可以根据自己的喜好或者习惯配置幻灯片的播放，比如可以自动播放，也可以从右往左播放，都可以在这里设置，默认的配置在[这儿](https://github.com/hakimel/reveal.js#user-content-configuration)。默认配置应该就是最佳配置了，或者可以修改下这个：
 
     // Transition style
@@ -143,8 +147,10 @@ Reveal的配置在页面底部的JavaScript中，你可以根据自己的喜好�
 
 如果要使用markdown或者点击放大等功能，就要使用插件，在页面最下方的JavaScript文件中添加依赖。所有的依赖配置在[这儿](https://github.com/hakimel/reveal.js#user-content-dependencies)。很显然，有的配置你并用不到，比如那个math文件，是为了展示各种复杂的数学公式的。
 
-###3、Keyboard Bindings###
+### 3、Keyboard Bindings
+
 ***
+
 比如你可以指定键来翻页等，这里介绍下一些default的快捷键。
 
 1. 上下左右翻页
@@ -154,8 +160,10 @@ Reveal的配置在页面底部的JavaScript中，你可以根据自己的喜好�
 4. `alt+click`点击放大，前提是依赖文件中加入了`zoom.js`
 5. `B`或者`.`键暂停，再按一次恢复
 
-###4、PDF export###
+### 4、PDF export
+
 ***
+
 也许你觉得你传统的PPT文件可以保存，可以共享非常方便，其实我们的slides一样方便，它可以转为pdf文件。
 
 html页面在chrome里可以被保存为pdf文件（打印选项中），很显然我们的slides也是html页面，只要把所有的slides显示在一个html页面中就ok了。这里我们可以改下url，加上`print-pdf`就可以了，实际上就是执行了一段代码，改变了文件的样式，接着就可以“打印”成pdf了。
@@ -164,6 +172,8 @@ html页面在chrome里可以被保存为pdf文件（打印选项中），很显�
 
 我也把我的demo导成了PDF，点击[这里](https://github.com/hanzichi/hanzichi.github.io/blob/master/reveal/reveal.pdf)查看效果
 
-###5、总结###
+### 5、总结
+
 ***
+
 除了具体每个slide的编写，其实最基本的设置有`data-transition`、`data-background`、`data-background-transition`以及`fragment`。还有一些有趣的设置，比如section之间可以嵌套，这样会形成一个竖着的幻灯片，再比如有些备注内容（PPT有这个功能），可以增加aside标签来展示，还可以嵌入自己的框架添加功能，有兴趣的可以参考[官方文档](https://github.com/hakimel/reveal.js)。
