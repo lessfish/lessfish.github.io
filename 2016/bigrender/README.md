@@ -14,11 +14,11 @@
 
 [玉伯指出](https://lifesinger.wordpress.com/2011/09/23/bigrender-for-taobao-item/)：
 
-  页面下载完毕后，要经过 Tokenization — Tree Construction — Rendering. 要让首屏尽快出来，得给浏览器减轻渲染首屏的工作量。可以从两方面入手：
-  
-    1. 减少 DOM 节点数。节点数越少，意味着 Tokenization, Rendering 等操作耗费的时间越少。（对于典型的淘宝商品详情页，经测试发现，每增加一个 DOM 节点，会导致首屏渲染时间延迟约 0.5ms.）
-  
-    2. 减少脚本执行时间。脚本执行和 UI Update 共享一个 thread, 脚本耗的时间越少，UI Update 就能越发提前。
+    页面下载完毕后，要经过 Tokenization — Tree Construction — Rendering. 要让首屏尽快出来，得给浏览器减轻渲染首屏的工作量。可以从两方面入手：
+    
+      1. 减少 DOM 节点数。节点数越少，意味着 Tokenization, Rendering 等操作耗费的时间越少。（对于典型的淘宝商品详情页，经测试发现，每增加一个 DOM 节点，会导致首屏渲染时间延迟约 0.5ms.）
+    
+      2. 减少脚本执行时间。脚本执行和 UI Update 共享一个 thread, 脚本耗的时间越少，UI Update 就能越发提前。
 
 
 为什么是用 textarea 标签存放大块 HTML 内容？还是可以看下玉伯的 [这篇文章](https://lifesinger.wordpress.com/2011/09/23/bigrender-for-taobao-item/)。淘宝的 kissy 就内置了 [DataLazyload]() 组件。（插播：美团详情页还有用到 script 标签做 BigRender 优化，详情请见下面的 "其他" 一节)
@@ -31,36 +31,40 @@
 
 一些 HTML/js/css 代码都可以包裹在 textarea 标签中，例如：
 
-  <textarea class="datalazyload" style="visibility: hidden;"> 
-    <script type="text/javascript">
-      alert("I am lazyload zone!"); 
-    </script>
-  
-    <style type="text/css">
-      .main {margin: 0 auto; text-align: center; padding-top: 200px; width:1000px; height:1000px; border:5px black dashed;}
-      .second {margin: 0 auto; width:1000px; height:200px; border: 5px purple dotted; padding-top: 100px; text-align: center;}
-    </style>
-    <div class="second">
-      <h1>我是延迟加载的部分！</h1>
-    </div>
-  </textarea>
+```html
+<textarea class="datalazyload" style="visibility: hidden;"> 
+  <script type="text/javascript">
+    alert("I am lazyload zone!"); 
+  </script>
+
+  <style type="text/css">
+    .main {margin: 0 auto; text-align: center; padding-top: 200px; width:1000px; height:1000px; border:5px black dashed;}
+    .second {margin: 0 auto; width:1000px; height:200px; border: 5px purple dotted; padding-top: 100px; text-align: center;}
+  </style>
+  <div class="second">
+    <h1>我是延迟加载的部分！</h1>
+  </div>
+</textarea>
+```
 
 # init
 
 给 T.datalazyload 对象定义一个 init() 方法，初始化页面时监听 scroll、resize 以及移动端的 touchmove 事件，当触发这些事件时，回调函数内判断延迟加载部分是否已经出现在视口。
 
-    init: function(config) {
-      var cls = config.cls;
-      this.threshold = config.threshold ? config.threshold : 0;
+```js
+init: function(config) {
+  var cls = config.cls;
+  this.threshold = config.threshold ? config.threshold : 0;
 
-      this.els = Array.prototype.slice.call(T.getElementsByClassName(cls));
-      this.fn = this.pollTextareas.bind(this);
+  this.els = Array.prototype.slice.call(T.getElementsByClassName(cls));
+  this.fn = this.pollTextareas.bind(this);
 
-      this.fn();
-      T.addEvent(window, "scroll", this.fn);
-      T.addEvent(window, "resize", this.fn);
-      T.addEvent(doc.body, "touchMove", this.fn);
-    }
+  this.fn();
+  T.addEvent(window, "scroll", this.fn);
+  T.addEvent(window, "resize", this.fn);
+  T.addEvent(doc.body, "touchMove", this.fn);
+}
+```
 
 config 是配置参数，其 cls 属性表示需要延迟加载的 textarea 的类名，threshold 为阈值，单位 px，表示当 textarea 距离视口多少像素时，进行预加载。
 
@@ -69,27 +73,29 @@ config 是配置参数，其 cls 属性表示需要延迟加载的 textarea 的�
 
 # pollTextarea
 
-    pollTextareas: function() {
+```js
+pollTextareas: function() {
 
-      // 需延迟加载的元素已经全部加载完
-      if (!this.els.length) {
-        T.removeEvent(window, "scroll", this.fn);
-        T.removeEvent(window, "resize", this.fn);
-        T.removeEvent(doc.body, "touchMove", this.fn);
-        return;
-      }
+  // 需延迟加载的元素已经全部加载完
+  if (!this.els.length) {
+    T.removeEvent(window, "scroll", this.fn);
+    T.removeEvent(window, "resize", this.fn);
+    T.removeEvent(doc.body, "touchMove", this.fn);
+    return;
+  }
 
-      // 判断是否需要加载
-      for (var i = this.els.length; i--; ) {
-        var ele = this.els[i];
+  // 判断是否需要加载
+  for (var i = this.els.length; i--; ) {
+    var ele = this.els[i];
 
-        if (!this.inView(ele)) 
-          continue;
+    if (!this.inView(ele)) 
+      continue;
 
-        this.insert(ele);
-        this.els.splice(i, 1);
-      }
-    }
+    this.insert(ele);
+    this.els.splice(i, 1);
+  }
+}
+```
 
 这个方法的作用是判断需要延迟加载的元素是否已经在视口，如果是，则进行加载（触发 insert 方法），并且在数组中删除该元素；如果数组为空，则表明需要延迟加载的部分都已经加载完，移除事件监听，整个延迟加载结束。
 
@@ -98,47 +104,50 @@ config 是配置参数，其 cls 属性表示需要延迟加载的 textarea 的�
 
 接下去看 insert 方法。inert 方法的参数是需要延迟加载的 textarea 元素，很显然，我们需要解析的代码全在 textarea.innerHTML 中。我们用 extractCode 方法取出其中的 js/css 代码，然后将 js/css 过滤掉，这样剩下的就全是 HTML 代码了，将其插入 DOM 中（这正是前文说的 "每个 textarea 的父节点都只有一个子孩子" 的原因，可以直接用父节点 innerHTML 操作），如果有 loading 效果，一般在父节点加个 loading 类，移除即可。最后再动态执行 js 脚本，插入 css 样式。
 
-    insert: function(ele) {
-      var parent = ele.parentNode
-        , txt = this.decodeHTML(ele.innerHTML)
-        , matchStyles = this.extractCode(txt, true)
-        , matchScripts = this.extractCode(txt);
+```js
+insert: function(ele) {
+  var parent = ele.parentNode
+    , txt = this.decodeHTML(ele.innerHTML)
+    , matchStyles = this.extractCode(txt, true)
+    , matchScripts = this.extractCode(txt);
 
-      parent.innerHTML = txt
-        .replace(new RegExp("<script[^>]*>([\\S\\s]*?)</script\\s*>", "img"), "")
-        .replace(new RegExp("<style[^>]*>([\\S\\s]*?)</style\\s*>", "img"), "");
+  parent.innerHTML = txt
+    .replace(new RegExp("<script[^>]*>([\\S\\s]*?)</script\\s*>", "img"), "")
+    .replace(new RegExp("<style[^>]*>([\\S\\s]*?)</style\\s*>", "img"), "");
 
-      if (matchStyles.length) 
-        for (var i = matchStyles.length; i --;) 
-          this.evalStyles(matchStyles[i]);
+  if (matchStyles.length) 
+    for (var i = matchStyles.length; i --;) 
+      this.evalStyles(matchStyles[i]);
 
-      // 如果延迟部分需要做 loading 效果
-      parent.className = parent.className.replace("loading", "");
+  // 如果延迟部分需要做 loading 效果
+  parent.className = parent.className.replace("loading", "");
 
-      if (matchScripts.length) 
-        for (var i = 0, len = matchScripts.length; i < len; i++) 
-          this.evalScripts(matchScripts[i]);
-    },
+  if (matchScripts.length) 
+    for (var i = 0, len = matchScripts.length; i < len; i++) 
+      this.evalScripts(matchScripts[i]);
+},
+```
 
 # extractCode
 
 我们通过正则将 js 和 css 标签部分取出：
 
-  extractCode: function(str, isStyle) {
-    var cata = isStyle ? "style" : "script"
-      , scriptFragment = "<" + cata + "[^>]*>([\\S\\s]*?)</" + cata + "\\s*>"
-      , matchAll = new RegExp(scriptFragment, "img")
-      , matchOne = new RegExp(scriptFragment, "im")
-      , matchResults = str.match(matchAll) || [] 
-      , ret = [];
-  
-    for (var i = 0, len = matchResults.length; i < len; i++) {
-      var temp = (matchResults[i].match(matchOne) || [ "", "" ])[1];
-      temp && ret.push(temp);
-    }
-    return ret;
-  }
+```js
+extractCode: function(str, isStyle) {
+  var cata = isStyle ? "style" : "script"
+    , scriptFragment = "<" + cata + "[^>]*>([\\S\\s]*?)</" + cata + "\\s*>"
+    , matchAll = new RegExp(scriptFragment, "img")
+    , matchOne = new RegExp(scriptFragment, "im")
+    , matchResults = str.match(matchAll) || [] 
+    , ret = [];
 
+  for (var i = 0, len = matchResults.length; i < len; i++) {
+    var temp = (matchResults[i].match(matchOne) || [ "", "" ])[1];
+    temp && ret.push(temp);
+  }
+  return ret;
+}
+```
 
 成功地将 script 以及 style 标签内的内容提取了出来，巧妙地用了正则中的子表达式。
 
@@ -147,27 +156,29 @@ config 是配置参数，其 cls 属性表示需要延迟加载的 textarea 的�
 
 脚本执行，样式渲染。
 
-  evalScripts: function(code) {
-    var head = doc.getElementsByTagName("head")[0]
-      , js = doc.createElement("script");
-  
-    js.text = code;
-    head.insertBefore(js, head.firstChild);
-    head.removeChild(js);
-  },
-  
-  evalStyles: function(code) {
-    var head = doc.getElementsByTagName("head")[0]
-      , css = doc.createElement("style");
-  
-    css.type = "text/css";
-    try {
-      css.appendChild(doc.createTextNode(code));
-    } catch (e) {
-      css.styleSheet.cssText = code;
-    }
-    head.appendChild(css);
+```js
+evalScripts: function(code) {
+  var head = doc.getElementsByTagName("head")[0]
+    , js = doc.createElement("script");
+
+  js.text = code;
+  head.insertBefore(js, head.firstChild);
+  head.removeChild(js);
+},
+
+evalStyles: function(code) {
+  var head = doc.getElementsByTagName("head")[0]
+    , css = doc.createElement("style");
+
+  css.type = "text/css";
+  try {
+    css.appendChild(doc.createTextNode(code));
+  } catch (e) {
+    css.styleSheet.cssText = code;
   }
+  head.appendChild(css);
+}
+```
 
 
 # 优缺点 & 适用场景
