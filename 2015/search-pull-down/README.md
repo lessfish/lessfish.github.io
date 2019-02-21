@@ -129,7 +129,7 @@ function fn(data) {
 
 暂时先这样吧，以后弄明白了再补充吧。
 
-### 再更（2015-10-13）###
+### 再更（2015-10-13） ###
 ***
 
 今天把源码又优化了下，table 元素自动生成，这样不用写死 10 个 tr（td）元素了。代码放在 [github](https://github.com/hanzichi/hanzichi.github.io/blob/master/2015/search-pull-down/index.ie6.update.html) 了。
