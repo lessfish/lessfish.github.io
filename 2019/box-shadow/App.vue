@@ -1,28 +1,36 @@
 <template>
   <el-container>
     <el-main>
-      <el-row :gutter="20">
-        <el-col :span="8">
+      <el-row>
+        <el-col :span="10">
           <div class="settings">
             <!-- box -->
-            <el-slider v-model="box.width" show-input :max="1000" />
-            <el-slider v-model="box.height" show-input :max="1000" />
-            <el-color-picker v-model="box.backgroundColor"></el-color-picker>
-
-            <!-- box-shadow -->
-            <el-slider v-model="shadowSetting.hShadow" show-input :max="50" />
-            <el-slider v-model="shadowSetting.vShadow" show-input :max="50" />
-            <el-slider v-model="shadowSetting.blur" show-input :max="50" />
-            <el-slider v-model="shadowSetting.spread" show-input :max="50" />
-            <el-color-picker v-model="shadowSetting.color" show-alpha></el-color-picker>
-            <el-switch
-              v-model="shadowSetting.isInset"
-              active-text="inset"
-              inactive-text="default">
-            </el-switch>
+            <el-form  label-width="150px">
+              <slider v-model="box.width" label="box-width" :max="1000"/>
+              <slider v-model="box.height" label="box-height" :max="1000"/>
+              <form-item label="box 颜色选择">
+                 <el-color-picker v-model="box.backgroundColor"></el-color-picker>
+              </form-item>
+             
+              <!-- box-shadow -->
+              <slider v-model="shadowSetting.hShadow" label="h-shadow" :max="50" :required="true"/>
+              <slider v-model="shadowSetting.vShadow" label="v-shadow" :max="50" :required="true"/>
+              <slider v-model="shadowSetting.blur" label="blur" :max="50"/>
+              <slider v-model="shadowSetting.spread" label="spread" :max="50"/>
+              <form-item label="shadow 颜色选择">
+                <el-color-picker v-model="shadowSetting.color" show-alpha></el-color-picker>
+              </form-item>
+              <form-item label="设置 inset">
+                <el-switch
+                  v-model="shadowSetting.isInset"
+                  active-text="inset"
+                  inactive-text="default">
+                </el-switch>
+              </form-item>
+            </el-form>
           </div>
         </el-col>
-        <el-col :span="16">
+        <el-col :span="14">
           <div class="box" :style="[boxBaseStyle, boxShadowStyle]"></div>
         </el-col>
       </el-row>
@@ -34,6 +42,8 @@
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import Slider from './Slider'
+import FormItem from './FormItem'
 
 Vue.use(ElementUI)
 
@@ -72,13 +82,16 @@ export default {
         boxShadow: `${hShadow}px ${vShadow}px ${blur}px ${spread}px ${color} ${isInset ? 'inset' : ''}`
       }
     }
+  },
+  components: {
+    Slider, FormItem
   }
 }
 </script>
 
 <style>
 body {
-  max-width: 1000px;
+  max-width: 1280px;
   margin: 0 auto;
 }
 
