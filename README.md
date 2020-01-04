@@ -1,5 +1,9 @@
 > Notice: 请使用 chrome 打开，不保证其他浏览器的兼容性
 
+# 2020
+
+* [dom diff 对比](//lessfish.github.io/2020/children-diff-comparaison/build/)
+
 # 2019
 
 - [sql2markdown](//lessfish.github.io/2019/sql2markdown/)
