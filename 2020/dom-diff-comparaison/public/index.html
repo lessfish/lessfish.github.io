@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+  <!--
+    manifest.json provides metadata used when your web app is added to the
+    homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+  -->
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  <!--
+    Notice the use of %PUBLIC_URL% in the tags above.
+    It will be replaced with the URL of the `public` folder during the build.
+    Only files inside the `public` folder can be referenced from the HTML.
+
+    Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+    work correctly both with client-side routing and a non-root public URL.
+    Learn how to configure a non-root public URL by running `npm run build`.
+  -->
+  <title>React App</title>
+  
+</head>
+<body>
+  <style>
+  .legend, .app, .libs {
+    margin: 1em 0;
+    
+  }
+  
+  h2 {
+    width: 120px;
+    display: inline-block;
+    margin-top: 1em;
+    margin-bottom: 0;
+  }
+  .seq {
+    display: inline-block
+  }
+  .box {
+    display: inline;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    margin-right: 2px;
+    padding: 4px 8px;
+    font-size: 1.2em;
+  }
+  .inserted {
+    color: green;
+  }
+  .old {
+    font-weight: bold;
+  }
+  .moved {
+  	background-color: red;  
+  }
+  .lcs {
+    background-color: yellow;
+  }
+</style>
+<div class="legend">
+  <span class="box inserted">Inserted</span>
+  <span class="box moved">Moved</span>
+  <span class="box lcs">Non moved</span>
+</div>
+<hr>
+<div class="app"></div>
+<hr>
+<div class="libs"></div>
+  <!--
+    This HTML file is a template.
+    If you open it directly in the browser, you will see an empty page.
+
+    You can add webfonts, meta tags, or analytics to this file.
+    The build step will place the bundled scripts into the <body> tag.
+
+    To begin the development, run `npm start` or `yarn start`.
+    To create a production bundle, use `npm run build` or `yarn build`.
+  -->
+</body>
+</html>

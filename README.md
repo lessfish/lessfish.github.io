@@ -2,7 +2,7 @@
 
 # 2020
 
-* [dom diff 对比](//lessfish.github.io/2020/children-diff-comparaison/build/)
+* [dom diff 对比](//lessfish.github.io/2020/dom-diff-comparaison/build/)
 
 # 2019
 
