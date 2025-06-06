@@ -1,8 +1,12 @@
 > Notice: 请使用 chrome 打开，不保证其他浏览器的兼容性
 
+# 2025
+
+- [纠结星人的盲盒选择器](//lessfish.github.io/2025/go-to-choose/)
+
 # 2020
 
-* [dom diff 对比](//lessfish.github.io/2020/dom-diff-comparaison/build/)
+- [dom diff 对比](//lessfish.github.io/2020/dom-diff-comparaison/build/)
 
 # 2019
 
@@ -20,6 +24,7 @@
 - [IndexDB CURD](//lessfish.github.io/2018/indexdb/)
 
 # 2017
+
 - [word-wrap, word-break, and white-space](//lessfish.github.io/2017/word-wrap/)
 - [html editor (use codeMirror)](//lessfish.github.io/2017/editor-online/codeMirror/) / [html editor (use ace)](//lessfish.github.io/2017/editor-online/ace/)
 - [flex cheatsheet](//lessfish.github.io/2017/flex/index.html)（[more](https://darekkay.com/dev/flexbox-cheatsheet.html), [more](//yoksel.github.io/flex-cheatsheet/)）
@@ -52,7 +57,7 @@
 - [粒子特效 (Canvas)](//lessfish.github.io/2015/particle-system/)
 - [打字机游戏 (Canvas)](//lessfish.github.io/2015/canvas-typewriter-game/)
 - [子弹追踪 (Canvas)](//lessfish.github.io/2015/bullet-trace/)
-- [是男人就走30步 (Canvas)](//lessfish.github.io/2015/go-30-steps-if-you-are-a-man/)
+- [是男人就走 30 步 (Canvas)](//lessfish.github.io/2015/go-30-steps-if-you-are-a-man/)
 - [3D 标签云 (JS 实现)](//lessfish.github.io/2015/js-cloudtag/)
 - [文字粒子特效 (Canvas)](//lessfish.github.io/2015/particle-text/)
 - [Show Love (Canvas)](//lessfish.github.io/2015/show-love/)
